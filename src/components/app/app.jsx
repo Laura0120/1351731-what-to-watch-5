@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import MainScreen from '../main-screen/main-screen';
 
 const App = (props) => {
-  const { movieTitle, genre, releaseYear } = props;
+  const {movieTitle, genre, releaseYear} = props;
 
   return <MainScreen movieTitle={movieTitle} genre={genre} releaseYear={releaseYear} />;
 };
