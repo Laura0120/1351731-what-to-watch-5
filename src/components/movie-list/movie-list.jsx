@@ -13,12 +13,23 @@ class MovieList extends PureComponent {
 
   render() {
     const {onMovieClick, movies} = this.props;
+    const {currentMovie} = this.state;
+
     return (
       <div className='catalog__movies-list'>
         {movies.map((movie) => {
-          return (<MovieCard onMovieClick={onMovieClick} movie={movie} onMouseOver={() => {
-            this.setState(() => ({currentMovie: movie.id}));
-          }} key={movie.id}/>);
+          return (
+            <MovieCard
+              key={movie.id}
+              movie={movie}
+              isPlaying={movie.id === currentMovie}
+              onMovieClick={onMovieClick}
+              onMouseOver={() => {
+                this.setState(() => ({currentMovie: movie.id}));
+              }}
+              onMouseOut={()=> {
+                this.setState(() => ({currentMovie: null}));
+              }} />);
         })}
       </div>
     );
