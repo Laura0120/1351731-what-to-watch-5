@@ -2,38 +2,41 @@ import React, {PureComponent} from "react";
 import VideoPlayer from "../../components/video-player/video-player";
 
 const withActivePlayer = (Component) => {
-    class WithActivePlayer extends PureComponent {
-        constructor(props) {
-            super(props);
+  class WithActivePlayer extends PureComponent {
+    constructor(props) {
+      super(props);
 
-            this.state = {
-                activePlayerId: null,
-            };
-        }
+      this.state = {
+        currentMovie: null,
+      };
     }
 
     render() {
-        const {activePlayerId} = this.state
+      const {currentMovie} = this.state;
 
-        return (
-            <Component {...this.props}
-            renderPlayer = {(src, poster, id) => {
-                return (
-                    <VideoPlayer 
-                        src={src}
-                        poster={poster}
-                        onMouseOver = {(evt) => this.setState({
-                            activePlayerId: id
-                        })}
-                    />
-                );
-            }
-        )
+      return <Component
+        {...this.props}
+        renderPlayer = {(src, poster, id) => {
+          return (
+            <VideoPlayer
+              src={src}
+              poster={poster}
+              isPlaying={id === currentMovie}
+            />
+          );
+        }}
+        onMouseOver={(evt) => {
+          const activMovie = evt.currentTarget;
+          this.setState(() => ({currentMovie: activMovie.id}));
+        }}
+        onMouseOut={()=> {
+          this.setState(() => ({currentMovie: null}));
+        }}
+      />;
     }
+  }
 
-    WithActivePlayer.propTypes = {};
-
-    return WithActivePlayer;
+  return WithActivePlayer;
 };
 
-export default withActivePlayers;
+export default withActivePlayer;

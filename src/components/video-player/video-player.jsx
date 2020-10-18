@@ -1,7 +1,6 @@
 import React, {PureComponent, createRef} from "react";
-// import PropTypes from "prop-types";
-
-export default class VideoPlayer extends PureComponent {
+import {VIDEO, POSTER, IS_PLAING} from '../../prop-type';
+class VideoPlayer extends PureComponent {
   constructor(props) {
     super(props);
 
@@ -14,8 +13,8 @@ export default class VideoPlayer extends PureComponent {
 
     video.src = src;
     video.poster = poster;
-    video.width = '280';
-    video.height = '175';
+    video.width = `280`;
+    video.height = `175`;
   }
 
   componentWillUnmount() {
@@ -25,9 +24,7 @@ export default class VideoPlayer extends PureComponent {
   }
 
   render() {
-    const {isPlaying} = this.props;
-
-    return <video autoPlay={isPlaying} ref={this._videoRef} > </video>;
+    return <video muted ref={this._videoRef} > </video>;
   }
 
   componentDidUpdate() {
@@ -37,7 +34,15 @@ export default class VideoPlayer extends PureComponent {
     if (isPlaying) {
       video.play();
     } else {
-      video.pause();
+      video.load();
     }
   }
 }
+
+VideoPlayer.propTypes = {
+  src: VIDEO,
+  poster: POSTER,
+  isPlaying: IS_PLAING,
+};
+
+export default VideoPlayer;

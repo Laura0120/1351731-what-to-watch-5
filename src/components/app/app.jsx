@@ -1,6 +1,6 @@
 import React from 'react';
 
-import PROP_TYPES from '../../prop-type';
+import {MOVIES} from '../../prop-type';
 import Main from '../main/main';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import Movie from '../movie/movie';
@@ -29,7 +29,7 @@ const App = (props) => {
 };
 
 App.propTypes = {
-  movies: PROP_TYPES.movies
+  movies: MOVIES
 };
 
 

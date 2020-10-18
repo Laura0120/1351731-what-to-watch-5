@@ -1,44 +1,35 @@
-import React, {PureComponent} from 'react';
+import React from 'react';
 
-import PROP_TYPES from '../../prop-type';
+import {MOVIES, ON_MOVIE_CLICK, ON_MOUSE_OVER, ON_MOUSE_OUT, RENDER_PLAYER} from '../../prop-type';
 import MovieCard from '../movie-card/movie-card';
 
-class MovieList extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      currentMovie: null,
-    };
-  }
+const MovieList = (props) => {
+  const {movies, renderPlayer, onMovieClick, onMouseOver, onMouseOut} = props;
 
-  render() {
-    const {onMovieClick, movies} = this.props;
-    const {currentMovie} = this.state;
-
-    return (
-      <div className='catalog__movies-list'>
-        {movies.map((movie) => {
-          return (
-            <MovieCard
-              key={movie.id}
-              movie={movie}
-              isPlaying={movie.id === currentMovie}
-              onMovieClick={onMovieClick}
-              onMouseOver={() => {
-                this.setState(() => ({currentMovie: movie.id}));
-              }}
-              onMouseOut={()=> {
-                this.setState(() => ({currentMovie: null}));
-              }} />);
-        })}
-      </div>
-    );
-  }
-}
+  return (
+    <div className='catalog__movies-list'>
+      {movies.map((movie) => {
+        return (
+          <MovieCard
+            key={movie.id}
+            movie={movie}
+            onMovieClick={onMovieClick}
+            renderPlayer={renderPlayer}
+            onMouseOver={onMouseOver}
+            onMouseOut={onMouseOut}
+          />
+        );
+      })}
+    </div>
+  );
+};
 
 MovieList.propTypes = {
-  movies: PROP_TYPES.movies,
-  onMovieClick: PROP_TYPES.onMovieClick,
+  movies: MOVIES,
+  onMovieClick: ON_MOVIE_CLICK,
+  renderPlayer: RENDER_PLAYER,
+  onMouseOver: ON_MOUSE_OVER,
+  onMouseOut: ON_MOUSE_OUT
 };
 
 export default MovieList;

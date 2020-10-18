@@ -1,8 +1,7 @@
 import moment from 'moment';
+import {getRandomInteger} from "../util";
 
-import {POSTERS, VIDEO, MOVIE_TITLES, DESCRIPTIONS, YEAR_OF_RELEASE, RATING_SCORE, RATING_DESCRIPTION, COUNT_VOTES_RATING, DURATION, GENRE, DIRECTOR, ACTOR} from './const';
-
-const MOVIE_COUNT = 8;
+import {POSTERS, MOVIE_TITLES, DESCRIPTIONS, YEAR_OF_RELEASE, RATING_SCORE, RATING_DESCRIPTION, COUNT_VOTES_RATING, DURATION, GENRE, DIRECTOR, ACTOR} from './const';
 
 let id = Date.now();
 
@@ -11,12 +10,6 @@ const generateId = () => {
   return String(id);
 };
 
-const getRandomInteger = (a = 0, b = 1) => {
-  const lower = Math.ceil(Math.min(a, b));
-  const upper = Math.floor(Math.max(a, b));
-
-  return Math.round(lower + Math.random() * (upper - lower));
-};
 
 const generateRandomLengthString = (array, maxValue, separator) => {
   const stringLength = getRandomInteger(1, maxValue);
@@ -32,7 +25,7 @@ const generateMovie = () => {
   return {
     id: generateId(),
     poster: POSTERS[getRandomInteger(0, POSTERS.length - 1)],
-    video: VIDEO[getRandomInteger(0, VIDEO.length - 1)],
+    video: `https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm`,
     title: MOVIE_TITLES[getRandomInteger(0, MOVIE_TITLES.length - 1)],
     rating: {ratingScore: RATING_SCORE[getRandomInteger(0, RATING_SCORE.length - 1)],
       ratingDescription: RATING_DESCRIPTION[getRandomInteger(0, RATING_DESCRIPTION.length - 1)],
@@ -50,4 +43,9 @@ const generateMovie = () => {
   };
 };
 
-export const movies = new Array(MOVIE_COUNT).fill().map(generateMovie);
+export const generateMovies = (movieCount) => {
+  return new Array(movieCount).fill().map(generateMovie);
+
+};
+
+
