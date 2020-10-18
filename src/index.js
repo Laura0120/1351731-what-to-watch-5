@@ -1,14 +1,10 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 import App from './components/app/app';
-import {movies} from './mocks/movies';
+import {generateMovies} from './mocks/movies';
 
-const MovieInfo = {
-  MOVIE_TITLE: `The Grand Budapest Hotel`,
-  GENRE: `Drama`,
-  RELEASE_YEAR: 2014,
-};
+const MOVIE_COUNT = 8;
 
 ReactDom.render(
-    <App movieTitle={MovieInfo.MOVIE_TITLE} genre={MovieInfo.GENRE} releaseYear={MovieInfo.RELEASE_YEAR} movies={movies} />,
+    <App movies={generateMovies(MOVIE_COUNT)} />,
     document.querySelector(`#root`));

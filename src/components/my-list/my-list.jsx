@@ -1,6 +1,6 @@
 import React from 'react';
 
-import PROP_TYPES from '../../prop-type';
+import {MOVIES, ON_MOVIE_CLICK} from '../../prop-type';
 import MovieList from '../movie-list/movie-list';
 
 const MyList = (props) => {
@@ -53,8 +53,8 @@ const MyList = (props) => {
 
 
 MyList.propTypes = {
-  movies: PROP_TYPES.movies,
-  onMovieClick: PROP_TYPES.onMovieClick,
+  movies: MOVIES,
+  onMovieClick: ON_MOVIE_CLICK,
 };
 
 export default MyList;

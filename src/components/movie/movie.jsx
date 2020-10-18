@@ -1,6 +1,6 @@
 import React from 'react';
 
-import PROP_TYPES from '../../prop-type';
+import {MOVIE} from '../../prop-type';
 
 const Movie = (props)=> {
   const {movie} = props;
@@ -190,7 +190,7 @@ const Movie = (props)=> {
 };
 
 Movie.propTypes = {
-  movie: PROP_TYPES.movie
+  movie: MOVIE
 };
 
 export default Movie;

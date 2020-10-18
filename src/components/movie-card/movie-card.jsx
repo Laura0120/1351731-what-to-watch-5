@@ -1,15 +1,15 @@
 import React from 'react';
 
-import PROP_TYPES from '../../prop-type';
+import {MOVIE, ON_MOVIE_CLICK, ON_MOUSE_OVER, ON_MOUSE_OUT, RENDER_PLAYER} from '../../prop-type';
 
 const MovieCard = (props) => {
-  const {movie, onMovieClick, onMouseOver} = props;
-  const {poster, title} = movie;
+  const {movie, onMovieClick, onMouseOver, onMouseOut, renderPlayer} = props;
+  const {poster, title, video, id} = movie;
 
   return (
-    <article className='small-movie-card catalog__movies-card' onMouseOver={onMouseOver} onClick={onMovieClick}>
+    <article className='small-movie-card catalog__movies-card' id={id} onMouseOver={onMouseOver} onMouseOut={onMouseOut} onClick={onMovieClick}>
       <div className='small-movie-card__image'>
-        <img src={poster} alt={title} width='280' height='175' />
+        {renderPlayer(video, poster, id)}
       </div>
       <h3 className='small-movie-card__title'>
         <a className='small-movie-card__link' href='movie-page.html'>
@@ -21,9 +21,11 @@ const MovieCard = (props) => {
 };
 
 MovieCard.propTypes = {
-  movie: PROP_TYPES.movie,
-  onMovieClick: PROP_TYPES.onMovieClick,
-  onMouseOver: PROP_TYPES.onMouseOver,
+  movie: MOVIE,
+  onMovieClick: ON_MOVIE_CLICK,
+  onMouseOver: ON_MOUSE_OVER,
+  onMouseOut: ON_MOUSE_OUT,
+  renderPlayer: RENDER_PLAYER,
 };
 
 export default MovieCard;

@@ -1,7 +1,10 @@
 import React from 'react';
 
-import PROP_TYPES from '../../prop-type';
+import {ON_MOVIE_CLICK, MOVIES, MOVIE} from '../../prop-type';
 import MovieList from '../movie-list/movie-list';
+import withVideoPlayer from '../../hocs/with-video-player/with-video-player';
+
+const MovieListWrapped = withVideoPlayer(MovieList);
 
 const Main = (props) => {
   const {movies, promoMovie, onMovieClick} = props;
@@ -11,7 +14,7 @@ const Main = (props) => {
     <React.Fragment>
       <section className='movie-card'>
         <div className='movie-card__bg'>
-          <img src='img/bg-the-grand-budapest-hotel.jpg' alt='The Grand Budapest Hotel' />
+          <img src={poster} alt='The Grand Budapest Hotel' />
         </div>
 
         <h1 className='visually-hidden'>WTW</h1>
@@ -121,7 +124,7 @@ const Main = (props) => {
             </li>
           </ul>
 
-          <MovieList movies={movies} onMovieClick={onMovieClick}/>
+          <MovieListWrapped movies={movies} onMovieClick={onMovieClick}/>
 
           <div className='catalog__more'>
             <button className='catalog__button' type='button'>
@@ -149,9 +152,9 @@ const Main = (props) => {
 };
 
 Main.propTypes = {
-  movies: PROP_TYPES.movies,
-  promoMovie: PROP_TYPES.movie,
-  onMovieClick: PROP_TYPES.onMovieClick
+  movies: MOVIES,
+  promoMovie: MOVIE,
+  onMovieClick: ON_MOVIE_CLICK
 };
 
 export default Main;

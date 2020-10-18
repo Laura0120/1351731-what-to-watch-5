@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
 
-import PROP_TYPES from '../../prop-type';
+import {MOVIE} from '../../prop-type';
 class AddReview extends PureComponent {
   constructor(props) {
     super(props);
@@ -115,7 +115,7 @@ class AddReview extends PureComponent {
 }
 
 AddReview.propTypes = {
-  movie: PROP_TYPES.movie
+  movie: MOVIE
 };
 
 export default AddReview;
