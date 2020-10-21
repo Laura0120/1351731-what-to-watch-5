@@ -1,10 +1,21 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-import App from './components/app/app';
-import {generateMovies} from './mocks/movies';
+import {createStore} from "redux";
+import {Provider} from "react-redux";
 
-const MOVIE_COUNT = 8;
+import App from './components/app/app';
+import {reducer} from "./store/reducer";
+
+
+const store = createStore(
+    reducer,
+    window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : (f) => f);
 
 ReactDom.render(
-    <App movies={generateMovies(MOVIE_COUNT)} />,
-    document.querySelector(`#root`));
+    <Provider store={store}>
+      <App />
+    </Provider>,
+    document.querySelector(`#root`)
+);
+
+

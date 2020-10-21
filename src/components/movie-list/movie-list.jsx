@@ -29,7 +29,7 @@ MovieList.propTypes = {
   onMovieClick: ON_MOVIE_CLICK,
   renderPlayer: RENDER_PLAYER,
   onMouseOver: ON_MOUSE_OVER,
-  onMouseOut: ON_MOUSE_OUT
+  onMouseOut: ON_MOUSE_OUT,
 };
 
 export default MovieList;

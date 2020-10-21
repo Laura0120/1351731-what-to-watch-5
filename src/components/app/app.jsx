@@ -1,8 +1,10 @@
 import React from 'react';
-
-import {MOVIES} from '../../prop-type';
-import Main from '../main/main';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
+import {connect} from "react-redux";
+
+import {ActionCreator} from "../../store/action";
+import {MOVIES, ON_CHANGE_GENRE} from '../../prop-type';
+import Main from '../main/main';
 import Movie from '../movie/movie';
 import AddReview from '../add-review/add-review';
 import MyList from '../my-list/my-list';
@@ -10,13 +12,13 @@ import Player from '../player/player';
 import SignIn from '../sign-in/sign-in';
 
 const App = (props) => {
-  const {movies} = props;
+  const {movies, onChangeGenre} = props;
   const [firstMovie] = movies;
 
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path='/' render={({history}) => <Main onMovieClick={() => history.push(`/films/:id`)} promoMovie={firstMovie} movies={movies} />}
+        <Route exact path='/' render={({history}) => <Main onMovieClick={() => history.push(`/films/:id`)} promoMovie={firstMovie} movies={movies} onChangeGenre={onChangeGenre}/>}
         />
         <Route exact path='/login'><SignIn/></Route>
         <Route exact path='/mylist' render={({history}) => <MyList onMovieClick={() => history.push(`/films/:id`)} movies={movies}/>}/>
@@ -29,8 +31,21 @@ const App = (props) => {
 };
 
 App.propTypes = {
-  movies: MOVIES
+  movies: MOVIES,
+  onChangeGenre: ON_CHANGE_GENRE
 };
 
 
-export default App;
+const mapStateToProps = (state) => ({
+  movies: state.movies
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onChangeGenre(activeGenre) {
+    dispatch(ActionCreator.changeGenre(activeGenre));
+    dispatch(ActionCreator.getMoviesByGenre(activeGenre));
+  },
+});
+
+export {App};
+export default connect(mapStateToProps, mapDispatchToProps)(App);

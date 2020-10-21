@@ -1,13 +1,14 @@
 import React from 'react';
 
-import {ON_MOVIE_CLICK, MOVIES, MOVIE} from '../../prop-type';
+import {ON_MOVIE_CLICK, ON_CHANGE_GENRE, MOVIES, MOVIE} from '../../prop-type';
+import GenreList from '../genre-list/genre-list';
 import MovieList from '../movie-list/movie-list';
 import withVideoPlayer from '../../hocs/with-video-player/with-video-player';
 
 const MovieListWrapped = withVideoPlayer(MovieList);
 
 const Main = (props) => {
-  const {movies, promoMovie, onMovieClick} = props;
+  const {movies, promoMovie, onChangeGenre, onMovieClick} = props;
   const {poster, title, genre, year} = promoMovie;
 
   return (
@@ -71,58 +72,7 @@ const Main = (props) => {
         <section className='catalog'>
           <h2 className='catalog__title visually-hidden'>Catalog</h2>
 
-          <ul className='catalog__genres-list'>
-            <li className='catalog__genres-item catalog__genres-item--active'>
-              <a href='#' className='catalog__genres-link'>
-                All genres
-              </a>
-            </li>
-            <li className='catalog__genres-item'>
-              <a href='#' className='catalog__genres-link'>
-                Comedies
-              </a>
-            </li>
-            <li className='catalog__genres-item'>
-              <a href='#' className='catalog__genres-link'>
-                Crime
-              </a>
-            </li>
-            <li className='catalog__genres-item'>
-              <a href='#' className='catalog__genres-link'>
-                Documentary
-              </a>
-            </li>
-            <li className='catalog__genres-item'>
-              <a href='#' className='catalog__genres-link'>
-                Dramas
-              </a>
-            </li>
-            <li className='catalog__genres-item'>
-              <a href='#' className='catalog__genres-link'>
-                Horror
-              </a>
-            </li>
-            <li className='catalog__genres-item'>
-              <a href='#' className='catalog__genres-link'>
-                Kids & Family
-              </a>
-            </li>
-            <li className='catalog__genres-item'>
-              <a href='#' className='catalog__genres-link'>
-                Romance
-              </a>
-            </li>
-            <li className='catalog__genres-item'>
-              <a href='#' className='catalog__genres-link'>
-                Sci-Fi
-              </a>
-            </li>
-            <li className='catalog__genres-item'>
-              <a href='#' className='catalog__genres-link'>
-                Thrillers
-              </a>
-            </li>
-          </ul>
+          <GenreList movies={movies} onChangeGenre={onChangeGenre} />
 
           <MovieListWrapped movies={movies} onMovieClick={onMovieClick}/>
 
@@ -154,6 +104,7 @@ const Main = (props) => {
 Main.propTypes = {
   movies: MOVIES,
   promoMovie: MOVIE,
+  onChangeGenre: ON_CHANGE_GENRE,
   onMovieClick: ON_MOVIE_CLICK
 };
 
