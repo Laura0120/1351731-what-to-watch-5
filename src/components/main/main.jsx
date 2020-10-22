@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {ON_MOVIE_CLICK, ON_CHANGE_GENRE, MOVIES, MOVIE} from '../../prop-type';
+import {ON_MOVIE_CLICK, ON_CHANGE_GENRE, MOVIES, MOVIE, GENRE} from '../../prop-type';
 import GenreList from '../genre-list/genre-list';
 import MovieList from '../movie-list/movie-list';
 import withVideoPlayer from '../../hocs/with-video-player/with-video-player';
@@ -8,7 +8,7 @@ import withVideoPlayer from '../../hocs/with-video-player/with-video-player';
 const MovieListWrapped = withVideoPlayer(MovieList);
 
 const Main = (props) => {
-  const {movies, promoMovie, onChangeGenre, onMovieClick} = props;
+  const {allMovies, currentMovies, promoMovie, activeGenre, onChangeGenre, onMovieClick} = props;
   const {poster, title, genre, year} = promoMovie;
 
   return (
@@ -72,9 +72,9 @@ const Main = (props) => {
         <section className='catalog'>
           <h2 className='catalog__title visually-hidden'>Catalog</h2>
 
-          <GenreList movies={movies} onChangeGenre={onChangeGenre} />
+          <GenreList allMovies={allMovies} activeGenre={activeGenre} onChangeGenre={onChangeGenre} />
 
-          <MovieListWrapped movies={movies} onMovieClick={onMovieClick}/>
+          <MovieListWrapped currentMovies={currentMovies} onMovieClick={onMovieClick}/>
 
           <div className='catalog__more'>
             <button className='catalog__button' type='button'>
@@ -102,8 +102,10 @@ const Main = (props) => {
 };
 
 Main.propTypes = {
-  movies: MOVIES,
+  currentMovies: MOVIES,
+  allMovies: MOVIES,
   promoMovie: MOVIE,
+  activeGenre: GENRE,
   onChangeGenre: ON_CHANGE_GENRE,
   onMovieClick: ON_MOVIE_CLICK
 };

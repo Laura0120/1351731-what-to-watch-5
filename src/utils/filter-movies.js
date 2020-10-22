@@ -1,9 +1,11 @@
 import {DEFAULT_GENRE} from '../const';
 
-export const getMoviesByGenre = (genre, movies) => {
+const filterMoviesByGenre = (movies, genre = DEFAULT_GENRE) => {
   if (genre === DEFAULT_GENRE) {
     return movies.slice();
   }
   return movies.filter((movie) => movie.genre === genre);
 };
+
+export {filterMoviesByGenre};
 

@@ -1,11 +1,6 @@
-import {generateMovies} from '../mocks/movies';
-import {getMoviesByGenre} from '../utils/filter-movies';
-
-const MOVIE_COUNT = 8;
-
 const ActionType = {
   CHANGE_GENRE: `CHANGE_GENRE`,
-  GET_MOVIES_BY_GENRE: `GET_MOVIES_BY_GENRE`
+  UPDATE_MOVIES: `UPDATE_MOVIES`
 };
 
 const ActionCreator = {
@@ -13,9 +8,8 @@ const ActionCreator = {
     type: ActionType.CHANGE_GENRE,
     genre: activeGenre,
   }),
-  getMoviesByGenre: (activeGenre) => ({
-    type: ActionType.GET_MOVIES_BY_GENRE,
-    movies: getMoviesByGenre(activeGenre, generateMovies(MOVIE_COUNT))
+  updateMoviesByGenre: () => ({
+    type: ActionType.UPDATE_MOVIES,
   }),
 };
 

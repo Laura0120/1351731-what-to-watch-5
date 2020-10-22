@@ -1,31 +1,29 @@
 import React from 'react';
 
-import {MOVIES, ON_CHANGE_GENRE} from '../../prop-type';
+import {MOVIES, ON_CHANGE_GENRE, GENRE} from '../../prop-type';
 
-const addGenreInListUnidueGenre = (uniqueGenres, movie) => {
-  const listUniqueGenres = uniqueGenres;
-  if (!listUniqueGenres.includes(movie.genre)) {
-    listUniqueGenres.push(movie.genre);
-  }
-  return listUniqueGenres;
+const addGenre = (genres, movie) => {
+  genres.push(movie.genre);
+  return genres;
 };
 
 const GenreList = (props) => {
-  const {movies, onChangeGenre} = props;
-  const genreList = movies.reduce(addGenreInListUnidueGenre, []);
+  const {allMovies, activeGenre, onChangeGenre} = props;
+  const allGenre = allMovies.reduce(addGenre, [`All genres`]);
+  const uniqueGenres = new Set(allGenre);
+  const genreList = [...uniqueGenres];
+
   return (
     <ul
       className="catalog__genres-list"
       onClick={(evt) => {
-        const activeGenre = evt.target;
+        const selectedGenre = evt.target;
         evt.preventDefault();
-        onChangeGenre(activeGenre.textContent);
+        onChangeGenre(selectedGenre.textContent);
       }}>
-      <li className="catalog__genres-item catalog__genres-item--active">
-        <a href="#" className="catalog__genres-link">All genres</a>
-      </li>
+
       {genreList.map((genre) => (
-        <li key={genre} className="catalog__genres-item catalog__genres-item--active">
+        <li key={genre} className={genre === activeGenre ? `catalog__genres-item catalog__genres-item--active` : `catalog__genres-item `}>
           <a href="#" className="catalog__genres-link">{genre}</a>
         </li>
       ))}
@@ -35,7 +33,8 @@ const GenreList = (props) => {
 };
 
 GenreList.propTypes = {
-  movies: MOVIES,
+  allMovies: MOVIES,
+  activeGenre: GENRE,
   onChangeGenre: ON_CHANGE_GENRE
 };
 
