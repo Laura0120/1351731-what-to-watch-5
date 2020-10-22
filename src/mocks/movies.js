@@ -1,5 +1,5 @@
 import moment from 'moment';
-import {getRandomInteger} from "../util";
+import {getRandomInteger} from "../utils/common";
 
 import {POSTERS, MOVIE_TITLES, DESCRIPTIONS, YEAR_OF_RELEASE, RATING_SCORE, RATING_DESCRIPTION, COUNT_VOTES_RATING, DURATION, GENRE, DIRECTOR, ACTOR} from './const';
 
@@ -43,9 +43,9 @@ const generateMovie = () => {
   };
 };
 
-export const generateMovies = (movieCount) => {
+const generateMovies = (movieCount) => {
   return new Array(movieCount).fill().map(generateMovie);
-
 };
 
+export {generateMovies};
 

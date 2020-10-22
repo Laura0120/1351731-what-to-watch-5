@@ -4,11 +4,11 @@ import {MOVIES, ON_MOVIE_CLICK, ON_MOUSE_OVER, ON_MOUSE_OUT, RENDER_PLAYER} from
 import MovieCard from '../movie-card/movie-card';
 
 const MovieList = (props) => {
-  const {movies, renderPlayer, onMovieClick, onMouseOver, onMouseOut} = props;
+  const {currentMovies, renderPlayer, onMovieClick, onMouseOver, onMouseOut} = props;
 
   return (
     <div className='catalog__movies-list'>
-      {movies.map((movie) => {
+      {currentMovies.map((movie) => {
         return (
           <MovieCard
             key={movie.id}
@@ -25,11 +25,11 @@ const MovieList = (props) => {
 };
 
 MovieList.propTypes = {
-  movies: MOVIES,
+  currentMovies: MOVIES,
   onMovieClick: ON_MOVIE_CLICK,
   renderPlayer: RENDER_PLAYER,
   onMouseOver: ON_MOUSE_OVER,
-  onMouseOut: ON_MOUSE_OUT
+  onMouseOut: ON_MOUSE_OUT,
 };
 
 export default MovieList;
