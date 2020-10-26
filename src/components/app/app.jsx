@@ -10,6 +10,9 @@ import AddReview from '../add-review/add-review';
 import MyList from '../my-list/my-list';
 import Player from '../player/player';
 import SignIn from '../sign-in/sign-in';
+import withMovie from '../../hocs/with-movie/with-movie';
+
+const MovieWrapped = withMovie(Movie);
 
 const App = (props) => {
   const {allMovies, currentMovies, activeGenre, onChangeGenre} = props;
@@ -21,8 +24,8 @@ const App = (props) => {
         <Route exact path='/' render={({history}) => <Main onMovieClick={() => history.push(`/films/:id`)} allMovies={allMovies} currentMovies={currentMovies} promoMovie={firstMovie} activeGenre={activeGenre} onChangeGenre={onChangeGenre}/>}
         />
         <Route exact path='/login'><SignIn/></Route>
-        <Route exact path='/mylist' render={({history}) => <MyList onMovieClick={() => history.push(`/films/:id`)} currentMovies={currentMovies}/>}/>
-        <Route exact path='/films/:id'><Movie movie={firstMovie} onMovieClick={() => history.push(`/films/:id`)}/></Route>
+        <Route exact path='/mylist' render={({history}) => <MyList onMovieClick={() => history.push(`/films/:id`)} movies={allMovies}/>}/>
+        <Route exact path='/films/:id'><MovieWrapped movie={firstMovie}/></Route>
         <Route exact path='/films/:id/review'><AddReview movie={firstMovie}/></Route>
         <Route exact path='/player/:id'><Player/></Route>
       </Switch>

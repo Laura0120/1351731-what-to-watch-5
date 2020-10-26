@@ -33,10 +33,11 @@ const generateMovie = () => {
     director: DIRECTOR[getRandomInteger(0, DIRECTOR.length - 1)],
     starring: generateRandomLengthString(ACTOR, 3, `, `),
     year: YEAR_OF_RELEASE[getRandomInteger(0, YEAR_OF_RELEASE.length - 1)],
-    runtime: moment
-      .utc()
-      .startOf(`day`)
-      .add({minutes: DURATION[getRandomInteger(0, DURATION.length - 1)]}),
+    runtime: DURATION[getRandomInteger(0, DURATION.length - 1)],
+    // moment
+    //   .utc()
+    //   .startOf(`day`)
+    //   .add({minutes: DURATION[getRandomInteger(0, DURATION.length - 1)]}),
     genre: GENRE[getRandomInteger(0, GENRE.length - 1)],
     description: generateRandomLengthString(DESCRIPTIONS, 5, `. `),
     isWatchlist: Boolean(getRandomInteger(0, 1)),

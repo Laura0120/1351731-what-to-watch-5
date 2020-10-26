@@ -74,7 +74,7 @@ const Main = (props) => {
 
           <GenreList allMovies={allMovies} activeGenre={activeGenre} onChangeGenre={onChangeGenre} />
 
-          <MovieListWrapped currentMovies={currentMovies} onMovieClick={onMovieClick}/>
+          <MovieListWrapped movies={currentMovies} onMovieClick={onMovieClick}/>
 
           <div className='catalog__more'>
             <button className='catalog__button' type='button'>

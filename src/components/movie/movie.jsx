@@ -1,11 +1,10 @@
 import React from 'react';
 
-import {MOVIE} from '../../prop-type';
+import {MOVIE, ON_CHANGE_TAB, REENDER_TABS} from '../../prop-type';
 
 const Movie = (props)=> {
-  const {movie} = props;
-  const {poster, title, rating, director, starring, year, genre, description} = movie;
-  const {ratingScore, ratingDescription, countVotesRating} = rating;
+  const {movie, renderTabs, onChangeTab, currentTab} = props;
+  const {poster, title, year, genre} = movie;
 
   return (
     <React.Fragment>
@@ -71,45 +70,26 @@ const Movie = (props)=> {
             <div className='movie-card__desc'>
               <nav className='movie-nav movie-card__nav'>
                 <ul className='movie-nav__list'>
-                  <li className='movie-nav__item movie-nav__item--active'>
-                    <a href='#' className='movie-nav__link'>
+                  <li className = {currentTab === `Overview` ? `movie-nav__item movie-nav__item--active` : `movie-nav__item`}>
+                    <a href='#' className='movie-nav__link' onClick={onChangeTab}>
                       Overview
                     </a>
                   </li>
-                  <li className='movie-nav__item'>
-                    <a href='#' className='movie-nav__link'>
+                  <li className = {currentTab === `Details` ? `movie-nav__item movie-nav__item--active` : `movie-nav__item`}>
+                    <a href='#' className='movie-nav__link' onClick={onChangeTab}>
                       Details
                     </a>
                   </li>
-                  <li className='movie-nav__item'>
-                    <a href='#' className='movie-nav__link'>
+                  <li cclassName = {currentTab === `Reviews` ? `movie-nav__item movie-nav__item--active` : `movie-nav__item`}>
+                    <a href='#' className='movie-nav__link' onClick={onChangeTab}>
                       Reviews
                     </a>
                   </li>
                 </ul>
               </nav>
 
-              <div className='movie-rating'>
-                <div className='movie-rating__score'>{ratingScore}</div>
-                <p className='movie-rating__meta'>
-                  <span className='movie-rating__level'>{ratingDescription}</span>
-                  <span className='movie-rating__count'>{countVotesRating} ratings</span>
-                </p>
-              </div>
+              {renderTabs(movie)}
 
-              <div className='movie-card__text'>
-                <p>
-                  {description}
-                </p>
-
-                <p className='movie-card__director'>
-                  <strong>Director: {director}</strong>
-                </p>
-
-                <p className='movie-card__starring'>
-                  <strong>Starring: {starring}</strong>
-                </p>
-              </div>
             </div>
           </div>
         </div>
@@ -190,7 +170,9 @@ const Movie = (props)=> {
 };
 
 Movie.propTypes = {
-  movie: MOVIE
+  movie: MOVIE,
+  renderTabs: REENDER_TABS,
+  onChangeTab: ON_CHANGE_TAB
 };
 
 export default Movie;
