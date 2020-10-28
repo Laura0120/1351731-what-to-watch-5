@@ -2,8 +2,8 @@ import React, {PureComponent} from 'react';
 import Tabs from '../../components/tabs/tabs';
 import {TABS_NAME} from '../../const';
 
-const withMovie = (Component) => {
-  class WithMovie extends PureComponent {
+const withTabs = (Component) => {
+  class WithTabs extends PureComponent {
     constructor(props) {
       super(props);
       this.state = {
@@ -26,18 +26,17 @@ const withMovie = (Component) => {
           return (
             <Tabs
               currentTab = {this.state.currentTab}
+              onChangeTab = {this.handleTabChange}
               movie = {movie}
             />
           );
         }}
-        onChangeTab = {this.handleTabChange}
-        currentTab = {this.state.currentTab}
       />;
 
     }
   }
 
-  return WithMovie;
+  return WithTabs;
 };
 
-export default withMovie;
+export default withTabs;

@@ -10,9 +10,9 @@ import AddReview from '../add-review/add-review';
 import MyList from '../my-list/my-list';
 import Player from '../player/player';
 import SignIn from '../sign-in/sign-in';
-import withMovie from '../../hocs/with-movie/with-movie';
+import withTabs from '../../hocs/with-tabs/with-tabs';
 
-const MovieWrapped = withMovie(Movie);
+const MovieWrapped = withTabs(Movie);
 
 const App = (props) => {
   const {allMovies, currentMovies, activeGenre, onChangeGenre} = props;

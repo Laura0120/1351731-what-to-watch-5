@@ -1,9 +1,9 @@
 import React from 'react';
 
-import {MOVIE, ON_CHANGE_TAB, REENDER_TABS} from '../../prop-type';
+import {MOVIE, REENDER_TABS} from '../../prop-type';
 
 const Movie = (props)=> {
-  const {movie, renderTabs, onChangeTab, currentTab} = props;
+  const {movie, renderTabs} = props;
   const {poster, title, year, genre} = movie;
 
   return (
@@ -67,30 +67,8 @@ const Movie = (props)=> {
               <img src={poster} alt={title} width='218' height='327' />
             </div>
 
-            <div className='movie-card__desc'>
-              <nav className='movie-nav movie-card__nav'>
-                <ul className='movie-nav__list'>
-                  <li className = {currentTab === `Overview` ? `movie-nav__item movie-nav__item--active` : `movie-nav__item`}>
-                    <a href='#' className='movie-nav__link' onClick={onChangeTab}>
-                      Overview
-                    </a>
-                  </li>
-                  <li className = {currentTab === `Details` ? `movie-nav__item movie-nav__item--active` : `movie-nav__item`}>
-                    <a href='#' className='movie-nav__link' onClick={onChangeTab}>
-                      Details
-                    </a>
-                  </li>
-                  <li cclassName = {currentTab === `Reviews` ? `movie-nav__item movie-nav__item--active` : `movie-nav__item`}>
-                    <a href='#' className='movie-nav__link' onClick={onChangeTab}>
-                      Reviews
-                    </a>
-                  </li>
-                </ul>
-              </nav>
+            {renderTabs(movie)}
 
-              {renderTabs(movie)}
-
-            </div>
           </div>
         </div>
       </section>
@@ -172,7 +150,6 @@ const Movie = (props)=> {
 Movie.propTypes = {
   movie: MOVIE,
   renderTabs: REENDER_TABS,
-  onChangeTab: ON_CHANGE_TAB
 };
 
 export default Movie;
