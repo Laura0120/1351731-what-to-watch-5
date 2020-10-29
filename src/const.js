@@ -1,3 +1,9 @@
 const DEFAULT_GENRE = `All genres`;
 
-export {DEFAULT_GENRE};
+const TABS_NAME = {
+  OVERVIEW: `Overview`,
+  DETAILS: `Details`,
+  REVIEWS: `Reviews`
+};
+
+export {DEFAULT_GENRE, TABS_NAME};

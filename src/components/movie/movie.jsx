@@ -1,11 +1,10 @@
 import React from 'react';
 
-import {MOVIE} from '../../prop-type';
+import {MOVIE, REENDER_TABS} from '../../prop-type';
 
 const Movie = (props)=> {
-  const {movie} = props;
-  const {poster, title, rating, director, starring, year, genre, description} = movie;
-  const {ratingScore, ratingDescription, countVotesRating} = rating;
+  const {movie, renderTabs} = props;
+  const {poster, title, year, genre} = movie;
 
   return (
     <React.Fragment>
@@ -68,49 +67,8 @@ const Movie = (props)=> {
               <img src={poster} alt={title} width='218' height='327' />
             </div>
 
-            <div className='movie-card__desc'>
-              <nav className='movie-nav movie-card__nav'>
-                <ul className='movie-nav__list'>
-                  <li className='movie-nav__item movie-nav__item--active'>
-                    <a href='#' className='movie-nav__link'>
-                      Overview
-                    </a>
-                  </li>
-                  <li className='movie-nav__item'>
-                    <a href='#' className='movie-nav__link'>
-                      Details
-                    </a>
-                  </li>
-                  <li className='movie-nav__item'>
-                    <a href='#' className='movie-nav__link'>
-                      Reviews
-                    </a>
-                  </li>
-                </ul>
-              </nav>
+            {renderTabs(movie)}
 
-              <div className='movie-rating'>
-                <div className='movie-rating__score'>{ratingScore}</div>
-                <p className='movie-rating__meta'>
-                  <span className='movie-rating__level'>{ratingDescription}</span>
-                  <span className='movie-rating__count'>{countVotesRating} ratings</span>
-                </p>
-              </div>
-
-              <div className='movie-card__text'>
-                <p>
-                  {description}
-                </p>
-
-                <p className='movie-card__director'>
-                  <strong>Director: {director}</strong>
-                </p>
-
-                <p className='movie-card__starring'>
-                  <strong>Starring: {starring}</strong>
-                </p>
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -190,7 +148,8 @@ const Movie = (props)=> {
 };
 
 Movie.propTypes = {
-  movie: MOVIE
+  movie: MOVIE,
+  renderTabs: REENDER_TABS,
 };
 
 export default Movie;

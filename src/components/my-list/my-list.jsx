@@ -2,6 +2,9 @@ import React from 'react';
 
 import {MOVIES, ON_MOVIE_CLICK} from '../../prop-type';
 import MovieList from '../movie-list/movie-list';
+import withVideoPlayer from '../../hocs/with-video-player/with-video-player';
+
+const MovieListWrapped = withVideoPlayer(MovieList);
 
 const MyList = (props) => {
   const {movies, onMovieClick} = props;
@@ -30,7 +33,7 @@ const MyList = (props) => {
         <h2 className='catalog__title visually-hidden'>Catalog</h2>
 
         <div className='catalog__movies-list'>
-          <MovieList movies={movies} onMovieClick={onMovieClick}/>
+          <MovieListWrapped movies={movies} onMovieClick={onMovieClick}/>
         </div>
       </section>
 
