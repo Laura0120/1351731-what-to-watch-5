@@ -16,11 +16,11 @@ const withActivePlayer = (Component) => {
 
       return <Component
         {...this.props}
-        renderPlayer = {(src, poster, id) => {
+        renderPlayer = {(src, preview, id) => {
           return (
             <VideoPlayer
               src={src}
-              poster={poster}
+              preview={preview}
               isPlaying={id === currentMovie}
             />
           );

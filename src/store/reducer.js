@@ -1,27 +1,30 @@
 import {ActionType} from './action';
 import {extend} from '../utils/common';
-import {generateMovies} from '../mocks/movies';
 import {DEFAULT_GENRE} from '../const';
 import {filterMoviesByGenre} from '../utils/filter-movies';
-
-const MOVIE_COUNT = 8;
-const ALL_MOVIES = generateMovies(MOVIE_COUNT);
+import {adaptToClient} from '../utils/adapt';
+import {promoMovie} from '../mocks/movies';
 
 const initialState = {
-  allMovies: ALL_MOVIES,
+  allMovies: [],
   genre: DEFAULT_GENRE,
-  currentMovies: filterMoviesByGenre(ALL_MOVIES, DEFAULT_GENRE)
+  currentMovies: [],
+  promo: promoMovie,
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionType.CHANGE_GENRE:
       return extend(state, {
-        genre: action.genre,
+        genre: action.payload,
       });
     case ActionType.UPDATE_MOVIES:
       return extend(state, {
-        currentMovies: filterMoviesByGenre(state.allMovies, state.genre),
+        currentMovies: adaptToClient(filterMoviesByGenre(state.allMovies, state.genre)),
+      });
+    case ActionType.LOAD_MOVIES:
+      return extend(state, {
+        allMovies: action.allMovies,
       });
   }
 

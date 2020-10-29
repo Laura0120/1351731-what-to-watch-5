@@ -6,7 +6,7 @@ import {CURRENT_TAB, MOVIE, ON_CHANGE_TAB} from '../../prop-type';
 const Tabs = (props) => {
   const {currentTab, movie, onChangeTab} = props;
   const {rating, description, director, runtime, genre, year} = movie;
-  const {ratingScore, ratingDescription, countVotesRating} = rating;
+  const {ratingScore, countVotesRating} = rating;
 
   const getContentOnActiveTab = () => {
     switch (currentTab) {
@@ -16,7 +16,7 @@ const Tabs = (props) => {
             <div className="movie-rating">
               <div className="movie-rating__score">{ratingScore}</div>
               <p className="movie-rating__meta">
-                <span className="movie-rating__level">{ratingDescription}</span>
+                <span className="movie-rating__level">{ratingScore}</span>
                 <span className="movie-rating__count">{countVotesRating}</span>
               </p>
             </div>

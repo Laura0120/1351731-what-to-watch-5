@@ -8,11 +8,11 @@ class VideoPlayer extends PureComponent {
   }
 
   componentDidMount() {
-    const {src, poster} = this.props;
+    const {src, preview} = this.props;
     const video = this._videoRef.current;
 
     video.src = src;
-    video.poster = poster;
+    video.poster = preview;
     video.width = `280`;
     video.height = `175`;
   }
@@ -41,7 +41,7 @@ class VideoPlayer extends PureComponent {
 
 VideoPlayer.propTypes = {
   src: VIDEO,
-  poster: POSTER,
+  preview: POSTER,
   isPlaying: IS_PLAING,
 };
 

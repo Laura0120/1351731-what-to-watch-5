@@ -8,13 +8,13 @@ const AddReviewFormWrapper = withAddReviewForm(AddReviewForm);
 
 const AddReview = (props) => {
   const {movie} = props;
-  const {poster, title} = movie;
+  const {backgroundImage, poster, title} = movie;
 
   return (
     <section className='movie-card movie-card--full'>
       <div className='movie-card__header'>
         <div className='movie-card__bg'>
-          <img src={poster} alt={title} />
+          <img src={backgroundImage} alt={title} />
         </div>
 
         <h1 className='visually-hidden'>WTW</h1>

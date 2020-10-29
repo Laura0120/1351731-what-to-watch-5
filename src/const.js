@@ -6,4 +6,9 @@ const TABS_NAME = {
   REVIEWS: `Reviews`
 };
 
-export {DEFAULT_GENRE, TABS_NAME};
+const AuthorizationStatus = {
+  AUTH: `AUTH`,
+  NO_AUTH: `NO_AUTH`,
+};
+
+export {DEFAULT_GENRE, TABS_NAME, AuthorizationStatus};

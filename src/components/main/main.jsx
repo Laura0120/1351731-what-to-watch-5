@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 
 import {ON_MOVIE_CLICK, ON_CHANGE_GENRE, MOVIES, MOVIE, GENRE} from '../../prop-type';
 import GenreList from '../genre-list/genre-list';
@@ -9,13 +11,13 @@ const MovieListWrapped = withVideoPlayer(MovieList);
 
 const Main = (props) => {
   const {allMovies, currentMovies, promoMovie, activeGenre, onChangeGenre, onMovieClick} = props;
-  const {poster, title, genre, year} = promoMovie;
+  const {poster, backgroundImage, title, genre, year} = promoMovie || {};
 
   return (
     <React.Fragment>
       <section className='movie-card'>
         <div className='movie-card__bg'>
-          <img src={poster} alt='The Grand Budapest Hotel' />
+          <img src={backgroundImage} alt='The Grand Budapest Hotel' />
         </div>
 
         <h1 className='visually-hidden'>WTW</h1>
@@ -103,7 +105,7 @@ const Main = (props) => {
 
 Main.propTypes = {
   currentMovies: MOVIES,
-  allMovies: MOVIES,
+  allMovies: PropTypes.array.isRequired,
   promoMovie: MOVIE,
   activeGenre: GENRE,
   onChangeGenre: ON_CHANGE_GENRE,

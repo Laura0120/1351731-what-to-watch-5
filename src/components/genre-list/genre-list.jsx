@@ -1,6 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-import {MOVIES, ON_CHANGE_GENRE, GENRE} from '../../prop-type';
+
+import {ON_CHANGE_GENRE, GENRE} from '../../prop-type';
 
 const addGenre = (genres, movie) => {
   genres.push(movie.genre);
@@ -33,7 +35,7 @@ const GenreList = (props) => {
 };
 
 GenreList.propTypes = {
-  allMovies: MOVIES,
+  allMovies: PropTypes.array.isRequired,
   activeGenre: GENRE,
   onChangeGenre: ON_CHANGE_GENRE
 };
