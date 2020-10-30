@@ -4,14 +4,14 @@ import {MOVIE, REENDER_TABS} from '../../prop-type';
 
 const Movie = (props)=> {
   const {movie, renderTabs} = props;
-  const {poster, title, year, genre} = movie;
+  const {poster, backgroundImage, title, year, genre} = movie;
 
   return (
     <React.Fragment>
       <section className='movie-card movie-card--full'>
         <div className='movie-card__hero'>
           <div className='movie-card__bg'>
-            <img src={poster} alt={title} />
+            <img src={backgroundImage} alt={title} />
           </div>
 
           <h1 className='visually-hidden'>WTW</h1>

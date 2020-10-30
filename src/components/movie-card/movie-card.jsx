@@ -4,12 +4,12 @@ import {MOVIE, ON_MOVIE_CLICK, ON_MOUSE_OVER, ON_MOUSE_OUT, RENDER_PLAYER} from 
 
 const MovieCard = (props) => {
   const {movie, onMovieClick, onMouseOver, onMouseOut, renderPlayer} = props;
-  const {poster, title, video, id} = movie;
+  const {preview, title, video, id} = movie;
 
   return (
     <article className='small-movie-card catalog__movies-card' id={id} onMouseOver={onMouseOver} onMouseOut={onMouseOut} onClick={onMovieClick}>
       <div className='small-movie-card__image'>
-        {renderPlayer(video, poster, id)}
+        {renderPlayer(video, preview, id)}
       </div>
       <h3 className='small-movie-card__title'>
         <a className='small-movie-card__link' href='movie-page.html'>
