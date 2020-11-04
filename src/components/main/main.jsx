@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {connect} from "react-redux";
+import {AuthorizationStatus} from "../../const";
 
-
-import {ON_MOVIE_CLICK, ON_CHANGE_GENRE, MOVIES, MOVIE, GENRE} from '../../prop-type';
+import {ON_MOVIE_CLICK, ON_CHANGE_GENRE, MOVIES, MOVIE, GENRE, AUTHORIZATION_STATUS, ON_MY_LIST_BUTTON_CLICK} from '../../prop-type';
 import GenreList from '../genre-list/genre-list';
 import MovieList from '../movie-list/movie-list';
 import withVideoPlayer from '../../hocs/with-video-player/with-video-player';
@@ -10,7 +11,7 @@ import withVideoPlayer from '../../hocs/with-video-player/with-video-player';
 const MovieListWrapped = withVideoPlayer(MovieList);
 
 const Main = (props) => {
-  const {allMovies, currentMovies, promoMovie, activeGenre, onChangeGenre, onMovieClick} = props;
+  const {allMovies, currentMovies, promoMovie, activeGenre, onChangeGenre, onMovieClick, authorizationStatus, onMyListButtonClick} = props;
   const {poster, backgroundImage, title, genre, year} = promoMovie || {};
 
   return (
@@ -32,9 +33,15 @@ const Main = (props) => {
           </div>
 
           <div className='user-block'>
-            <div className='user-block__avatar'>
-              <img src='img/avatar.jpg' alt='User avatar' width='63' height='63' />
-            </div>
+            {authorizationStatus === AuthorizationStatus.AUTH ?
+              <div className='user-block__avatar' onClick={onMyListButtonClick}>
+                <img src='img/avatar.jpg' alt='User avatar' width='63' height='63' />
+              </div> :
+              <div className="user-block">
+                <a href="login" className="user-block__link">Sign in</a>
+              </div>
+            }
+
           </div>
         </header>
 
@@ -109,7 +116,14 @@ Main.propTypes = {
   promoMovie: MOVIE,
   activeGenre: GENRE,
   onChangeGenre: ON_CHANGE_GENRE,
-  onMovieClick: ON_MOVIE_CLICK
+  onMovieClick: ON_MOVIE_CLICK,
+  authorizationStatus: AUTHORIZATION_STATUS,
+  onMyListButtonClick: ON_MY_LIST_BUTTON_CLICK,
 };
 
-export default Main;
+const mapStateToProps = (state) => ({
+  authorizationStatus: state.USER.authorizationStatus,
+});
+
+export {Main};
+export default connect(mapStateToProps)(Main);

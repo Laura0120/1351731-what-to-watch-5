@@ -11,7 +11,7 @@ const Movie = (props)=> {
       <section className='movie-card movie-card--full'>
         <div className='movie-card__hero'>
           <div className='movie-card__bg'>
-            <img src={backgroundImage} alt={title} />
+            <img src={backgroundImage } alt={title} />
           </div>
 
           <h1 className='visually-hidden'>WTW</h1>
@@ -53,7 +53,7 @@ const Movie = (props)=> {
                   </svg>
                   <span>My list</span>
                 </button>
-                <a href='add-review.html' className='btn movie-card__button'>
+                <a href='add-review' className='btn movie-card__button'>
                   Add review
                 </a>
               </div>

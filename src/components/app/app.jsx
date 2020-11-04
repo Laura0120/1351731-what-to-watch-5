@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter, Switch, Route} from 'react-router-dom';
+import {Switch, Route, Router as BrowserRouter} from 'react-router-dom';
 import {connect} from "react-redux";
 import PropTypes from 'prop-types';
 
@@ -12,6 +12,9 @@ import MyList from '../my-list/my-list';
 import Player from '../player/player';
 import SignIn from '../sign-in/sign-in';
 import withTabs from '../../hocs/with-tabs/with-tabs';
+import {getAllMovies, getMoviesByGenre, getGenre} from '../../store/selectors';
+import PrivateRoute from "../private-route/private-route";
+import browserHistory from "../../browser-history";
 
 const MovieWrapped = withTabs(Movie);
 
@@ -19,14 +22,33 @@ const App = (props) => {
   const {allMovies, currentMovies, promoMovie, activeGenre, onChangeGenre} = props;
 
   return (
-    <BrowserRouter>
+    <BrowserRouter history={browserHistory}>
       <Switch>
-        <Route exact path='/' render={({history}) => <Main onMovieClick={() => history.push(`/films/:id`)} allMovies={allMovies} currentMovies={currentMovies} promoMovie={promoMovie} activeGenre={activeGenre} onChangeGenre={onChangeGenre}/>}
+        <Route exact
+          path={`/`}
+          render={({history}) => (
+            <Main
+              onMyListButtonClick={() => history.push(`/mylist`)}
+              onMovieClick={() => history.push(`/films/:id`)}
+              allMovies={allMovies}
+              currentMovies={currentMovies}
+              promoMovie={promoMovie}
+              activeGenre={activeGenre}
+              onChangeGenre={onChangeGenre}
+            />)}
         />
         <Route exact path='/login'><SignIn/></Route>
-        <Route exact path='/mylist' render={({history}) => <MyList onMovieClick={() => history.push(`/films/:id`)} movies={currentMovies}/>}/>
+        <PrivateRoute
+          exact
+          path={`/mylist`}
+          render={({history}) => (
+            <MyList
+              onMovieClick={() => history.push(`/films/:id`)}
+              movies={currentMovies}
+            />
+          )}/>
         <Route exact path='/films/:id'><MovieWrapped movie={promoMovie}/></Route>
-        <Route exact path='/films/:id/review'><AddReview movie={promoMovie}/></Route>
+        <Route exact path={`/films/:id/review`}><AddReview movie={promoMovie}/></Route>
         <Route exact path='/player/:id'><Player/></Route>
       </Switch>
     </BrowserRouter>
@@ -43,16 +65,15 @@ App.propTypes = {
 
 
 const mapStateToProps = (state) => ({
-  allMovies: state.allMovies,
-  currentMovies: state.currentMovies,
-  activeGenre: state.genre,
-  promoMovie: state.promo
+  allMovies: getAllMovies(state),
+  currentMovies: getMoviesByGenre(state),
+  activeGenre: getGenre(state),
+  promoMovie: state.DATA.promo
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onChangeGenre(activeGenre) {
     dispatch(ActionCreator.changeGenre(activeGenre));
-    dispatch(ActionCreator.updateMoviesByGenre());
   },
 });
 
