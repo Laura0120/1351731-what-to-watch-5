@@ -26,8 +26,8 @@ const withActivePlayer = (Component) => {
           );
         }}
         onMouseOver={(evt) => {
-          const activMovie = evt.currentTarget;
-          this.setState(() => ({currentMovie: activMovie.id}));
+          const activeMovie = evt.currentTarget;
+          this.setState(() => ({currentMovie: parseInt(activeMovie.id, 10)}));
         }}
         onMouseOut={()=> {
           this.setState(() => ({currentMovie: null}));

@@ -1,9 +1,9 @@
-import {ActionType} from './action';
-import {extend} from '../utils/common';
-import {DEFAULT_GENRE} from '../const';
-import {filterMoviesByGenre} from '../utils/filter-movies';
-import {adaptToClient} from '../utils/adapt';
-import {promoMovie} from '../mocks/movies';
+import {ActionType} from '../action';
+import {extend} from '../../utils/common';
+import {DEFAULT_GENRE} from '../../const';
+import {filterMoviesByGenre} from '../../utils/filter-movies';
+import {adaptToClient} from '../../utils/adapt';
+import {promoMovie} from '../../mocks/movies';
 
 const initialState = {
   allMovies: [],

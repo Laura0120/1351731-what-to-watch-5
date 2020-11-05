@@ -6,18 +6,25 @@ import thunk from "redux-thunk";
 import {composeWithDevTools} from "redux-devtools-extension";
 import {createAPI} from "./services/api";
 import App from './components/app/app';
-import {reducer} from "./store/reducer";
-import {fetchMovies} from "./store/api-actions";
+import rootReducer from "./store/reducers/root-reducer";
+import {fetchMovies, checkAuth} from "./store/api-actions";
+import {ActionCreator} from "./store/action";
+import {AuthorizationStatus} from "./const";
+import {redirect} from "./store/middlewares/redirect";
 
-const api = createAPI();
+const api = createAPI(
+    () => store.dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH))
+);
 
 const store = createStore(
-    reducer,
+    rootReducer,
     composeWithDevTools(
-        applyMiddleware(thunk.withExtraArgument(api))
+        applyMiddleware(thunk.withExtraArgument(api)),
+        applyMiddleware(redirect)
     )
 );
 store.dispatch(fetchMovies());
+store.dispatch(checkAuth());
 
 ReactDom.render(
     <Provider store={store}>
