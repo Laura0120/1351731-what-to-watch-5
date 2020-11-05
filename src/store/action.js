@@ -4,6 +4,7 @@ const ActionType = {
   LOAD_MOVIES: `LOAD_MOVIES`,
   REQUIRED_AUTHORIZATION: `REQUIRED_AUTHORIZATION`,
   REDIRECT_TO_ROUTE: `REDIRECT_TO_ROUTE`,
+  LOAD_MOVIE_BY_ID: `LOAD_MOVIE_BY_ID`,
 };
 
 const ActionCreator = {
@@ -13,7 +14,15 @@ const ActionCreator = {
   }),
   loadMovies: (movies) => ({
     type: ActionType.LOAD_MOVIES,
-    allMovies: movies,
+    payload: movies,
+  }),
+  loadMovieById: (movie) => ({
+    type: ActionType.LOAD_MOVIE_BY_ID,
+    payload: movie,
+  }),
+  loadCommentsByMovieId: (comments) => ({
+    type: ActionType.LOAD_COMMENTS,
+    payload: comments,
   }),
   requireAuthorization: (status) => ({
     type: ActionType.REQUIRED_AUTHORIZATION,

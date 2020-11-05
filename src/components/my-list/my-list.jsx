@@ -7,7 +7,7 @@ import withVideoPlayer from '../../hocs/with-video-player/with-video-player';
 const MovieListWrapped = withVideoPlayer(MovieList);
 
 const MyList = (props) => {
-  const {movies, onMovieClick} = props;
+  const {movies} = props;
 
   return (
     <div className='user-page'>
@@ -33,7 +33,7 @@ const MyList = (props) => {
         <h2 className='catalog__title visually-hidden'>Catalog</h2>
 
         <div className='catalog__movies-list'>
-          <MovieListWrapped movies={movies} onMovieClick={onMovieClick}/>
+          <MovieListWrapped movies={movies}/>
         </div>
       </section>
 
@@ -57,7 +57,6 @@ const MyList = (props) => {
 
 MyList.propTypes = {
   movies: MOVIES,
-  onMovieClick: ON_MOVIE_CLICK,
 };
 
 export default MyList;

@@ -11,7 +11,11 @@ const loadedData = (state = initialState, action) => {
   switch (action.type) {
     case ActionType.LOAD_MOVIES:
       return extend(state, {
-        allMovies: action.allMovies,
+        allMovies: action.payload,
+      });
+    case ActionType.LOAD_MOVIE_BY_ID:
+      return extend(state, {
+        openedMovie: action.payload,
       });
   }
 

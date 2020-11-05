@@ -9,6 +9,13 @@ const fetchMovies = () => (dispatch, _getState, api) => (
     })
 );
 
+const fetchMovieById = (id) => (dispatch, _getState, api) => (
+  api.get(`GET /films/:id`)
+    .then(({data}) => {
+      dispatch(ActionCreator.loadMovieById(data));
+    })
+    .then(() => dispatch(ActionCreator.redirectToRoute(`films/:id`))));
+
 const checkAuth = () => (dispatch, _getState, api) => (
   api.get(`/login`)
     .then(() => dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH)))
@@ -23,5 +30,6 @@ const login = ({login: email, password}) => (dispatch, _getState, api) => (
     .then(() => dispatch(ActionCreator.redirectToRoute(`/`)))
 );
 
-export {fetchMovies, checkAuth, login};
+
+export {fetchMovies, checkAuth, login, fetchMovieById};
 

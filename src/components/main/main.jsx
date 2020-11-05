@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from "react-redux";
-import {AuthorizationStatus} from "../../const";
 
+import {AuthorizationStatus, AppRoute} from "../../const";
+import {fetchMovieById} from "../../store/api-actions";
+import {ActionCreator} from "../../store/action";
 import {ON_MOVIE_CLICK, ON_CHANGE_GENRE, MOVIES, MOVIE, GENRE, AUTHORIZATION_STATUS, ON_MY_LIST_BUTTON_CLICK} from '../../prop-type';
 import GenreList from '../genre-list/genre-list';
 import MovieList from '../movie-list/movie-list';
@@ -125,5 +127,19 @@ const mapStateToProps = (state) => ({
   authorizationStatus: state.USER.authorizationStatus,
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  onMovieClick(id) {
+    dispatch(fetchMovieById(id));
+  },
+  onChangeGenre(activeGenre) {
+    dispatch(ActionCreator.changeGenre(activeGenre));
+  },
+  onMyListButtonClick() {
+    dispatch(ActionCreator.redirectToRoute(AppRoute.MY_LIST));
+  }
+});
+
 export {Main};
-export default connect(mapStateToProps)(Main);
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
+
+

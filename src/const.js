@@ -11,4 +11,18 @@ const AuthorizationStatus = {
   NO_AUTH: `NO_AUTH`,
 };
 
-export {DEFAULT_GENRE, TABS_NAME, AuthorizationStatus};
+const AppRoute = {
+  MAIN: `/`,
+  LOGIN: `/login`,
+  MY_LIST: `/mylist`,
+  FILM_ID: `/films/:id`,
+  FILM_ID_REVIW: `/films/:id/reviw`,
+};
+
+const APIRoute = {
+  QUESTIONS: `/films`,
+  LOGIN: `/login`,
+};
+
+
+export {DEFAULT_GENRE, TABS_NAME, AuthorizationStatus, AppRoute, APIRoute};
