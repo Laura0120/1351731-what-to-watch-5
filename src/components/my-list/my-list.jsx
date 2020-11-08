@@ -31,10 +31,7 @@ const MyList = (props) => {
 
       <section className='catalog'>
         <h2 className='catalog__title visually-hidden'>Catalog</h2>
-
-        <div className='catalog__movies-list'>
-          <MovieListWrapped movies={movies} onMovieClick={onMovieClick}/>
-        </div>
+        <MovieListWrapped movies={movies} onMovieClick={onMovieClick}/>
       </section>
 
       <footer className='page-footer'>

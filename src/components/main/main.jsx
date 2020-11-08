@@ -8,10 +8,7 @@ import {ActionCreator} from "../../store/action";
 import {FUNCTION, MOVIES, GENRE, AUTHORIZATION_STATUS} from '../../prop-type';
 import GenreList from '../genre-list/genre-list';
 import MovieListWrapped from '../movie-list/movie-list';
-// import withVideoPlayer from '../../hocs/with-video-player/with-video-player';
 import {getAllMovies, getMoviesByGenre, getGenre} from '../../store/selectors';
-
-// const MovieListWrapped = withVideoPlayer(MovieList);
 
 const Main = (props) => {
   const {allMovies, currentMovies, promoMovie, activeGenre, onChangeGenre, onMovieClick, authorizationStatus, onMyListButtonClick} = props;
@@ -86,11 +83,6 @@ const Main = (props) => {
 
           <MovieListWrapped movies={currentMovies} onMovieClick={onMovieClick}/>
 
-          <div className='catalog__more'>
-            <button className='catalog__button' type='button'>
-              Show more
-            </button>
-          </div>
         </section>
 
         <footer className='page-footer'>

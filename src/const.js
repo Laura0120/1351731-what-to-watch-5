@@ -1,5 +1,6 @@
 const DEFAULT_GENRE = `All genres`;
 const COUNT_SILIMAR_MOVIE = 4;
+const COUNT_MOVIE_PER_STEP = 8;
 
 const TABS_NAME = {
   OVERVIEW: `Overview`,
@@ -27,4 +28,4 @@ const APIRoute = {
 };
 
 
-export {DEFAULT_GENRE, TABS_NAME, AuthorizationStatus, AppRoute, APIRoute, COUNT_SILIMAR_MOVIE};
+export {DEFAULT_GENRE, TABS_NAME, AuthorizationStatus, AppRoute, APIRoute, COUNT_SILIMAR_MOVIE, COUNT_MOVIE_PER_STEP};

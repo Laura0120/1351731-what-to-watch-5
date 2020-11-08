@@ -3,13 +3,13 @@ import {connect} from "react-redux";
 import PropTypes from 'prop-types';
 
 import {MOVIE, AUTHORIZATION_STATUS, FUNCTION} from '../../prop-type';
-import {AuthorizationStatus, AppRoute} from "../../const";
+import {AuthorizationStatus} from "../../const";
 import {ActionCreator} from "../../store/action";
 import MoreLikeThis from '../more-like-this/more-like-this';
 
 
 const Movie = (props)=> {
-  const {openedMovie, renderTabs, comments, authorizationStatus, onMyListButtonClick, onAddReviewClick} = props;
+  const {openedMovie, renderTabs, comments, authorizationStatus, onAddReviewClick} = props;
   const {poster, backgroundImage, title, year, genre, id} = openedMovie;
 
   return (
@@ -32,13 +32,9 @@ const Movie = (props)=> {
             </div>
 
             <div className='user-block'>
-              {authorizationStatus === AuthorizationStatus.AUTH ?
-                <div className='user-block__avatar' onClick={onMyListButtonClick}>
-                  <img src='img/avatar.jpg' alt='User avatar' width='63' height='63' />
-                </div> :
-                <div className="user-block">
-                  <a href="login" className="user-block__link">Sign in</a>
-                </div>}
+              <div className='user-block__avatar'>
+                <img src='img/avatar.jpg' alt='User avatar' width='63' height='63' />
+              </div>
             </div>
           </header>
 
@@ -109,7 +105,6 @@ Movie.propTypes = {
   renderTabs: FUNCTION,
   comments: PropTypes.array.isRequired,
   authorizationStatus: AUTHORIZATION_STATUS,
-  onMyListButtonClick: FUNCTION,
   onAddReviewClick: FUNCTION
 };
 
@@ -120,9 +115,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onMyListButtonClick() {
-    dispatch(ActionCreator.redirectToRoute(AppRoute.MY_LIST));
-  },
   onAddReviewClick(evt, id) {
     evt.preventDefault();
     dispatch(ActionCreator.redirectToRoute(`${id}/review`));

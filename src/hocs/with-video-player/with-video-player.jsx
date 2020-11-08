@@ -1,6 +1,8 @@
 import React, {PureComponent} from "react";
 
 import VideoPlayer from "../../components/video-player/video-player";
+import ShowMore from "../../components/show-more/show-more";
+import {COUNT_MOVIE_PER_STEP} from "../../const";
 
 const withActivePlayer = (Component) => {
   class WithActivePlayer extends PureComponent {
@@ -9,11 +11,12 @@ const withActivePlayer = (Component) => {
 
       this.state = {
         currentMovie: null,
+        renderedMovieCount: COUNT_MOVIE_PER_STEP
       };
     }
 
     render() {
-      const {currentMovie} = this.state;
+      const {currentMovie, renderedMovieCount} = this.state;
 
       return <Component
         {...this.props}
@@ -24,6 +27,14 @@ const withActivePlayer = (Component) => {
               preview={preview}
               isPlaying={id === currentMovie}
             />
+          );
+        }}
+        renderedMovieCount={renderedMovieCount}
+        renderShowMore = {()=>{
+          return (
+            <ShowMore onShowMoreClick={()=> {
+              this.setState(() => ({renderedMovieCount: renderedMovieCount + COUNT_MOVIE_PER_STEP}));
+            }}/>
           );
         }}
         onMouseOver={(evt) => {
