@@ -16,12 +16,13 @@ const AppRoute = {
   LOGIN: `/login`,
   MY_LIST: `/mylist`,
   FILM_ID: `/films/:id`,
-  FILM_ID_REVIW: `/films/:id/reviw`,
+  FILM_ID_REVIEW: `/films/:id/review`,
 };
 
 const APIRoute = {
-  QUESTIONS: `/films`,
+  FILMS: `/films`,
   LOGIN: `/login`,
+  PROMO: `/films/promo`
 };
 
 

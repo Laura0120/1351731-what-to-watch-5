@@ -1,4 +1,5 @@
 import React, {PureComponent} from "react";
+
 import VideoPlayer from "../../components/video-player/video-player";
 
 const withActivePlayer = (Component) => {
@@ -37,6 +38,7 @@ const withActivePlayer = (Component) => {
   }
 
   return WithActivePlayer;
+
 };
 
 export default withActivePlayer;

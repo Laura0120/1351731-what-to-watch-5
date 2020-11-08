@@ -3,14 +3,15 @@ import PropTypes from 'prop-types';
 import {connect} from "react-redux";
 
 import {AuthorizationStatus, AppRoute} from "../../const";
-import {fetchMovieById} from "../../store/api-actions";
+import {fetchMovieById, fetchCommentsByMovieId} from "../../store/api-actions";
 import {ActionCreator} from "../../store/action";
-import {ON_MOVIE_CLICK, ON_CHANGE_GENRE, MOVIES, MOVIE, GENRE, AUTHORIZATION_STATUS, ON_MY_LIST_BUTTON_CLICK} from '../../prop-type';
+import {FUNCTION, MOVIES, GENRE, AUTHORIZATION_STATUS} from '../../prop-type';
 import GenreList from '../genre-list/genre-list';
-import MovieList from '../movie-list/movie-list';
-import withVideoPlayer from '../../hocs/with-video-player/with-video-player';
+import MovieListWrapped from '../movie-list/movie-list';
+// import withVideoPlayer from '../../hocs/with-video-player/with-video-player';
+import {getAllMovies, getMoviesByGenre, getGenre} from '../../store/selectors';
 
-const MovieListWrapped = withVideoPlayer(MovieList);
+// const MovieListWrapped = withVideoPlayer(MovieList);
 
 const Main = (props) => {
   const {allMovies, currentMovies, promoMovie, activeGenre, onChangeGenre, onMovieClick, authorizationStatus, onMyListButtonClick} = props;
@@ -41,9 +42,7 @@ const Main = (props) => {
               </div> :
               <div className="user-block">
                 <a href="login" className="user-block__link">Sign in</a>
-              </div>
-            }
-
+              </div>}
           </div>
         </header>
 
@@ -115,21 +114,26 @@ const Main = (props) => {
 Main.propTypes = {
   currentMovies: MOVIES,
   allMovies: PropTypes.array.isRequired,
-  promoMovie: MOVIE,
+  promoMovie: PropTypes.object.isRequired,
   activeGenre: GENRE,
-  onChangeGenre: ON_CHANGE_GENRE,
-  onMovieClick: ON_MOVIE_CLICK,
+  onChangeGenre: FUNCTION,
+  onMovieClick: FUNCTION,
   authorizationStatus: AUTHORIZATION_STATUS,
-  onMyListButtonClick: ON_MY_LIST_BUTTON_CLICK,
+  onMyListButtonClick: FUNCTION,
 };
 
 const mapStateToProps = (state) => ({
+  allMovies: getAllMovies(state),
+  currentMovies: getMoviesByGenre(state),
+  activeGenre: getGenre(state),
+  promoMovie: state.DATA.promoMovie,
   authorizationStatus: state.USER.authorizationStatus,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onMovieClick(id) {
     dispatch(fetchMovieById(id));
+    dispatch(fetchCommentsByMovieId(id));
   },
   onChangeGenre(activeGenre) {
     dispatch(ActionCreator.changeGenre(activeGenre));
@@ -141,5 +145,3 @@ const mapDispatchToProps = (dispatch) => ({
 
 export {Main};
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
-
-

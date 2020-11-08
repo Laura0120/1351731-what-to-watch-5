@@ -1,14 +1,12 @@
 import React from 'react';
+import {connect} from "react-redux";
 
-import withAddReviewForm from '../../hocs/with-add-review-form/with-add-review-form';
 import AddReviewForm from '../add-review-form/add-review-form';
 import {MOVIE} from '../../prop-type';
 
-const AddReviewFormWrapper = withAddReviewForm(AddReviewForm);
-
 const AddReview = (props) => {
-  const {movie} = props;
-  const {backgroundImage, poster, title} = movie;
+  const {openedMovie} = props;
+  const {backgroundImage, poster, title, id} = openedMovie;
 
   return (
     <section className='movie-card movie-card--full'>
@@ -44,7 +42,7 @@ const AddReview = (props) => {
           <div className='user-block'>
             <div className='user-block__avatar'>
               <img src='img/avatar.jpg' alt='User avatar' width='63' height='63' />
-            </div>
+            </div> :
           </div>
         </header>
 
@@ -54,14 +52,19 @@ const AddReview = (props) => {
       </div>
 
       <div className='add-review'>
-        <AddReviewFormWrapper />
+        <AddReviewForm id={id}/>
       </div>
     </section>
   );
 };
 
 AddReview.propTypes = {
-  movie: MOVIE
+  openedMovie: MOVIE
 };
 
-export default AddReview;
+const mapStateToProps = (state) => ({
+  openedMovie: state.DATA.openedMovie,
+});
+
+export {AddReview};
+export default connect(mapStateToProps)(AddReview);

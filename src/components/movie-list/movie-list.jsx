@@ -1,7 +1,8 @@
 import React from 'react';
 
-import {MOVIES, ON_MOVIE_CLICK, ON_MOUSE_OVER, ON_MOUSE_OUT, RENDER_PLAYER} from '../../prop-type';
+import {MOVIES, FUNCTION} from '../../prop-type';
 import MovieCard from '../movie-card/movie-card';
+import withVideoPlayer from '../../hocs/with-video-player/with-video-player';
 
 const MovieList = (props) => {
   const {movies, renderPlayer, onMovieClick, onMouseOver, onMouseOut} = props;
@@ -26,10 +27,13 @@ const MovieList = (props) => {
 
 MovieList.propTypes = {
   movies: MOVIES,
-  onMovieClick: ON_MOVIE_CLICK,
-  renderPlayer: RENDER_PLAYER,
-  onMouseOver: ON_MOUSE_OVER,
-  onMouseOut: ON_MOUSE_OUT,
+  onMovieClick: FUNCTION,
+  renderPlayer: FUNCTION,
+  onMouseOver: FUNCTION,
+  onMouseOut: FUNCTION,
 };
 
-export default MovieList;
+const MovieListWrapped = withVideoPlayer(MovieList);
+
+export default MovieListWrapped;
+

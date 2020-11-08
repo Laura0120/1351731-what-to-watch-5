@@ -1,10 +1,14 @@
+import {adaptToClientMovie} from '../utils/adapt';
+
 const ActionType = {
   CHANGE_GENRE: `CHANGE_GENRE`,
   UPDATE_MOVIES: `UPDATE_MOVIES`,
   LOAD_MOVIES: `LOAD_MOVIES`,
+  LOAD_PROMO_MOVIE: `LOAD_PROMO_MOVIE`,
+  LOAD_MOVIE_BY_ID: `LOAD_MOVIE_BY_ID`,
+  LOAD_COMMENTS_BY_MOVIE_ID: `LOAD_COMMENTS_BY_MOVIE_ID`,
   REQUIRED_AUTHORIZATION: `REQUIRED_AUTHORIZATION`,
   REDIRECT_TO_ROUTE: `REDIRECT_TO_ROUTE`,
-  LOAD_MOVIE_BY_ID: `LOAD_MOVIE_BY_ID`,
 };
 
 const ActionCreator = {
@@ -18,10 +22,14 @@ const ActionCreator = {
   }),
   loadMovieById: (movie) => ({
     type: ActionType.LOAD_MOVIE_BY_ID,
-    payload: movie,
+    payload: adaptToClientMovie(movie),
+  }),
+  loadPromoMovie: (movie) => ({
+    type: ActionType.LOAD_PROMO_MOVIE,
+    payload: adaptToClientMovie(movie),
   }),
   loadCommentsByMovieId: (comments) => ({
-    type: ActionType.LOAD_COMMENTS,
+    type: ActionType.LOAD_COMMENTS_BY_MOVIE_ID,
     payload: comments,
   }),
   requireAuthorization: (status) => ({

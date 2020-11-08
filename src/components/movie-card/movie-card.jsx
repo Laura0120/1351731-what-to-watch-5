@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {MOVIE, ON_MOVIE_CLICK, ON_MOUSE_OVER, ON_MOUSE_OUT, RENDER_PLAYER} from '../../prop-type';
+import {MOVIE, FUNCTION} from '../../prop-type';
 
 const MovieCard = (props) => {
   const {movie, onMovieClick, onMouseOver, onMouseOut, renderPlayer} = props;
@@ -9,7 +9,7 @@ const MovieCard = (props) => {
   return (
     <article
       className='small-movie-card catalog__movies-card'
-      // id={id}
+      id={id}
       onMouseOver={onMouseOver}
       onMouseOut={onMouseOut}
       onClick={(evt) => {
@@ -30,10 +30,10 @@ const MovieCard = (props) => {
 
 MovieCard.propTypes = {
   movie: MOVIE,
-  onMovieClick: ON_MOVIE_CLICK,
-  onMouseOver: ON_MOUSE_OVER,
-  onMouseOut: ON_MOUSE_OUT,
-  renderPlayer: RENDER_PLAYER,
+  onMovieClick: FUNCTION,
+  onMouseOver: FUNCTION,
+  onMouseOut: FUNCTION,
+  renderPlayer: FUNCTION,
 };
 
 export default MovieCard;

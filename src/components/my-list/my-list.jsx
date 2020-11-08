@@ -1,13 +1,13 @@
 import React from 'react';
+import {connect} from "react-redux";
 
-import {MOVIES, ON_MOVIE_CLICK} from '../../prop-type';
-import MovieList from '../movie-list/movie-list';
-import withVideoPlayer from '../../hocs/with-video-player/with-video-player';
-
-const MovieListWrapped = withVideoPlayer(MovieList);
+import {FUNCTION, MOVIES} from '../../prop-type';
+import {getMoviesByGenre} from '../../store/selectors';
+import MovieListWrapped from '../movie-list/movie-list';
+import {fetchMovieById, fetchCommentsByMovieId} from "../../store/api-actions";
 
 const MyList = (props) => {
-  const {movies} = props;
+  const {movies, onMovieClick} = props;
 
   return (
     <div className='user-page'>
@@ -33,7 +33,7 @@ const MyList = (props) => {
         <h2 className='catalog__title visually-hidden'>Catalog</h2>
 
         <div className='catalog__movies-list'>
-          <MovieListWrapped movies={movies}/>
+          <MovieListWrapped movies={movies} onMovieClick={onMovieClick}/>
         </div>
       </section>
 
@@ -57,6 +57,18 @@ const MyList = (props) => {
 
 MyList.propTypes = {
   movies: MOVIES,
+  onMovieClick: FUNCTION
 };
 
-export default MyList;
+const mapStateToProps = (state) => ({
+  movies: getMoviesByGenre(state),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onMovieClick(id) {
+    dispatch(fetchMovieById(id));
+    dispatch(fetchCommentsByMovieId(id));
+  }
+});
+export {MyList};
+export default connect(mapStateToProps, mapDispatchToProps)(MyList);

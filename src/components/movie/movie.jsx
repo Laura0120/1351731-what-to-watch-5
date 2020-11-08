@@ -1,17 +1,21 @@
 import React from 'react';
+import {connect} from "react-redux";
+import PropTypes from 'prop-types';
 
-import {MOVIE, REENDER_TABS} from '../../prop-type';
+import {MOVIE, AUTHORIZATION_STATUS, FUNCTION} from '../../prop-type';
+import {AuthorizationStatus, AppRoute} from "../../const";
+import {ActionCreator} from "../../store/action";
 
 const Movie = (props)=> {
-  const {movie, renderTabs} = props;
-  const {poster, backgroundImage, title, year, genre} = movie;
+  const {openedMovie, renderTabs, comments, authorizationStatus, onMyListButtonClick, onAddReviewClick} = props;
+  const {poster, backgroundImage, title, year, genre, id} = openedMovie;
 
   return (
     <React.Fragment>
       <section className='movie-card movie-card--full'>
         <div className='movie-card__hero'>
           <div className='movie-card__bg'>
-            <img src={backgroundImage } alt={title} />
+            <img src={backgroundImage} alt={title} />
           </div>
 
           <h1 className='visually-hidden'>WTW</h1>
@@ -26,9 +30,13 @@ const Movie = (props)=> {
             </div>
 
             <div className='user-block'>
-              <div className='user-block__avatar'>
-                <img src='img/avatar.jpg' alt='User avatar' width='63' height='63' />
-              </div>
+              {authorizationStatus === AuthorizationStatus.AUTH ?
+                <div className='user-block__avatar' onClick={onMyListButtonClick}>
+                  <img src='img/avatar.jpg' alt='User avatar' width='63' height='63' />
+                </div> :
+                <div className="user-block">
+                  <a href="login" className="user-block__link">Sign in</a>
+                </div>}
             </div>
           </header>
 
@@ -53,9 +61,10 @@ const Movie = (props)=> {
                   </svg>
                   <span>My list</span>
                 </button>
-                <a href='add-review' className='btn movie-card__button'>
-                  Add review
-                </a>
+                {authorizationStatus === AuthorizationStatus.AUTH ?
+                  <a href='' className='btn movie-card__button' onClick={(evt)=>onAddReviewClick(evt, id)} >
+                    Add review
+                  </a> : ``}
               </div>
             </div>
           </div>
@@ -67,7 +76,7 @@ const Movie = (props)=> {
               <img src={poster} alt={title} width='218' height='327' />
             </div>
 
-            {renderTabs(movie)}
+            {renderTabs(openedMovie, comments)}
 
           </div>
         </div>
@@ -148,8 +157,28 @@ const Movie = (props)=> {
 };
 
 Movie.propTypes = {
-  movie: MOVIE,
-  renderTabs: REENDER_TABS,
+  openedMovie: MOVIE,
+  renderTabs: FUNCTION,
+  comments: PropTypes.array.isRequired,
+  authorizationStatus: AUTHORIZATION_STATUS,
+  onMyListButtonClick: FUNCTION,
+  onAddReviewClick: FUNCTION
 };
 
-export default Movie;
+const mapStateToProps = (state) => ({
+  openedMovie: state.DATA.openedMovie,
+  comments: state.DATA.openMovieComments,
+  authorizationStatus: state.USER.authorizationStatus,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onMyListButtonClick() {
+    dispatch(ActionCreator.redirectToRoute(AppRoute.MY_LIST));
+  },
+  onAddReviewClick(evt, id) {
+    evt.preventDefault();
+    dispatch(ActionCreator.redirectToRoute(`${id}/review`));
+  }
+});
+export {Movie};
+export default connect(mapStateToProps, mapDispatchToProps)(Movie);
