@@ -14,7 +14,7 @@ const fetchMovieById = (id) => (dispatch, _getState, api) => (
     .then(({data}) => {
       dispatch(ActionCreator.loadMovieById(data));
     })
-    .then(() => dispatch(ActionCreator.redirectToRoute(`films/${id}`))));
+    .then(() => dispatch(ActionCreator.redirectToRoute(`/films/${id}`))));
 
 const fetchPromoMovie = () => (dispatch, _getState, api) => (
   api.get(APIRoute.PROMO)
