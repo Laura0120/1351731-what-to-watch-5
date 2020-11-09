@@ -2,16 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from "react-redux";
 
-import {AuthorizationStatus, AppRoute} from "../../const";
 import {fetchMovieById, fetchCommentsByMovieId} from "../../store/api-actions";
+import {getAllMovies, getMoviesByGenre, getGenre} from '../../store/selectors';
 import {ActionCreator} from "../../store/action";
-import {FUNCTION, MOVIES, GENRE, AUTHORIZATION_STATUS} from '../../prop-type';
+import {FUNCTION, MOVIES, GENRE} from '../../prop-type';
 import GenreList from '../genre-list/genre-list';
 import MovieListWrapped from '../movie-list/movie-list';
-import {getAllMovies, getMoviesByGenre, getGenre} from '../../store/selectors';
+import UserBlock from '../user-block/user-block';
+
 
 const Main = (props) => {
-  const {allMovies, currentMovies, promoMovie, activeGenre, onChangeGenre, onMovieClick, authorizationStatus, onMyListButtonClick} = props;
+  const {allMovies, currentMovies, promoMovie, activeGenre, onChangeGenre, onMovieClick} = props;
   const {poster, backgroundImage, title, genre, year} = promoMovie || {};
 
   return (
@@ -32,15 +33,7 @@ const Main = (props) => {
             </a>
           </div>
 
-          <div className='user-block'>
-            {authorizationStatus === AuthorizationStatus.AUTH ?
-              <div className='user-block__avatar' onClick={onMyListButtonClick}>
-                <img src='img/avatar.jpg' alt='User avatar' width='63' height='63' />
-              </div> :
-              <div className="user-block">
-                <a href="login" className="user-block__link">Sign in</a>
-              </div>}
-          </div>
+          <UserBlock/>
         </header>
 
         <div className='movie-card__wrap'>
@@ -110,16 +103,13 @@ Main.propTypes = {
   activeGenre: GENRE,
   onChangeGenre: FUNCTION,
   onMovieClick: FUNCTION,
-  authorizationStatus: AUTHORIZATION_STATUS,
-  onMyListButtonClick: FUNCTION,
 };
 
 const mapStateToProps = (state) => ({
   allMovies: getAllMovies(state),
   currentMovies: getMoviesByGenre(state),
   activeGenre: getGenre(state),
-  promoMovie: state.DATA.promoMovie,
-  authorizationStatus: state.USER.authorizationStatus,
+  promoMovie: state.DATA.promoMovie
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -130,9 +120,6 @@ const mapDispatchToProps = (dispatch) => ({
   onChangeGenre(activeGenre) {
     dispatch(ActionCreator.changeGenre(activeGenre));
   },
-  onMyListButtonClick() {
-    dispatch(ActionCreator.redirectToRoute(AppRoute.MY_LIST));
-  }
 });
 
 export {Main};

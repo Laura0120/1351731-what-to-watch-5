@@ -6,6 +6,7 @@ import {MOVIE, AUTHORIZATION_STATUS, FUNCTION} from '../../prop-type';
 import {AuthorizationStatus} from "../../const";
 import {ActionCreator} from "../../store/action";
 import MoreLikeThis from '../more-like-this/more-like-this';
+import UserBlock from '../user-block/user-block';
 
 
 const Movie = (props)=> {
@@ -24,18 +25,14 @@ const Movie = (props)=> {
 
           <header className='page-header movie-card__head'>
             <div className='logo'>
-              <a href='main.html' className='logo__link'>
+              <a href='/' className='logo__link'>
                 <span className='logo__letter logo__letter--1'>W</span>
                 <span className='logo__letter logo__letter--2'>T</span>
                 <span className='logo__letter logo__letter--3'>W</span>
               </a>
             </div>
 
-            <div className='user-block'>
-              <div className='user-block__avatar'>
-                <img src='img/avatar.jpg' alt='User avatar' width='63' height='63' />
-              </div>
-            </div>
+            <UserBlock/>
           </header>
 
           <div className='movie-card__wrap'>

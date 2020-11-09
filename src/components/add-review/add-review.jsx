@@ -2,10 +2,12 @@ import React from 'react';
 import {connect} from "react-redux";
 
 import AddReviewForm from '../add-review-form/add-review-form';
-import {MOVIE} from '../../prop-type';
+import UserBlock from '../user-block/user-block';
+import {FUNCTION, MOVIE} from '../../prop-type';
+import {ActionCreator} from "../../store/action";
 
 const AddReview = (props) => {
-  const {openedMovie} = props;
+  const {openedMovie, onMoviePageClick} = props;
   const {backgroundImage, poster, title, id} = openedMovie;
 
   return (
@@ -19,7 +21,7 @@ const AddReview = (props) => {
 
         <header className='page-header'>
           <div className='logo'>
-            <a href='main.html' className='logo__link'>
+            <a href='/' className='logo__link'>
               <span className='logo__letter logo__letter--1'>W</span>
               <span className='logo__letter logo__letter--2'>T</span>
               <span className='logo__letter logo__letter--3'>W</span>
@@ -29,7 +31,11 @@ const AddReview = (props) => {
           <nav className='breadcrumbs'>
             <ul className='breadcrumbs__list'>
               <li className='breadcrumbs__item'>
-                <a href='movie-page.html' className='breadcrumbs__link'>
+                <a href='' className='breadcrumbs__link'
+                  onClick={(evt) => {
+                    evt.preventDefault();
+                    onMoviePageClick(id)
+                  }}>
                   {title}
                 </a>
               </li>
@@ -39,11 +45,8 @@ const AddReview = (props) => {
             </ul>
           </nav>
 
-          <div className='user-block'>
-            <div className='user-block__avatar'>
-              <img src='img/avatar.jpg' alt='User avatar' width='63' height='63' />
-            </div> :
-          </div>
+          <UserBlock/>
+
         </header>
 
         <div className='movie-card__poster movie-card__poster--small'>
@@ -59,12 +62,19 @@ const AddReview = (props) => {
 };
 
 AddReview.propTypes = {
-  openedMovie: MOVIE
+  openedMovie: MOVIE,
+  onMoviePageClick: FUNCTION
 };
 
 const mapStateToProps = (state) => ({
   openedMovie: state.DATA.openedMovie,
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  onMoviePageClick(id) {
+    dispatch(ActionCreator.redirectToRoute(`/films/${id}`));
+  }
+});
+
 export {AddReview};
-export default connect(mapStateToProps)(AddReview);
+export default connect(mapStateToProps, mapDispatchToProps)(AddReview);
