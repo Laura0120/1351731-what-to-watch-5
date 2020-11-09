@@ -1,10 +1,11 @@
 import React from 'react';
+import {connect} from "react-redux";
 
-import {MOVIES, ON_MOVIE_CLICK} from '../../prop-type';
-import MovieList from '../movie-list/movie-list';
-import withVideoPlayer from '../../hocs/with-video-player/with-video-player';
-
-const MovieListWrapped = withVideoPlayer(MovieList);
+import {FUNCTION, MOVIES} from '../../prop-type';
+import {getMoviesByGenre} from '../../store/selectors';
+import MovieListWrapped from '../movie-list/movie-list';
+import UserBlock from '../user-block/user-block';
+import {fetchMovieById, fetchCommentsByMovieId} from "../../store/api-actions";
 
 const MyList = (props) => {
   const {movies, onMovieClick} = props;
@@ -13,7 +14,7 @@ const MyList = (props) => {
     <div className='user-page'>
       <header className='page-header user-page__head'>
         <div className='logo'>
-          <a href='main.html' className='logo__link'>
+          <a href='/' className='logo__link'>
             <span className='logo__letter logo__letter--1'>W</span>
             <span className='logo__letter logo__letter--2'>T</span>
             <span className='logo__letter logo__letter--3'>W</span>
@@ -22,19 +23,12 @@ const MyList = (props) => {
 
         <h1 className='page-title user-page__title'>My list</h1>
 
-        <div className='user-block'>
-          <div className='user-block__avatar'>
-            <img src='img/avatar.jpg' alt='User avatar' width='63' height='63' />
-          </div>
-        </div>
+        <UserBlock/>
       </header>
 
       <section className='catalog'>
         <h2 className='catalog__title visually-hidden'>Catalog</h2>
-
-        <div className='catalog__movies-list'>
-          <MovieListWrapped movies={movies} onMovieClick={onMovieClick}/>
-        </div>
+        <MovieListWrapped movies={movies} onMovieClick={onMovieClick}/>
       </section>
 
       <footer className='page-footer'>
@@ -57,7 +51,18 @@ const MyList = (props) => {
 
 MyList.propTypes = {
   movies: MOVIES,
-  onMovieClick: ON_MOVIE_CLICK,
+  onMovieClick: FUNCTION
 };
 
-export default MyList;
+const mapStateToProps = (state) => ({
+  movies: getMoviesByGenre(state),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onMovieClick(id) {
+    dispatch(fetchMovieById(id));
+    dispatch(fetchCommentsByMovieId(id));
+  }
+});
+export {MyList};
+export default connect(mapStateToProps, mapDispatchToProps)(MyList);

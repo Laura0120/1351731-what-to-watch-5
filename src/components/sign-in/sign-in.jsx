@@ -1,7 +1,7 @@
 import React, {PureComponent, createRef} from "react";
 import {connect} from "react-redux";
 import {login} from "../../store/api-actions";
-import {ON_SUBMIT} from '../../prop-type';
+import {FUNCTION} from '../../prop-type';
 
 class SignIn extends PureComponent {
   constructor(props) {
@@ -14,10 +14,8 @@ class SignIn extends PureComponent {
   }
 
   handleSubmit(evt) {
-    const {onSubmit} = this.props;
-
     evt.preventDefault();
-
+    const {onSubmit} = this.props;
     onSubmit({
       login: this.loginRef.current.value,
       password: this.passwordRef.current.value,
@@ -96,7 +94,7 @@ class SignIn extends PureComponent {
 }
 
 SignIn.propTypes = {
-  onSubmit: ON_SUBMIT
+  onSubmit: FUNCTION
 };
 
 const mapDispatchToProps = (dispatch) => ({

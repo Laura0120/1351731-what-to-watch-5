@@ -1,13 +1,21 @@
 import React from 'react';
 
-import {MOVIE, ON_MOVIE_CLICK, ON_MOUSE_OVER, ON_MOUSE_OUT, RENDER_PLAYER} from '../../prop-type';
+import {MOVIE, FUNCTION} from '../../prop-type';
 
 const MovieCard = (props) => {
   const {movie, onMovieClick, onMouseOver, onMouseOut, renderPlayer} = props;
   const {preview, title, video, id} = movie;
 
   return (
-    <article className='small-movie-card catalog__movies-card' id={id} onMouseOver={onMouseOver} onMouseOut={onMouseOut} onClick={onMovieClick}>
+    <article
+      className='small-movie-card catalog__movies-card'
+      id={id}
+      onMouseOver={onMouseOver}
+      onMouseOut={onMouseOut}
+      onClick={(evt) => {
+        evt.preventDefault();
+        onMovieClick(id);
+      }}>
       <div className='small-movie-card__image'>
         {renderPlayer(video, preview, id)}
       </div>
@@ -22,10 +30,10 @@ const MovieCard = (props) => {
 
 MovieCard.propTypes = {
   movie: MOVIE,
-  onMovieClick: ON_MOVIE_CLICK,
-  onMouseOver: ON_MOUSE_OVER,
-  onMouseOut: ON_MOUSE_OUT,
-  renderPlayer: RENDER_PLAYER,
+  onMovieClick: FUNCTION,
+  onMouseOver: FUNCTION,
+  onMouseOut: FUNCTION,
+  renderPlayer: FUNCTION,
 };
 
 export default MovieCard;

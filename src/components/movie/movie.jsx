@@ -1,35 +1,38 @@
 import React from 'react';
+import {connect} from "react-redux";
+import PropTypes from 'prop-types';
 
-import {MOVIE, REENDER_TABS} from '../../prop-type';
+import {MOVIE, AUTHORIZATION_STATUS, FUNCTION} from '../../prop-type';
+import {AuthorizationStatus} from "../../const";
+import {ActionCreator} from "../../store/action";
+import MoreLikeThis from '../more-like-this/more-like-this';
+import UserBlock from '../user-block/user-block';
+
 
 const Movie = (props)=> {
-  const {movie, renderTabs} = props;
-  const {poster, backgroundImage, title, year, genre} = movie;
+  const {openedMovie, renderTabs, comments, authorizationStatus, onAddReviewClick} = props;
+  const {poster, backgroundImage, title, year, genre, id} = openedMovie;
 
   return (
     <React.Fragment>
       <section className='movie-card movie-card--full'>
         <div className='movie-card__hero'>
           <div className='movie-card__bg'>
-            <img src={backgroundImage } alt={title} />
+            <img src={backgroundImage} alt={title} />
           </div>
 
           <h1 className='visually-hidden'>WTW</h1>
 
           <header className='page-header movie-card__head'>
             <div className='logo'>
-              <a href='main.html' className='logo__link'>
+              <a href='/' className='logo__link'>
                 <span className='logo__letter logo__letter--1'>W</span>
                 <span className='logo__letter logo__letter--2'>T</span>
                 <span className='logo__letter logo__letter--3'>W</span>
               </a>
             </div>
 
-            <div className='user-block'>
-              <div className='user-block__avatar'>
-                <img src='img/avatar.jpg' alt='User avatar' width='63' height='63' />
-              </div>
-            </div>
+            <UserBlock/>
           </header>
 
           <div className='movie-card__wrap'>
@@ -53,9 +56,10 @@ const Movie = (props)=> {
                   </svg>
                   <span>My list</span>
                 </button>
-                <a href='add-review' className='btn movie-card__button'>
-                  Add review
-                </a>
+                {authorizationStatus === AuthorizationStatus.AUTH ?
+                  <a href='' className='btn movie-card__button' onClick={(evt)=>onAddReviewClick(evt, id)} >
+                    Add review
+                  </a> : ``}
               </div>
             </div>
           </div>
@@ -67,68 +71,14 @@ const Movie = (props)=> {
               <img src={poster} alt={title} width='218' height='327' />
             </div>
 
-            {renderTabs(movie)}
+            {renderTabs(openedMovie, comments)}
 
           </div>
         </div>
       </section>
 
       <div className='page-content'>
-        <section className='catalog catalog--like-this'>
-          <h2 className='catalog__title'>More like this</h2>
-
-          <div className='catalog__movies-list'>
-            <article className='small-movie-card catalog__movies-card'>
-              <div className='small-movie-card__image'>
-                <img
-                  src='img/fantastic-beasts-the-crimes-of-grindelwald.jpg'
-                  alt='Fantastic Beasts: The Crimes of Grindelwald'
-                  width='280'
-                  height='175'
-                />
-              </div>
-              <h3 className='small-movie-card__title'>
-                <a className='small-movie-card__link' href='movie-page.html'>
-                  Fantastic Beasts: The Crimes of Grindelwald
-                </a>
-              </h3>
-            </article>
-
-            <article className='small-movie-card catalog__movies-card'>
-              <div className='small-movie-card__image'>
-                <img src='img/bohemian-rhapsody.jpg' alt='Bohemian Rhapsody' width='280' height='175' />
-              </div>
-              <h3 className='small-movie-card__title'>
-                <a className='small-movie-card__link' href='movie-page.html'>
-                  Bohemian Rhapsody
-                </a>
-              </h3>
-            </article>
-
-            <article className='small-movie-card catalog__movies-card'>
-              <div className='small-movie-card__image'>
-                <img src='img/macbeth.jpg' alt='Macbeth' width='280' height='175' />
-              </div>
-              <h3 className='small-movie-card__title'>
-                <a className='small-movie-card__link' href='movie-page.html'>
-                  Macbeth
-                </a>
-              </h3>
-            </article>
-
-            <article className='small-movie-card catalog__movies-card'>
-              <div className='small-movie-card__image'>
-                <img src='img/aviator.jpg' alt='Aviator' width='280' height='175' />
-              </div>
-              <h3 className='small-movie-card__title'>
-                <a className='small-movie-card__link' href='movie-page.html'>
-                  Aviator
-                </a>
-              </h3>
-            </article>
-          </div>
-        </section>
-
+        <MoreLikeThis />
         <footer className='page-footer'>
           <div className='logo'>
             <a href='main.html' className='logo__link logo__link--light'>
@@ -148,8 +98,24 @@ const Movie = (props)=> {
 };
 
 Movie.propTypes = {
-  movie: MOVIE,
-  renderTabs: REENDER_TABS,
+  openedMovie: MOVIE,
+  renderTabs: FUNCTION,
+  comments: PropTypes.array.isRequired,
+  authorizationStatus: AUTHORIZATION_STATUS,
+  onAddReviewClick: FUNCTION
 };
 
-export default Movie;
+const mapStateToProps = (state) => ({
+  openedMovie: state.DATA.openedMovie,
+  comments: state.DATA.openMovieComments,
+  authorizationStatus: state.USER.authorizationStatus,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onAddReviewClick(evt, id) {
+    evt.preventDefault();
+    dispatch(ActionCreator.redirectToRoute(`${id}/review`));
+  }
+});
+export {Movie};
+export default connect(mapStateToProps, mapDispatchToProps)(Movie);

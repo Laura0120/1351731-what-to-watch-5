@@ -7,13 +7,13 @@ import {composeWithDevTools} from "redux-devtools-extension";
 import {createAPI} from "./services/api";
 import App from './components/app/app';
 import rootReducer from "./store/reducers/root-reducer";
-import {fetchMovies, checkAuth} from "./store/api-actions";
+import {fetchMovies, checkAuth, fetchPromoMovie} from "./store/api-actions";
 import {ActionCreator} from "./store/action";
 import {AuthorizationStatus} from "./const";
 import {redirect} from "./store/middlewares/redirect";
 
 const api = createAPI(
-    () => store.dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH))
+    () => store.dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.NO_AUTH))
 );
 
 const store = createStore(
@@ -24,6 +24,7 @@ const store = createStore(
     )
 );
 store.dispatch(fetchMovies());
+store.dispatch(fetchPromoMovie());
 store.dispatch(checkAuth());
 
 ReactDom.render(

@@ -3,19 +3,19 @@ import {Route, Redirect} from "react-router-dom";
 import {connect} from "react-redux";
 import {AuthorizationStatus} from "../../const";
 
-import {AUTHORIZATION_STATUS, RENDER, PATH, EXACT} from '../../prop-type';
+import {AUTHORIZATION_STATUS, COMPONENT, PATH, EXACT} from '../../prop-type';
 
 const PrivateRoute = (props) => {
-  const {render, path, exact, authorizationStatus} = props;
+  const {component, path, exact, authorizationStatus} = props;
 
   return (
     <Route
       path={path}
       exact={exact}
-      render={(routeProps) => {
+      render={() => {
         return (
           authorizationStatus === AuthorizationStatus.AUTH
-            ? render(routeProps)
+            ? component
             : <Redirect to={`/login`} />
         );
       }}
@@ -25,7 +25,7 @@ const PrivateRoute = (props) => {
 
 PrivateRoute.propTypes = {
   authorizationStatus: AUTHORIZATION_STATUS,
-  render: RENDER,
+  component: COMPONENT,
   path: PATH,
   exact: EXACT
 };

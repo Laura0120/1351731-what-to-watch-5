@@ -1,10 +1,10 @@
 import React from 'react';
 
 import {TABS_NAME} from '../../const';
-import {CURRENT_TAB, MOVIE, ON_CHANGE_TAB} from '../../prop-type';
+import {CURRENT_TAB, MOVIE, FUNCTION, COMMENTS} from '../../prop-type';
 
 const Tabs = (props) => {
-  const {currentTab, movie, onChangeTab} = props;
+  const {currentTab, movie, onChangeTab, comments} = props;
   const {rating, description, director, runtime, genre, year} = movie;
   const {ratingScore, countVotesRating} = rating;
 
@@ -72,16 +72,18 @@ const Tabs = (props) => {
         return (
           <div className="movie-card__reviews movie-card__row">
             <div className="movie-card__reviews-col">
-              <div className="review">
-                <blockquote className="review__quote">
-                  <p className="review__text">Discerning travellers and Wes Anderson fans will luxuriate in the glorious Mittel-European kitsch of one of the director`s funniest and most exquisitely designed movies in years.</p>
-                  <footer className="review__details">
-                    <cite className="review__author">Kate Muir</cite>
-                    <time className="review__date">December 24, 2016</time>
-                  </footer>
-                </blockquote>
-                <div className="review__rating">8,9</div>
-              </div>
+              {comments.map((comment) => (
+                <div className="review" key={comment.id}>
+                  <blockquote className="review__quote">
+                    <p className="review__text">{comment.comment}</p>
+                    <footer className="review__details">
+                      <cite className="review__author">{comment.user.name}</cite>
+                      <time className="review__date">{comment.date}</time>
+                    </footer>
+                  </blockquote>
+                  <div className="review__rating">{comment.rating}</div>
+                </div>
+              ))}
             </div>
           </div>
         );
@@ -121,7 +123,8 @@ const Tabs = (props) => {
 Tabs.propTypes = {
   movie: MOVIE,
   currentTab: CURRENT_TAB,
-  onChangeTab: ON_CHANGE_TAB,
+  onChangeTab: FUNCTION,
+  comments: COMMENTS,
 };
 
 export default Tabs;

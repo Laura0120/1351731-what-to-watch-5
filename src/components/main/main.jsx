@@ -1,17 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from "react-redux";
-import {AuthorizationStatus} from "../../const";
 
-import {ON_MOVIE_CLICK, ON_CHANGE_GENRE, MOVIES, MOVIE, GENRE, AUTHORIZATION_STATUS, ON_MY_LIST_BUTTON_CLICK} from '../../prop-type';
+import {fetchMovieById, fetchCommentsByMovieId} from "../../store/api-actions";
+import {getAllMovies, getMoviesByGenre, getGenre} from '../../store/selectors';
+import {ActionCreator} from "../../store/action";
+import {FUNCTION, MOVIES, GENRE} from '../../prop-type';
 import GenreList from '../genre-list/genre-list';
-import MovieList from '../movie-list/movie-list';
-import withVideoPlayer from '../../hocs/with-video-player/with-video-player';
+import MovieListWrapped from '../movie-list/movie-list';
+import UserBlock from '../user-block/user-block';
 
-const MovieListWrapped = withVideoPlayer(MovieList);
 
 const Main = (props) => {
-  const {allMovies, currentMovies, promoMovie, activeGenre, onChangeGenre, onMovieClick, authorizationStatus, onMyListButtonClick} = props;
+  const {allMovies, currentMovies, promoMovie, activeGenre, onChangeGenre, onMovieClick} = props;
   const {poster, backgroundImage, title, genre, year} = promoMovie || {};
 
   return (
@@ -32,17 +33,7 @@ const Main = (props) => {
             </a>
           </div>
 
-          <div className='user-block'>
-            {authorizationStatus === AuthorizationStatus.AUTH ?
-              <div className='user-block__avatar' onClick={onMyListButtonClick}>
-                <img src='img/avatar.jpg' alt='User avatar' width='63' height='63' />
-              </div> :
-              <div className="user-block">
-                <a href="login" className="user-block__link">Sign in</a>
-              </div>
-            }
-
-          </div>
+          <UserBlock/>
         </header>
 
         <div className='movie-card__wrap'>
@@ -85,11 +76,6 @@ const Main = (props) => {
 
           <MovieListWrapped movies={currentMovies} onMovieClick={onMovieClick}/>
 
-          <div className='catalog__more'>
-            <button className='catalog__button' type='button'>
-              Show more
-            </button>
-          </div>
         </section>
 
         <footer className='page-footer'>
@@ -113,17 +99,28 @@ const Main = (props) => {
 Main.propTypes = {
   currentMovies: MOVIES,
   allMovies: PropTypes.array.isRequired,
-  promoMovie: MOVIE,
+  promoMovie: PropTypes.object.isRequired,
   activeGenre: GENRE,
-  onChangeGenre: ON_CHANGE_GENRE,
-  onMovieClick: ON_MOVIE_CLICK,
-  authorizationStatus: AUTHORIZATION_STATUS,
-  onMyListButtonClick: ON_MY_LIST_BUTTON_CLICK,
+  onChangeGenre: FUNCTION,
+  onMovieClick: FUNCTION,
 };
 
 const mapStateToProps = (state) => ({
-  authorizationStatus: state.USER.authorizationStatus,
+  allMovies: getAllMovies(state),
+  currentMovies: getMoviesByGenre(state),
+  activeGenre: getGenre(state),
+  promoMovie: state.DATA.promoMovie
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onMovieClick(id) {
+    dispatch(fetchMovieById(id));
+    dispatch(fetchCommentsByMovieId(id));
+  },
+  onChangeGenre(activeGenre) {
+    dispatch(ActionCreator.changeGenre(activeGenre));
+  },
 });
 
 export {Main};
-export default connect(mapStateToProps)(Main);
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

@@ -22,12 +22,13 @@ const withTabs = (Component) => {
     render() {
       return <Component
         {...this.props}
-        renderTabs = {(movie) => {
+        renderTabs = {(movie, comments) => {
           return (
             <Tabs
               currentTab = {this.state.currentTab}
               onChangeTab = {this.handleTabChange}
               movie = {movie}
+              comments={comments}
             />
           );
         }}
