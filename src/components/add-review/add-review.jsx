@@ -34,7 +34,7 @@ const AddReview = (props) => {
                 <a href='' className='breadcrumbs__link'
                   onClick={(evt) => {
                     evt.preventDefault();
-                    onMoviePageClick(id)
+                    onMoviePageClick(id);
                   }}>
                   {title}
                 </a>
