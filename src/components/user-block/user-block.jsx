@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from "react-redux";
 
 import {AuthorizationStatus, AppRoute} from "../../const";
+import {fetchFavorite} from "../../store/api-actions";
 import {ActionCreator} from "../../store/action";
 import {FUNCTION, AUTHORIZATION_STATUS} from '../../prop-type';
 
@@ -32,6 +33,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   onMyListButtonClick() {
+    dispatch(fetchFavorite());
     dispatch(ActionCreator.redirectToRoute(AppRoute.MY_LIST));
   }
 });

@@ -19,9 +19,7 @@ export const PATH = PropTypes.string.isRequired;
 export const AUTHORIZATION_STATUS = PropTypes.string.isRequired;
 export const COMPONENT = PropTypes.object.isRequired;
 export const STARRING = PropTypes.array.isRequired;
-export const EXACT = PropTypes.bool.isRequired;
-export const IS_PLAING = PropTypes.bool.isRequired;
-export const IS_FAVORITE = PropTypes.bool.isRequired;
+export const BOOLEAN = PropTypes.bool.isRequired;
 export const FUNCTION = PropTypes.func.isRequired;
 
 
@@ -44,7 +42,7 @@ export const MOVIE = PropTypes.shape({
   runtime: RUNTIME,
   genre: GENRE,
   description: DISCRIPTION,
-  isFavorite: IS_FAVORITE,
+  isFavorite: BOOLEAN,
 }).isRequired;
 
 export const MOVIES = PropTypes.arrayOf(MOVIE).isRequired;

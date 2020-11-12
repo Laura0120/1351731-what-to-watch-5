@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from "react-redux";
 
-import {fetchMovieById, fetchCommentsByMovieId} from "../../store/api-actions";
+import {fetchMovieById, fetchCommentsByMovieId, changeFavorite} from "../../store/api-actions";
 import {getAllMovies, getMoviesByGenre, getGenre} from '../../store/selectors';
 import {ActionCreator} from "../../store/action";
 import {FUNCTION, MOVIES, GENRE} from '../../prop-type';
@@ -12,8 +12,8 @@ import UserBlock from '../user-block/user-block';
 
 
 const Main = (props) => {
-  const {allMovies, currentMovies, promoMovie, activeGenre, onChangeGenre, onMovieClick} = props;
-  const {poster, backgroundImage, title, genre, year} = promoMovie || {};
+  const {allMovies, currentMovies, promoMovie, activeGenre, onChangeGenre, onMovieClick, onFavoriteClick, onPlayClick} = props;
+  const {poster, backgroundImage, title, genre, year, id, isFavorite} = promoMovie || {};
 
   return (
     <React.Fragment>
@@ -50,13 +50,13 @@ const Main = (props) => {
               </p>
 
               <div className='movie-card__buttons'>
-                <button className='btn btn--play movie-card__button' type='button'>
+                <button className='btn btn--play movie-card__button' type='button' onClick={() => onPlayClick(id)}>
                   <svg viewBox='0 0 19 19' width='19' height='19'>
                     <use xlinkHref='#play-s'></use>
                   </svg>
                   <span>Play</span>
                 </button>
-                <button className='btn btn--list movie-card__button' type='button'>
+                <button className='btn btn--list movie-card__button' type='button' onClick={() => onFavoriteClick(id, isFavorite)}>
                   <svg viewBox='0 0 19 20' width='19' height='20'>
                     <use xlinkHref='#add'></use>
                   </svg>
@@ -103,6 +103,8 @@ Main.propTypes = {
   activeGenre: GENRE,
   onChangeGenre: FUNCTION,
   onMovieClick: FUNCTION,
+  onFavoriteClick: FUNCTION,
+  onPlayClick: FUNCTION,
 };
 
 const mapStateToProps = (state) => ({
@@ -119,6 +121,12 @@ const mapDispatchToProps = (dispatch) => ({
   },
   onChangeGenre(activeGenre) {
     dispatch(ActionCreator.changeGenre(activeGenre));
+  },
+  onFavoriteClick(id, isFavorite) {
+    dispatch(changeFavorite(id, isFavorite));
+  },
+  onPlayClick(id) {
+    dispatch(ActionCreator.redirectToRoute(`/player/${id}`));
   },
 });
 

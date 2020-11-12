@@ -1,31 +1,33 @@
-const DEFAULT_GENRE = `All genres`;
-const COUNT_SILIMAR_MOVIE = 4;
-const COUNT_MOVIE_PER_STEP = 8;
+export const DEFAULT_GENRE = `All genres`;
+export const COUNT_SILIMAR_MOVIE = 4;
+export const COUNT_MOVIE_PER_STEP = 8;
+export const MAX_COUNT_GENRE = 10;
 
-const TABS_NAME = {
+export const TABS_NAME = {
   OVERVIEW: `Overview`,
   DETAILS: `Details`,
   REVIEWS: `Reviews`
 };
 
-const AuthorizationStatus = {
+export const AuthorizationStatus = {
   AUTH: `AUTH`,
   NO_AUTH: `NO_AUTH`,
 };
 
-const AppRoute = {
+export const AppRoute = {
   MAIN: `/`,
   LOGIN: `/login`,
   MY_LIST: `/mylist`,
   FILM_ID: `/films/:id`,
   FILM_ID_REVIEW: `/films/:id/review`,
+  PLAYER_ID: `/player/:id`,
 };
 
-const APIRoute = {
+export const APIRoute = {
   FILMS: `/films`,
   LOGIN: `/login`,
   PROMO: `/films/promo`,
+  FAVORITE: `/favorite`,
 };
 
-
-export {DEFAULT_GENRE, TABS_NAME, AuthorizationStatus, AppRoute, APIRoute, COUNT_SILIMAR_MOVIE, COUNT_MOVIE_PER_STEP};
+export const RATING_STARS = [1, 2, 3, 4, 5];

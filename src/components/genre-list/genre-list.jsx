@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 
 import {FUNCTION, GENRE} from '../../prop-type';
+import {MAX_COUNT_GENRE} from '../../const';
 
 const addGenre = (genres, movie) => {
   genres.push(movie.genre);
@@ -24,7 +25,7 @@ const GenreList = (props) => {
         onChangeGenre(selectedGenre.textContent);
       }}>
 
-      {genreList.map((genre) => (
+      {genreList.slice(0, Math.min(genreList.length, MAX_COUNT_GENRE)).map((genre) => (
         <li key={genre} className={genre === activeGenre ? `catalog__genres-item catalog__genres-item--active` : `catalog__genres-item `}>
           <a href="#" className="catalog__genres-link">{genre}</a>
         </li>
