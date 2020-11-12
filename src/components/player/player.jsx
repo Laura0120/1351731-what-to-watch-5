@@ -22,18 +22,27 @@ class Player extends PureComponent {
     this._onPlayPauseClickHandle = this._onPlayPauseClickHandle.bind(this);
     this._onFullScreenRequestHandle = this._onFullScreenRequestHandle.bind(this);
     this._onFullScreenExitHandle = this._onFullScreenExitHandle.bind(this);
+    this._onProgressVideoHandle = this._onProgressVideoHandle.bind(this);
   }
 
+  _onProgressVideoHandle() {
+    const videoElement = this._videoRef.current;
+    this.setState({
+      progressVideo: videoElement.currentTime,
+    });
+  }
   componentDidMount() {
     const videoElement = this._videoRef.current;
 
     videoElement.oncanplaythrough = () => this.setState({
       runtimeVideo: videoElement.duration
     });
+    videoElement.addEventListener(`timeupdate`, this._onProgressVideoHandle);
+  }
 
-    videoElement.onloadedmetadata = () => this.setState({
-      progressVideo: videoElement.currentTime,
-    });
+  componentWillUnmount() {
+    const videoElement = this._videoRef.current;
+    videoElement.removeEventListener(`timeupdate`, this._onProgressVideoHandle);
   }
 
   _onPlayPauseClickHandle() {
@@ -79,7 +88,7 @@ class Player extends PureComponent {
 
     return (
       <div className='player'>
-        <video src={video} ref={this._videoRef} className='player__video' autoPlay={isPlaying} muted></video>
+        <video src={video} ref={this._videoRef} className='player__video' autoPlay={isPlaying}></video>
 
         <button type='button' className='player__exit' onClick={() => onExitClick(id)}>
           Exit
