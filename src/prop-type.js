@@ -1,11 +1,5 @@
 import PropTypes from 'prop-types';
 
-export const ID = PropTypes.number.isRequired;
-export const YEAR = PropTypes.number.isRequired;
-export const RUNTIME = PropTypes.number.isRequired;
-export const COUNT_VOTER_RATING = PropTypes.number.isRequired;
-export const RENDERED_MOVIE_COUNT = PropTypes.number.isRequired;
-export const RATING_SCORE = PropTypes.number.isRequired;
 export const POSTER = PropTypes.string.isRequired;
 export const COLOR = PropTypes.string.isRequired;
 export const VIDEO = PropTypes.string.isRequired;
@@ -21,10 +15,10 @@ export const COMPONENT = PropTypes.object.isRequired;
 export const STARRING = PropTypes.array.isRequired;
 export const BOOLEAN = PropTypes.bool.isRequired;
 export const FUNCTION = PropTypes.func.isRequired;
-
+export const NUMBER = PropTypes.number.isRequired;
 
 export const MOVIE = PropTypes.shape({
-  id: ID,
+  id: NUMBER,
   poster: POSTER,
   preview: POSTER,
   backgroundImage: POSTER,
@@ -33,13 +27,13 @@ export const MOVIE = PropTypes.shape({
   previewVideo: VIDEO,
   title: TITLE,
   rating: PropTypes.shape({
-    ratingScore: RATING_SCORE,
-    countVotesRating: COUNT_VOTER_RATING,
+    ratingScore: NUMBER,
+    countVotesRating: NUMBER,
   }),
   director: DIRECTOR,
   starring: STARRING,
-  year: YEAR,
-  runtime: RUNTIME,
+  year: NUMBER,
+  runtime: NUMBER,
   genre: GENRE,
   description: DISCRIPTION,
   isFavorite: BOOLEAN,
@@ -48,12 +42,12 @@ export const MOVIE = PropTypes.shape({
 export const MOVIES = PropTypes.arrayOf(MOVIE).isRequired;
 
 const COMMENT = PropTypes.shape({
-  id: ID,
+  id: NUMBER,
   user: PropTypes.shape({
-    id: ID,
+    id: NUMBER,
     name: PropTypes.string.isRequired
   }),
-  rating: RATING_SCORE,
+  rating: NUMBER,
   comment: DISCRIPTION,
   date: PropTypes.string.isRequired
 }).isRequired;

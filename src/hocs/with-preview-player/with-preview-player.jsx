@@ -1,11 +1,11 @@
 import React, {PureComponent} from "react";
 
-import VideoPlayer from "../../components/video-player/video-player";
+import VideoPlayer from "../../components/preview-player/preview-player";
 import ShowMore from "../../components/show-more/show-more";
 import {COUNT_MOVIE_PER_STEP} from "../../const";
 
-const withActivePlayer = (Component) => {
-  class WithActivePlayer extends PureComponent {
+const withPreviewPlayer = (Component) => {
+  class WithPreviewPlayer extends PureComponent {
     constructor(props) {
       super(props);
 
@@ -48,8 +48,8 @@ const withActivePlayer = (Component) => {
     }
   }
 
-  return WithActivePlayer;
+  return WithPreviewPlayer;
 
 };
 
-export default withActivePlayer;
+export default withPreviewPlayer;

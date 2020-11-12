@@ -2,7 +2,7 @@ import React, {PureComponent, createRef} from "react";
 import {connect} from "react-redux";
 
 import {addReview} from "../../store/api-actions";
-import {FUNCTION, ID, BOOLEAN} from '../../prop-type';
+import {FUNCTION, NUMBER, BOOLEAN} from '../../prop-type';
 import {RATING_STARS} from '../../const';
 import {ActionCreator} from '../../store/action';
 
@@ -93,7 +93,7 @@ class AddReviewForm extends PureComponent {
 
 AddReviewForm.propTypes = {
   onSubmit: FUNCTION,
-  id: ID,
+  id: NUMBER,
   isLoading: BOOLEAN
 };
 const mapStateToProps = (state) => ({
