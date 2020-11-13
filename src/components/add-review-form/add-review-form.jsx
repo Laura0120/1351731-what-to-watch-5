@@ -1,7 +1,10 @@
 import React, {PureComponent, createRef} from "react";
 import {connect} from "react-redux";
+
 import {addReview} from "../../store/api-actions";
-import {FUNCTION, ID} from '../../prop-type';
+import {FUNCTION, NUMBER, BOOLEAN} from '../../prop-type';
+import {RATING_STARS} from '../../const';
+import {ActionCreator} from '../../store/action';
 
 class AddReviewForm extends PureComponent {
   constructor(props) {
@@ -11,7 +14,7 @@ class AddReviewForm extends PureComponent {
     this.commentRef = createRef();
 
     this.state = {
-      validity: false,
+      validity: false
     };
 
     this._handleSubmit = this._handleSubmit.bind(this);
@@ -20,6 +23,9 @@ class AddReviewForm extends PureComponent {
 
   _handleSubmit(evt) {
     evt.preventDefault();
+    this.setState(() => ({
+      isSubmit: true,
+    }));
     const {onSubmit, id} = this.props;
     onSubmit(id, {
       rating: this.ratingRef.current.value,
@@ -35,66 +41,29 @@ class AddReviewForm extends PureComponent {
 
   render() {
     const {validity} = this.state;
+    const {isLoading} = this.props;
     return (
-      <form action='' className='add-review__form' onSubmit={this._handleSubmit}>
+      <form action='' className='add-review__form' onSubmit={this._handleSubmit}
+      >
         <div className='rating'>
           <div className='rating__stars'>
-            <input className='rating__input'
-              id='star-1'
-              type='radio'
-              name='rating'
-              value='1'
-              ref={this.ratingRef}
-              required
-              onChange={this._handleInputChange}
-            />
-            <label className='rating__label' htmlFor='star-1'>
-              Rating 1
-            </label>
-
-            <input className='rating__input'
-              id='star-2'
-              type='radio'
-              name='rating'
-              value='2'
-              onChange={this._handleInputChange}
-            />
-            <label className='rating__label' htmlFor='star-2'>
-              Rating 2
-            </label>
-
-            <input className='rating__input'
-              id='star-3'
-              type='radio'
-              name='rating'
-              value='3'
-              onChange={this._handleInputChange}
-            />
-            <label className='rating__label' htmlFor='star-3'>
-              Rating 3
-            </label>
-
-            <input className='rating__input'
-              id='star-4'
-              type='radio'
-              name='rating'
-              value='4'
-              onChange={this._handleInputChange}
-            />
-            <label className='rating__label' htmlFor='star-4'>
-              Rating 4
-            </label>
-
-            <input className='rating__input'
-              id='star-5'
-              type='radio'
-              name='rating'
-              value='5'
-              onChange={this._handleInputChange}
-            />
-            <label className='rating__label' htmlFor='star-5'>
-              Rating 5
-            </label>
+            {RATING_STARS.map((star) => (
+              <React.Fragment key={star}>
+                <input className='rating__input'
+                  id={`star-${star}`}
+                  type='radio'
+                  name='rating'
+                  value={star}
+                  ref={this.ratingRef}
+                  required
+                  onChange={this._handleInputChange}
+                  disabled={isLoading}
+                />
+                <label className='rating__label' htmlFor={`star-${star}`}>
+                  Rating {star}
+                </label>
+              </React.Fragment>
+            ))};
           </div>
         </div>
 
@@ -108,10 +77,11 @@ class AddReviewForm extends PureComponent {
             maxLength='400'
             required
             onChange={this._handleInputChange}
+            disabled={isLoading}
           >
           </textarea>
           <div className='add-review__submit'>
-            <button className='add-review__btn' type='submit' disabled={!validity}>
+            <button className='add-review__btn' type='submit' disabled={!validity || isLoading}>
               Post
             </button>
           </div>
@@ -123,15 +93,20 @@ class AddReviewForm extends PureComponent {
 
 AddReviewForm.propTypes = {
   onSubmit: FUNCTION,
-  id: ID
+  id: NUMBER,
+  isLoading: BOOLEAN
 };
+const mapStateToProps = (state) => ({
+  isLoading: state.APP_STATE.isLoading,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   onSubmit(id, comment) {
+    dispatch(ActionCreator.postingComment(true));
     dispatch(addReview(id, comment));
   }
 });
 
 export {AddReviewForm};
 
-export default connect(null, mapDispatchToProps)(AddReviewForm);
+export default connect(mapStateToProps, mapDispatchToProps)(AddReviewForm);

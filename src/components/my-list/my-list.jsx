@@ -2,7 +2,6 @@ import React from 'react';
 import {connect} from "react-redux";
 
 import {FUNCTION, MOVIES} from '../../prop-type';
-import {getMoviesByGenre} from '../../store/selectors';
 import MovieListWrapped from '../movie-list/movie-list';
 import UserBlock from '../user-block/user-block';
 import {fetchMovieById, fetchCommentsByMovieId} from "../../store/api-actions";
@@ -55,7 +54,7 @@ MyList.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  movies: getMoviesByGenre(state),
+  movies: state.DATA.favoriteMovies,
 });
 
 const mapDispatchToProps = (dispatch) => ({

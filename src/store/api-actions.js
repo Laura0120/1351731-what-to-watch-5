@@ -1,34 +1,42 @@
 import {ActionCreator} from "./action";
 import {AuthorizationStatus, APIRoute} from "../const";
+import {getErrorMessage} from "../store/error-message";
 
 
-const fetchMovies = () => (dispatch, _getState, api) => (
+export const fetchMovies = () => (dispatch, _getState, api) => (
   api.get(APIRoute.FILMS)
     .then(({data}) => {
       dispatch(ActionCreator.loadMovies(data));
     })
 );
 
-const fetchMovieById = (id) => (dispatch, _getState, api) => (
+export const fetchMovieById = (id) => (dispatch, _getState, api) => (
   api.get(`/films/${id}`)
     .then(({data}) => {
       dispatch(ActionCreator.loadMovieById(data));
-    })
-    .then(() => dispatch(ActionCreator.redirectToRoute(`/films/${id}`))));
+      dispatch(ActionCreator.redirectToRoute(`/films/${id}`));
+    }));
 
-const fetchPromoMovie = () => (dispatch, _getState, api) => (
+export const fetchPromoMovie = () => (dispatch, _getState, api) => (
   api.get(APIRoute.PROMO)
     .then(({data}) => {
       dispatch(ActionCreator.loadPromoMovie(data));
     }));
 
-const fetchCommentsByMovieId = (id) => (dispatch, _getState, api) => (
+export const fetchFavorite = () => (dispatch, _getState, api) => (
+  api.get(APIRoute.FAVORITE)
+    .then(({data}) => {
+      dispatch(ActionCreator.loadFavorite(data));
+    })
+);
+
+export const fetchCommentsByMovieId = (id) => (dispatch, _getState, api) => (
   api.get(`/comments/${id}`)
     .then(({data}) => {
       dispatch(ActionCreator.loadCommentsByMovieId(data));
     }));
 
-const checkAuth = () => (dispatch, _getState, api) => (
+export const checkAuth = () => (dispatch, _getState, api) => (
   api.get(APIRoute.LOGIN)
     .then(() => dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH)))
     .catch((err) => {
@@ -36,17 +44,31 @@ const checkAuth = () => (dispatch, _getState, api) => (
     })
 );
 
-const login = ({login: email, password}) => (dispatch, _getState, api) => (
+export const login = ({login: email, password}) => (dispatch, _getState, api) => (
   api.post(APIRoute.LOGIN, {email, password})
-    .then(() => dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH)))
-    .then(() => dispatch(ActionCreator.redirectToRoute(``)))
-);
+    .then(() => {
+      dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH));
+      dispatch(ActionCreator.redirectToRoute(``));
+    }));
 
-const addReview = (id, {rating, comment}) => (dispatch, _getState, api) => (
+export const addReview = (id, {rating, comment}) => (dispatch, _getState, api) => (
   api.post(`/comments/${id}`, {rating, comment})
-    .then(() => dispatch(ActionCreator.redirectToRoute(`/films/${id}`)))
+    .then(() => {
+      dispatch(ActionCreator.redirectToRoute(`/films/${id}`));
+      dispatch(ActionCreator.postingComment(false));
+    })
+    .catch((err) => {
+      getErrorMessage(err);
+      dispatch(ActionCreator.postingComment(false));
+    })
 );
 
+export const changeFavorite = (id, status) => (_dispatch, _getState, api) => (
+  api.post(`/favorite/${id}/${status ? 0 : 1}`)
+  .then(() => {})
+  .catch((err) => {
+    getErrorMessage(err);
+  })
+);
 
-export {fetchMovies, checkAuth, login, fetchMovieById, fetchPromoMovie, fetchCommentsByMovieId, addReview};
 

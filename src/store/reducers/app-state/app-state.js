@@ -4,6 +4,7 @@ import {DEFAULT_GENRE} from '../../../const';
 
 const initialState = {
   genre: DEFAULT_GENRE,
+  isLoading: false
 };
 
 const appState = (state = initialState, action) => {
@@ -11,6 +12,10 @@ const appState = (state = initialState, action) => {
     case ActionType.CHANGE_GENRE:
       return extend(state, {
         genre: action.payload,
+      });
+    case ActionType.POSTING_COMMENT:
+      return extend(state, {
+        isLoading: action.payload,
       });
   }
 

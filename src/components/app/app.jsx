@@ -7,7 +7,7 @@ import Main from '../main/main';
 import Movie from '../movie/movie';
 import AddReview from '../add-review/add-review';
 import MyList from '../my-list/my-list';
-import Player from '../player/player';
+import PlayerWrapped from '../player/player';
 import SignIn from '../sign-in/sign-in';
 import withTabs from '../../hocs/with-tabs/with-tabs';
 import PrivateRoute from "../private-route/private-route";
@@ -25,7 +25,7 @@ const App = () => {
         <PrivateRoute exact path={AppRoute.MY_LIST} component={<MyList/>}/>
         <PrivateRoute exact path={AppRoute.FILM_ID_REVIEW} component={<AddReview/>}/>
         <Route exact path={AppRoute.FILM_ID}><MovieWrapped /></Route>
-        <Route exact path='/player/:id'><Player/></Route>
+        <Route exact path={AppRoute.PLAYER_ID}><PlayerWrapped/></Route>
       </Switch>
     </BrowserRouter>
   );

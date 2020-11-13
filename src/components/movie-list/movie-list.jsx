@@ -1,8 +1,8 @@
 import React from 'react';
 
-import {MOVIES, FUNCTION, RENDERED_MOVIE_COUNT} from '../../prop-type';
+import {MOVIES, FUNCTION, NUMBER} from '../../prop-type';
 import MovieCard from '../movie-card/movie-card';
-import withVideoPlayer from '../../hocs/with-video-player/with-video-player';
+import withPreviewPlayer from '../../hocs/with-preview-player/with-preview-player';
 
 const MovieList = (props) => {
   const {movies, renderedMovieCount, renderPlayer, renderShowMore, onMovieClick, onMouseOver, onMouseOut} = props;
@@ -34,11 +34,11 @@ MovieList.propTypes = {
   renderPlayer: FUNCTION,
   onMouseOver: FUNCTION,
   onMouseOut: FUNCTION,
-  renderedMovieCount: RENDERED_MOVIE_COUNT,
+  renderedMovieCount: NUMBER,
   renderShowMore: FUNCTION
 };
 
-const MovieListWrapped = withVideoPlayer(MovieList);
+const MovieListWrapped = withPreviewPlayer(MovieList);
 
 export default MovieListWrapped;
 

@@ -1,5 +1,5 @@
 import React, {PureComponent, createRef} from "react";
-import {VIDEO, POSTER, IS_PLAING} from '../../prop-type';
+import {VIDEO, POSTER, BOOLEAN} from '../../prop-type';
 class VideoPlayer extends PureComponent {
   constructor(props) {
     super(props);
@@ -17,11 +17,6 @@ class VideoPlayer extends PureComponent {
     video.height = `175`;
   }
 
-  componentWillUnmount() {
-    const video = this._videoRef.current;
-
-    video.oncaplaythrough = null;
-  }
 
   render() {
     return <video muted ref={this._videoRef} > </video>;
@@ -42,7 +37,7 @@ class VideoPlayer extends PureComponent {
 VideoPlayer.propTypes = {
   src: VIDEO,
   preview: POSTER,
-  isPlaying: IS_PLAING,
+  isPlaying: BOOLEAN,
 };
 
 export default VideoPlayer;

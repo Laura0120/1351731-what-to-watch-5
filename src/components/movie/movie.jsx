@@ -2,16 +2,17 @@ import React from 'react';
 import {connect} from "react-redux";
 import PropTypes from 'prop-types';
 
-import {MOVIE, AUTHORIZATION_STATUS, FUNCTION} from '../../prop-type';
+import {MOVIE, FUNCTION, AUTHORIZATION_STATUS} from '../../prop-type';
 import {AuthorizationStatus} from "../../const";
 import {ActionCreator} from "../../store/action";
+import {changeFavorite} from "../../store/api-actions";
 import MoreLikeThis from '../more-like-this/more-like-this';
 import UserBlock from '../user-block/user-block';
 
 
 const Movie = (props)=> {
-  const {openedMovie, renderTabs, comments, authorizationStatus, onAddReviewClick} = props;
-  const {poster, backgroundImage, title, year, genre, id} = openedMovie;
+  const {openedMovie, renderTabs, comments, authorizationStatus, onAddReviewClick, onPlayClick, onFavoriteClick} = props;
+  const {poster, backgroundImage, title, year, genre, id, isFavorite} = openedMovie;
 
   return (
     <React.Fragment>
@@ -44,13 +45,13 @@ const Movie = (props)=> {
               </p>
 
               <div className='movie-card__buttons'>
-                <button className='btn btn--play movie-card__button' type='button'>
+                <button className='btn btn--play movie-card__button' type='button' onClick={() => onPlayClick(id)}>
                   <svg viewBox='0 0 19 19' width='19' height='19'>
                     <use xlinkHref='#play-s'></use>
                   </svg>
                   <span>Play</span>
                 </button>
-                <button className='btn btn--list movie-card__button' type='button'>
+                <button className='btn btn--list movie-card__button' type='button' onClick={() => onFavoriteClick(id, isFavorite)}>
                   <svg viewBox='0 0 19 20' width='19' height='20'>
                     <use xlinkHref='#add'></use>
                   </svg>
@@ -102,7 +103,9 @@ Movie.propTypes = {
   renderTabs: FUNCTION,
   comments: PropTypes.array.isRequired,
   authorizationStatus: AUTHORIZATION_STATUS,
-  onAddReviewClick: FUNCTION
+  onAddReviewClick: FUNCTION,
+  onPlayClick: FUNCTION,
+  onFavoriteClick: FUNCTION,
 };
 
 const mapStateToProps = (state) => ({
@@ -115,6 +118,12 @@ const mapDispatchToProps = (dispatch) => ({
   onAddReviewClick(evt, id) {
     evt.preventDefault();
     dispatch(ActionCreator.redirectToRoute(`${id}/review`));
+  },
+  onPlayClick(id) {
+    dispatch(ActionCreator.redirectToRoute(`/player/${id}`));
+  },
+  onFavoriteClick(id, isFavorite) {
+    dispatch(changeFavorite(id, isFavorite));
   }
 });
 export {Movie};
