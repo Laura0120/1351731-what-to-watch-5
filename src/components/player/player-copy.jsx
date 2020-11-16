@@ -14,14 +14,11 @@ class Player extends PureComponent {
 
     this.state = {
       isPlaying: true,
-      isFullScreen: false,
       runtimeVideo: null,
       progressVideo: null,
     };
 
     this._onPlayPauseClickHandle = this._onPlayPauseClickHandle.bind(this);
-    this._onFullScreenRequestHandle = this._onFullScreenRequestHandle.bind(this);
-    this._onFullScreenExitHandle = this._onFullScreenExitHandle.bind(this);
     this._onProgressVideoHandle = this._onProgressVideoHandle.bind(this);
   }
 
@@ -60,30 +57,12 @@ class Player extends PureComponent {
     }
   }
 
-  _onFullScreenRequestHandle() {
-    const {isFullScreen} = this.state;
-    const newScreenState = !isFullScreen;
-    const videoElement = this._videoRef.current;
-
-    this.setState(() => ({isFullScreen: newScreenState}));
-    videoElement.requestFullscreen();
-    document.addEventListener(`fullscreenchange`, this._onFullScreenExitHandle);
-
-  }
-
-  _onFullScreenExitHandle() {
-    const {isFullScreen} = this.state;
-    const newScreenState = !isFullScreen;
-
-    this.setState(() => ({isFullScreen: newScreenState}));
-    document.removeEventListener(`fullscreenchange`, this._onFullScreenExitHandle);
-  }
-
   render() {
     const {movie, onExitClick} = this.props;
     const {video, title, id} = movie;
     const {isPlaying, runtimeVideo, progressVideo} = this.state;
     const toggleMovement = progressVideo / runtimeVideo * 100;
+    const videoElement = this._videoRef.current;
 
     return (
       <div className='player'>
@@ -123,7 +102,7 @@ class Player extends PureComponent {
             </button>
             <div className='player__name'>{title}</div>
 
-            <button type='button' className='player__full-screen' onClick={this._onFullScreenRequestHandle}>
+            <button type='button' className='player__full-screen' onClick={() => videoElement.requestFullscreen()}>
               <svg viewBox='0 0 27 27' width='27' height='27'>
                 <use xlinkHref='#full-screen'></use>
               </svg>

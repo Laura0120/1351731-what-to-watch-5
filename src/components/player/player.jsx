@@ -1,9 +1,10 @@
 import React from "react";
 import {connect} from "react-redux";
 import moment from 'moment';
+import PropTypes from 'prop-types';
 
 import {ActionCreator} from "../../store/action";
-import {MOVIE, FUNCTION, NUMBER} from '../../prop-type';
+import {MOVIE, FUNCTION, NUMBER, BOOLEAN} from '../../prop-type';
 import withPlayer from '../../hocs/with-player/with-player';
 
 
@@ -63,12 +64,12 @@ const Player = (props) => {
 Player.propTypes = {
   movie: MOVIE,
   onExitClick: FUNCTION,
-  isPlaying: FUNCTION,
+  isPlaying: BOOLEAN,
   onPlayPauseClick: FUNCTION,
   onFullScreenRequest: FUNCTION,
   renderVideo: FUNCTION,
-  runtimeVideo: NUMBER,
-  progressVideo: NUMBER,
+  runtimeVideo: PropTypes.number,
+  progressVideo: PropTypes.number,
   toggleMovement: NUMBER,
 };
 
@@ -82,8 +83,8 @@ const mapDispatchToProps = (dispatch) => ({
   }
 });
 
-connect(mapStateToProps, mapDispatchToProps)(Player);
+const ConnectedPlayer = connect(mapStateToProps, mapDispatchToProps)(Player);
 
-const PlayerWrapped = withPlayer(Player);
+const PlayerWrapped = withPlayer(ConnectedPlayer);
 
 export default PlayerWrapped;

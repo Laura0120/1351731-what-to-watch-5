@@ -96,17 +96,19 @@ AddReviewForm.propTypes = {
   id: NUMBER,
   isLoading: BOOLEAN
 };
-const mapStateToProps = (state) => ({
-  isLoading: state.APP_STATE.isLoading,
-});
 
-const mapDispatchToProps = (dispatch) => ({
-  onSubmit(id, comment) {
-    dispatch(ActionCreator.postingComment(true));
-    dispatch(addReview(id, comment));
-  }
-});
+// const mapStateToProps = (state) => ({
+//   isLoading: state.APP_STATE.isLoading,
+// });
 
-export {AddReviewForm};
+// const mapDispatchToProps = (dispatch) => ({
+//   onSubmit(id, comment) {
+//     dispatch(ActionCreator.postingComment(true));
+//     dispatch(addReview(id, comment));
+//   }
+// });
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddReviewForm);
+// export {AddReviewForm};
+
+// export default connect(mapStateToProps, mapDispatchToProps)(AddReviewForm);
+export default AddReviewForm;

@@ -3,11 +3,14 @@ import {connect} from "react-redux";
 
 import AddReviewForm from '../add-review-form/add-review-form';
 import UserBlock from '../user-block/user-block';
-import {FUNCTION, MOVIE} from '../../prop-type';
+import {FUNCTION, MOVIE, AUTHORIZATION_STATUS, NUMBER, BOOLEAN} from '../../prop-type';
 import {ActionCreator} from "../../store/action";
+import {AppRoute} from "../../const";
+import {fetchFavorite, addReview} from "../../store/api-actions";
+
 
 const AddReview = (props) => {
-  const {openedMovie, onMoviePageClick} = props;
+  const {openedMovie, authorizationStatus, isLoading, onMoviePageClick, onMyListButtonClick, onSubmit} = props;
   const {backgroundImage, poster, title, id} = openedMovie;
 
   return (
@@ -45,7 +48,7 @@ const AddReview = (props) => {
             </ul>
           </nav>
 
-          <UserBlock/>
+          <UserBlock authorizationStatus={authorizationStatus} onMyListButtonClick={onMyListButtonClick}/>
 
         </header>
 
@@ -55,7 +58,7 @@ const AddReview = (props) => {
       </div>
 
       <div className='add-review'>
-        <AddReviewForm id={id}/>
+        <AddReviewForm id={id} isLoading={isLoading} onSubmit={onSubmit}/>
       </div>
     </section>
   );
@@ -63,16 +66,30 @@ const AddReview = (props) => {
 
 AddReview.propTypes = {
   openedMovie: MOVIE,
-  onMoviePageClick: FUNCTION
+  onMoviePageClick: FUNCTION,
+  onMyListButtonClick: FUNCTION,
+  authorizationStatus: AUTHORIZATION_STATUS,
+  onSubmit: FUNCTION,
+  isLoading: BOOLEAN,
 };
 
 const mapStateToProps = (state) => ({
   openedMovie: state.DATA.openedMovie,
+  authorizationStatus: state.USER.authorizationStatus,
+  isLoading: state.APP_STATE.isLoading,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onMoviePageClick(id) {
     dispatch(ActionCreator.redirectToRoute(`/films/${id}`));
+  },
+  onMyListButtonClick() {
+    dispatch(fetchFavorite());
+    dispatch(ActionCreator.redirectToRoute(AppRoute.MY_LIST));
+  },
+  onSubmit(id, comment) {
+    dispatch(ActionCreator.postingComment(true));
+    dispatch(addReview(id, comment));
   }
 });
 

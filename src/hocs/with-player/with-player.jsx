@@ -1,11 +1,11 @@
-import React, {PureComponent} from "react";
-
-import Player from "../../components/player/player";
+import React, {PureComponent, createRef} from "react";
 
 const withPlayer = (Component) => {
   class WithPlayer extends PureComponent {
     constructor(props) {
       super(props);
+
+      this._videoRef = createRef();
 
       this.state = {
         isPlaying: true,
@@ -16,7 +16,6 @@ const withPlayer = (Component) => {
 
       this._onPlayPauseClickHandle = this._onPlayPauseClickHandle.bind(this);
       this._onFullScreenRequestHandle = this._onFullScreenRequestHandle.bind(this);
-      this._onFullScreenExitHandle = this._onFullScreenExitHandle.bind(this);
       this._onProgressVideoHandle = this._onProgressVideoHandle.bind(this);
     }
 
@@ -56,22 +55,10 @@ const withPlayer = (Component) => {
     }
 
     _onFullScreenRequestHandle() {
-      const {isFullScreen} = this.state;
-      const newScreenState = !isFullScreen;
       const videoElement = this._videoRef.current;
 
-      this.setState(() => ({isFullScreen: newScreenState}));
       videoElement.requestFullscreen();
-      document.addEventListener(`fullscreenchange`, this._onFullScreenExitHandle);
 
-    }
-
-    _onFullScreenExitHandle() {
-      const {isFullScreen} = this.state;
-      const newScreenState = !isFullScreen;
-
-      this.setState(() => ({isFullScreen: newScreenState}));
-      document.removeEventListener(`fullscreenchange`, this._onFullScreenExitHandle);
     }
 
     render() {

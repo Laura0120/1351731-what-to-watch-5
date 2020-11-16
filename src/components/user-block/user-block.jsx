@@ -1,9 +1,10 @@
 import React from 'react';
-import {connect} from "react-redux";
+// import {connect} from "react-redux";
 
-import {AuthorizationStatus, AppRoute} from "../../const";
-import {fetchFavorite} from "../../store/api-actions";
-import {ActionCreator} from "../../store/action";
+// import {AuthorizationStatus, AppRoute} from "../../const";
+// import {fetchFavorite} from "../../store/api-actions";
+// import {ActionCreator} from "../../store/action";
+import {AuthorizationStatus} from "../../const";
 import {FUNCTION, AUTHORIZATION_STATUS} from '../../prop-type';
 
 const UserBlock = (props) => {
@@ -27,16 +28,17 @@ UserBlock.propTypes = {
   onMyListButtonClick: FUNCTION,
 };
 
-const mapStateToProps = (state) => ({
-  authorizationStatus: state.USER.authorizationStatus,
-});
+// const mapStateToProps = (state) => ({
+//   authorizationStatus: state.USER.authorizationStatus,
+// });
 
-const mapDispatchToProps = (dispatch) => ({
-  onMyListButtonClick() {
-    dispatch(fetchFavorite());
-    dispatch(ActionCreator.redirectToRoute(AppRoute.MY_LIST));
-  }
-});
+// const mapDispatchToProps = (dispatch) => ({
+//   onMyListButtonClick() {
+//     dispatch(fetchFavorite());
+//     dispatch(ActionCreator.redirectToRoute(AppRoute.MY_LIST));
+//   }
+// });
 
-export {UserBlock};
-export default connect(mapStateToProps, mapDispatchToProps)(UserBlock);
+// export {UserBlock};
+// export default connect(mapStateToProps, mapDispatchToProps)(UserBlock);
+export default UserBlock;
