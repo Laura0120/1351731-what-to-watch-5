@@ -16,8 +16,8 @@ it(`form is not submit without rating selection and text`, () => {
       />
   );
 
-  const buttonSubmit = wrapper.find(`button.add-review__btn`);
-  buttonSubmit.simulate(`click`);
+  const form = wrapper.find(`form`);
+  form.simulate(`submit`, {preventDefault() {}});
   expect(handleSubmitForm).toHaveBeenCalledTimes(0);
 });
 
@@ -32,11 +32,11 @@ it(`form is not submit without text`, () => {
       />
   );
 
-  const buttonSubmit = wrapper.find(`button.add-review__btn`);
+  const form = wrapper.find(`form`);
   const ratingInputs = wrapper.find(`input.rating__input`);
   const ratingInputFour = ratingInputs.at(3);
-  ratingInputFour.simulate(`click`);
-  buttonSubmit.simulate(`click`);
+  ratingInputFour.simulate(`change`);
+  form.simulate(`submit`, {preventDefault() {}});
   expect(handleSubmitForm).toHaveBeenCalledTimes(0);
 });
 
@@ -58,9 +58,8 @@ it(`User response passed to callback is consistent with mooks`, () => {
   const commentTextElement = wrapper.find(`textarea`);
 
   ratingInputFour.simulate(`change`);
-  // commentTextElement.value = commentText;
-  // commentTextElement.simulate(`change`);
-  commentTextElement.simulate(`change`, {target: {value: commentText}});
+  commentTextElement.instance().value = commentText;
+  commentTextElement.simulate(`change`);
   form.simulate(`submit`, {preventDefault() {}});
 
   expect(handleSubmitForm).toHaveBeenCalledTimes(1);

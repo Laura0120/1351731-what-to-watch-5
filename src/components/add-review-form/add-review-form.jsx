@@ -9,10 +9,12 @@ class AddReviewForm extends PureComponent {
 
     this.ratingRef = createRef();
     this.commentRef = createRef();
+    this.submitRef = createRef();
 
     this.state = {
       validity: false,
-      rating: 3
+      rating: 3,
+      comment: ``
     };
 
     this._handleSubmit = this._handleSubmit.bind(this);
@@ -22,6 +24,9 @@ class AddReviewForm extends PureComponent {
 
   _handleSubmit(evt) {
     evt.preventDefault();
+    if (!this.state.validity) {
+      return;
+    }
     this.setState(() => ({
       isLoading: true,
     }));
@@ -48,7 +53,9 @@ class AddReviewForm extends PureComponent {
     const {validity, rating} = this.state;
     const {isLoading} = this.props;
     return (
-      <form action='' className='add-review__form' onSubmit={this._handleSubmit}
+      <form action=''
+        className='add-review__form'
+        onSubmit={this._handleSubmit}
       >
         <div className='rating'>
           <div className='rating__stars'>
@@ -90,7 +97,7 @@ class AddReviewForm extends PureComponent {
           >
           </textarea>
           <div className='add-review__submit'>
-            <button className='add-review__btn' type='submit' disabled={!validity || isLoading}>
+            <button ref={this.submitRef} className='add-review__btn' type='submit' disabled={!validity || isLoading}>
               Post
             </button>
           </div>
