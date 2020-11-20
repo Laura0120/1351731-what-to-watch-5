@@ -1,13 +1,14 @@
 import React from 'react';
 import {connect} from "react-redux";
 
-import {FUNCTION, MOVIES} from '../../prop-type';
+import {FUNCTION, MOVIES, AUTHORIZATION_STATUS} from '../../prop-type';
 import MovieListWrapped from '../movie-list/movie-list';
 import UserBlock from '../user-block/user-block';
-import {fetchMovieById, fetchCommentsByMovieId} from "../../store/api-actions";
+import {fetchMovieById, fetchCommentsByMovieId, fetchFavorite, ActionCreator} from "../../store/api-actions";
+import {AppRoute} from "../../const";
 
 const MyList = (props) => {
-  const {movies, onMovieClick} = props;
+  const {movies, onMovieClick, authorizationStatus, onMyListButtonClick} = props;
 
   return (
     <div className='user-page'>
@@ -22,7 +23,8 @@ const MyList = (props) => {
 
         <h1 className='page-title user-page__title'>My list</h1>
 
-        <UserBlock/>
+        <UserBlock authorizationStatus={authorizationStatus} onMyListButtonClick={onMyListButtonClick}/>
+
       </header>
 
       <section className='catalog'>
@@ -50,18 +52,25 @@ const MyList = (props) => {
 
 MyList.propTypes = {
   movies: MOVIES,
-  onMovieClick: FUNCTION
+  onMovieClick: FUNCTION,
+  onMyListButtonClick: FUNCTION,
+  authorizationStatus: AUTHORIZATION_STATUS
 };
 
 const mapStateToProps = (state) => ({
   movies: state.DATA.favoriteMovies,
+  authorizationStatus: state.USER.authorizationStatus,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onMovieClick(id) {
     dispatch(fetchMovieById(id));
     dispatch(fetchCommentsByMovieId(id));
-  }
+  },
+  onMyListButtonClick() {
+    dispatch(fetchFavorite());
+    dispatch(ActionCreator.redirectToRoute(AppRoute.MY_LIST));
+  },
 });
 export {MyList};
 export default connect(mapStateToProps, mapDispatchToProps)(MyList);

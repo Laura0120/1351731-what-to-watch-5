@@ -12,10 +12,8 @@ const MovieCard = (props) => {
       id={id}
       onMouseOver={onMouseOver}
       onMouseOut={onMouseOut}
-      onClick={(evt) => {
-        evt.preventDefault();
-        onMovieClick(id);
-      }}>
+      onClick={() => onMovieClick(id)}
+    >
       <div className='small-movie-card__image'>
         {renderPlayer(video, preview, id)}
       </div>

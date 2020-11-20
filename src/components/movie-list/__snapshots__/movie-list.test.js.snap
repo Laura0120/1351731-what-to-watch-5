@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MovieListWrapped is rendered correctly 1`] = `
+Array [
+  <div
+    className="catalog__movies-list"
+  >
+    <article
+      className="small-movie-card catalog__movies-card"
+      id={1}
+      onClick={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+    >
+      <div
+        className="small-movie-card__image"
+      >
+        <video
+          height="175"
+          muted={true}
+          poster="https://assets.htmlacademy.ru/intensives/javascript-3/film/preview/macbeth.jpg"
+          src="http://peach.themazzone.com/durian/movies/sintel-1024-surround.mp4"
+          width="280"
+        >
+           
+        </video>
+      </div>
+      <h3
+        className="small-movie-card__title"
+      >
+        <a
+          className="small-movie-card__link"
+          href="movie-page.html"
+        >
+          Macbeth
+        </a>
+      </h3>
+    </article>
+  </div>,
+  "",
+]
+`;

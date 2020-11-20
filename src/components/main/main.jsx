@@ -2,17 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from "react-redux";
 
-import {fetchMovieById, fetchCommentsByMovieId, changeFavorite} from "../../store/api-actions";
+import {fetchMovieById, fetchCommentsByMovieId, changeFavorite, fetchFavorite} from "../../store/api-actions";
 import {getAllMovies, getMoviesByGenre, getGenre} from '../../store/selectors';
 import {ActionCreator} from "../../store/action";
-import {FUNCTION, MOVIES, GENRE} from '../../prop-type';
+import {FUNCTION, MOVIES, GENRE, AUTHORIZATION_STATUS} from '../../prop-type';
 import GenreList from '../genre-list/genre-list';
 import MovieListWrapped from '../movie-list/movie-list';
 import UserBlock from '../user-block/user-block';
-
+import MovieButtons from '../movie-buttons/movie-buttons';
+import {AppRoute} from "../../const";
 
 const Main = (props) => {
-  const {allMovies, currentMovies, promoMovie, activeGenre, onChangeGenre, onMovieClick, onFavoriteClick, onPlayClick} = props;
+  const {allMovies, currentMovies, promoMovie, activeGenre, onChangeGenre, onMovieClick, onFavoriteClick, onPlayClick, authorizationStatus, onMyListButtonClick} = props;
   const {poster, backgroundImage, title, genre, year, id, isFavorite} = promoMovie || {};
 
   return (
@@ -33,7 +34,8 @@ const Main = (props) => {
             </a>
           </div>
 
-          <UserBlock/>
+          <UserBlock authorizationStatus={authorizationStatus} onMyListButtonClick={onMyListButtonClick}/>
+
         </header>
 
         <div className='movie-card__wrap'>
@@ -49,20 +51,8 @@ const Main = (props) => {
                 <span className='movie-card__year'>{year}</span>
               </p>
 
-              <div className='movie-card__buttons'>
-                <button className='btn btn--play movie-card__button' type='button' onClick={() => onPlayClick(id)}>
-                  <svg viewBox='0 0 19 19' width='19' height='19'>
-                    <use xlinkHref='#play-s'></use>
-                  </svg>
-                  <span>Play</span>
-                </button>
-                <button className='btn btn--list movie-card__button' type='button' onClick={() => onFavoriteClick(id, isFavorite)}>
-                  <svg viewBox='0 0 19 20' width='19' height='20'>
-                    <use xlinkHref='#add'></use>
-                  </svg>
-                  <span>My list</span>
-                </button>
-              </div>
+              <MovieButtons id={id} isFavorite={isFavorite} onPlayClick={onPlayClick} onFavoriteClick={onFavoriteClick}/>
+
             </div>
           </div>
         </div>
@@ -100,18 +90,21 @@ Main.propTypes = {
   currentMovies: MOVIES,
   allMovies: PropTypes.array.isRequired,
   promoMovie: PropTypes.object.isRequired,
+  authorizationStatus: AUTHORIZATION_STATUS,
   activeGenre: GENRE,
   onChangeGenre: FUNCTION,
   onMovieClick: FUNCTION,
   onFavoriteClick: FUNCTION,
   onPlayClick: FUNCTION,
+  onMyListButtonClick: FUNCTION,
 };
 
 const mapStateToProps = (state) => ({
   allMovies: getAllMovies(state),
   currentMovies: getMoviesByGenre(state),
   activeGenre: getGenre(state),
-  promoMovie: state.DATA.promoMovie
+  promoMovie: state.DATA.openedMovie,
+  authorizationStatus: state.USER.authorizationStatus,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -127,6 +120,10 @@ const mapDispatchToProps = (dispatch) => ({
   },
   onPlayClick(id) {
     dispatch(ActionCreator.redirectToRoute(`/player/${id}`));
+  },
+  onMyListButtonClick() {
+    dispatch(fetchFavorite());
+    dispatch(ActionCreator.redirectToRoute(AppRoute.MY_LIST));
   },
 });
 

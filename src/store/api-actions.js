@@ -53,7 +53,8 @@ export const login = ({login: email, password}) => (dispatch, _getState, api) =>
 
 export const addReview = (id, {rating, comment}) => (dispatch, _getState, api) => (
   api.post(`/comments/${id}`, {rating, comment})
-    .then(() => {
+    .then(({data}) => {
+      dispatch(ActionCreator.loadCommentsByMovieId(data));
       dispatch(ActionCreator.redirectToRoute(`/films/${id}`));
       dispatch(ActionCreator.postingComment(false));
     })
@@ -63,9 +64,11 @@ export const addReview = (id, {rating, comment}) => (dispatch, _getState, api) =
     })
 );
 
-export const changeFavorite = (id, status) => (_dispatch, _getState, api) => (
+export const changeFavorite = (id, status) => (dispatch, _getState, api) => (
   api.post(`/favorite/${id}/${status ? 0 : 1}`)
-  .then(() => {})
+  .then(({data}) => {
+    dispatch(ActionCreator.loadMovieById(data));
+  })
   .catch((err) => {
     getErrorMessage(err);
   })

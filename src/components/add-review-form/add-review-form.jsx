@@ -1,10 +1,7 @@
 import React, {PureComponent, createRef} from "react";
-import {connect} from "react-redux";
 
-import {addReview} from "../../store/api-actions";
 import {FUNCTION, NUMBER, BOOLEAN} from '../../prop-type';
 import {RATING_STARS} from '../../const';
-import {ActionCreator} from '../../store/action';
 
 class AddReviewForm extends PureComponent {
   constructor(props) {
@@ -14,33 +11,41 @@ class AddReviewForm extends PureComponent {
     this.commentRef = createRef();
 
     this.state = {
-      validity: false
+      validity: false,
+      rating: 3
     };
 
     this._handleSubmit = this._handleSubmit.bind(this);
-    this._handleInputChange = this._handleInputChange.bind(this);
+    this._handleCheckedValidity = this._handleCheckedValidity.bind(this);
+    this._handleRatingChange = this._handleRatingChange.bind(this);
   }
 
   _handleSubmit(evt) {
     evt.preventDefault();
     this.setState(() => ({
-      isSubmit: true,
+      isLoading: true,
     }));
     const {onSubmit, id} = this.props;
     onSubmit(id, {
-      rating: this.ratingRef.current.value,
+      rating: this.state.rating,
       comment: this.commentRef.current.value,
     });
   }
 
-  _handleInputChange() {
+  _handleCheckedValidity() {
     this.setState(() => ({
       validity: this.commentRef.current.validity.valid && this.ratingRef.current.validity.valid
     }));
   }
 
+  _handleRatingChange(ratingValue) {
+    this.setState(() => ({
+      rating: ratingValue,
+    }));
+  }
+
   render() {
-    const {validity} = this.state;
+    const {validity, rating} = this.state;
     const {isLoading} = this.props;
     return (
       <form action='' className='add-review__form' onSubmit={this._handleSubmit}
@@ -55,9 +60,13 @@ class AddReviewForm extends PureComponent {
                   name='rating'
                   value={star}
                   ref={this.ratingRef}
-                  required
-                  onChange={this._handleInputChange}
+                  checked={rating === star ? true : false}
+                  onChange={() =>{
+                    this._handleCheckedValidity();
+                    this._handleRatingChange(star);
+                  }}
                   disabled={isLoading}
+                  required
                 />
                 <label className='rating__label' htmlFor={`star-${star}`}>
                   Rating {star}
@@ -76,7 +85,7 @@ class AddReviewForm extends PureComponent {
             minLength='50'
             maxLength='400'
             required
-            onChange={this._handleInputChange}
+            onChange={this._handleCheckedValidity}
             disabled={isLoading}
           >
           </textarea>
@@ -97,18 +106,4 @@ AddReviewForm.propTypes = {
   isLoading: BOOLEAN
 };
 
-// const mapStateToProps = (state) => ({
-//   isLoading: state.APP_STATE.isLoading,
-// });
-
-// const mapDispatchToProps = (dispatch) => ({
-//   onSubmit(id, comment) {
-//     dispatch(ActionCreator.postingComment(true));
-//     dispatch(addReview(id, comment));
-//   }
-// });
-
-// export {AddReviewForm};
-
-// export default connect(mapStateToProps, mapDispatchToProps)(AddReviewForm);
 export default AddReviewForm;

@@ -14,9 +14,9 @@ const ActionType = {
 };
 
 const ActionCreator = {
-  changeGenre: (activeGenre) => ({
+  changeGenre: (activeGenreElement) => ({
     type: ActionType.CHANGE_GENRE,
-    payload: activeGenre,
+    payload: activeGenreElement,
   }),
   loadMovies: (movies) => ({
     type: ActionType.LOAD_MOVIES,

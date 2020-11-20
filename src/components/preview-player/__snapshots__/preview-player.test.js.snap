@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PreviwPlayer is rendered correctly 1`] = `
+<video
+  height="175"
+  muted={true}
+  poster="https://assets.htmlacademy.ru/intensives/javascript-3/film/preview/macbeth.jpg"
+  src="http://peach.themazzone.com/durian/movies/sintel-1024-surround.mp4"
+  width="280"
+>
+   
+</video>
+`;

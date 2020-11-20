@@ -29,7 +29,7 @@ const noop = () => {};
 it(`AddReview is rendered correctly`, () => {
   const tree = renderer.create(
       <AddReview
-        openedMovie = {movie}
+        movie = {movie}
         onMoviePageClick = {noop}
         authorizationStatus = {`AUTH`}
         isLoading = {false}

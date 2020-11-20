@@ -2,17 +2,26 @@ import React from 'react';
 import {connect} from "react-redux";
 import PropTypes from 'prop-types';
 
-import {MOVIE, FUNCTION, AUTHORIZATION_STATUS} from '../../prop-type';
-import {AuthorizationStatus} from "../../const";
+import {MOVIE, FUNCTION, AUTHORIZATION_STATUS, MOVIES} from '../../prop-type';
+import {AuthorizationStatus, AppRoute} from "../../const";
 import {ActionCreator} from "../../store/action";
-import {changeFavorite} from "../../store/api-actions";
+import {changeFavorite, fetchFavorite, fetchMovieById, fetchCommentsByMovieId} from "../../store/api-actions";
 import MoreLikeThis from '../more-like-this/more-like-this';
+import MovieButtons from '../movie-buttons/movie-buttons';
 import UserBlock from '../user-block/user-block';
+import {getMoviesSimilar} from '../../store/selectors';
 
+const getAddReviwLink = (status, callback, id) => {
+  return (
+    status === AuthorizationStatus.AUTH ?
+      <a href='' className='btn movie-card__button' onClick={(evt)=>callback(evt, id)} >
+        Add review
+      </a> : ``);
+};
 
 const Movie = (props)=> {
-  const {openedMovie, renderTabs, comments, authorizationStatus, onAddReviewClick, onPlayClick, onFavoriteClick} = props;
-  const {poster, backgroundImage, title, year, genre, id, isFavorite} = openedMovie;
+  const {movie, renderTabs, comments, moviesLikeThis, authorizationStatus, onAddReviewClick, onPlayClick, onFavoriteClick, onMyListButtonClick, onMovieClick} = props;
+  const {poster, backgroundImage, title, year, genre, id, isFavorite} = movie;
 
   return (
     <React.Fragment>
@@ -33,7 +42,7 @@ const Movie = (props)=> {
               </a>
             </div>
 
-            <UserBlock/>
+            <UserBlock authorizationStatus={authorizationStatus} onMyListButtonClick={onMyListButtonClick}/>
           </header>
 
           <div className='movie-card__wrap'>
@@ -44,24 +53,9 @@ const Movie = (props)=> {
                 <span className='movie-card__year'>{year}</span>
               </p>
 
-              <div className='movie-card__buttons'>
-                <button className='btn btn--play movie-card__button' type='button' onClick={() => onPlayClick(id)}>
-                  <svg viewBox='0 0 19 19' width='19' height='19'>
-                    <use xlinkHref='#play-s'></use>
-                  </svg>
-                  <span>Play</span>
-                </button>
-                <button className='btn btn--list movie-card__button' type='button' onClick={() => onFavoriteClick(id, isFavorite)}>
-                  <svg viewBox='0 0 19 20' width='19' height='20'>
-                    <use xlinkHref='#add'></use>
-                  </svg>
-                  <span>My list</span>
-                </button>
-                {authorizationStatus === AuthorizationStatus.AUTH ?
-                  <a href='' className='btn movie-card__button' onClick={(evt)=>onAddReviewClick(evt, id)} >
-                    Add review
-                  </a> : ``}
-              </div>
+              <MovieButtons id={id} isFavorite={isFavorite} onPlayClick={onPlayClick} onFavoriteClick={onFavoriteClick}
+                authorizationStatus={authorizationStatus} onAddReviewClick={onAddReviewClick} getAddReviwLink={getAddReviwLink}/>
+
             </div>
           </div>
         </div>
@@ -72,14 +66,14 @@ const Movie = (props)=> {
               <img src={poster} alt={title} width='218' height='327' />
             </div>
 
-            {renderTabs(openedMovie, comments)}
+            {renderTabs(movie, comments)}
 
           </div>
         </div>
       </section>
 
       <div className='page-content'>
-        <MoreLikeThis />
+        <MoreLikeThis movies={moviesLikeThis} onMovieClick={onMovieClick}/>
         <footer className='page-footer'>
           <div className='logo'>
             <a href='main.html' className='logo__link logo__link--light'>
@@ -99,17 +93,21 @@ const Movie = (props)=> {
 };
 
 Movie.propTypes = {
-  openedMovie: MOVIE,
+  movie: MOVIE,
+  moviesLikeThis: MOVIES,
   renderTabs: FUNCTION,
   comments: PropTypes.array.isRequired,
   authorizationStatus: AUTHORIZATION_STATUS,
   onAddReviewClick: FUNCTION,
   onPlayClick: FUNCTION,
   onFavoriteClick: FUNCTION,
+  onMyListButtonClick: FUNCTION,
+  onMovieClick: FUNCTION,
 };
 
 const mapStateToProps = (state) => ({
-  openedMovie: state.DATA.openedMovie,
+  moviesLikeThis: getMoviesSimilar(state),
+  movie: state.DATA.openedMovie,
   comments: state.DATA.openMovieComments,
   authorizationStatus: state.USER.authorizationStatus,
 });
@@ -124,6 +122,14 @@ const mapDispatchToProps = (dispatch) => ({
   },
   onFavoriteClick(id, isFavorite) {
     dispatch(changeFavorite(id, isFavorite));
+  },
+  onMyListButtonClick() {
+    dispatch(fetchFavorite());
+    dispatch(ActionCreator.redirectToRoute(AppRoute.MY_LIST));
+  },
+  onMovieClick(id) {
+    dispatch(fetchMovieById(id));
+    dispatch(fetchCommentsByMovieId(id));
   }
 });
 export {Movie};

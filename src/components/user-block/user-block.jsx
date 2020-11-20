@@ -28,17 +28,4 @@ UserBlock.propTypes = {
   onMyListButtonClick: FUNCTION,
 };
 
-// const mapStateToProps = (state) => ({
-//   authorizationStatus: state.USER.authorizationStatus,
-// });
-
-// const mapDispatchToProps = (dispatch) => ({
-//   onMyListButtonClick() {
-//     dispatch(fetchFavorite());
-//     dispatch(ActionCreator.redirectToRoute(AppRoute.MY_LIST));
-//   }
-// });
-
-// export {UserBlock};
-// export default connect(mapStateToProps, mapDispatchToProps)(UserBlock);
 export default UserBlock;

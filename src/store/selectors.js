@@ -17,7 +17,8 @@ const getMoviesByGenre = createSelector(getAllMovies, getGenre, (allMovies, genr
 
 const getMoviesSimilar = createSelector(getMoviesByGenre, getOpenedMovie, (movies, openedMovie) => {
   const start = getRandomInteger(0, movies.length - COUNT_SILIMAR_MOVIE);
-  return movies.filter((movie) => movie.id !== openedMovie.id).slice(start, start + COUNT_SILIMAR_MOVIE);
+  const moviesLikeThis = movies.filter((movie) => movie.id !== openedMovie.id);
+  return moviesLikeThis.slice(start, Math.min(moviesLikeThis.length, start + COUNT_SILIMAR_MOVIE));
 });
 
 export {getAllMovies, getGenre, getMoviesByGenre, getMoviesSimilar};

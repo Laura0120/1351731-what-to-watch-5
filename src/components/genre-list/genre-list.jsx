@@ -17,17 +17,17 @@ const GenreList = (props) => {
   const genreList = [...uniqueGenres];
 
   return (
-    <ul
-      className="catalog__genres-list"
-      onClick={(evt) => {
-        const selectedGenre = evt.target;
-        evt.preventDefault();
-        onChangeGenre(selectedGenre.textContent);
-      }}>
+    <ul className="catalog__genres-list">
 
       {genreList.slice(0, Math.min(genreList.length, MAX_COUNT_GENRE)).map((genre) => (
         <li key={genre} className={genre === activeGenre ? `catalog__genres-item catalog__genres-item--active` : `catalog__genres-item `}>
-          <a href="#" className="catalog__genres-link">{genre}</a>
+          <a href="#"
+            className="catalog__genres-link"
+            onClick={(evt) => {
+              onChangeGenre(evt);
+              evt.preventDefault();
+            }}
+          >{genre}</a>
         </li>
       ))}
     </ul>

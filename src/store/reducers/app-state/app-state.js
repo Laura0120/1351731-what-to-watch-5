@@ -11,7 +11,7 @@ const appState = (state = initialState, action) => {
   switch (action.type) {
     case ActionType.CHANGE_GENRE:
       return extend(state, {
-        genre: action.payload,
+        genre: action.payload.target.textContent,
       });
     case ActionType.POSTING_COMMENT:
       return extend(state, {

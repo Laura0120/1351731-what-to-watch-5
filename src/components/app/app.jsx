@@ -8,7 +8,6 @@ import Movie from '../movie/movie';
 import AddReview from '../add-review/add-review';
 import MyList from '../my-list/my-list';
 import PlayerWrapped from '../player/player';
-// import Player from '../player/player-copy';
 import SignIn from '../sign-in/sign-in';
 import withTabs from '../../hocs/with-tabs/with-tabs';
 import PrivateRoute from "../private-route/private-route";
