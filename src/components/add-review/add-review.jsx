@@ -7,10 +7,10 @@ import {FUNCTION, MOVIE, AUTHORIZATION_STATUS, BOOLEAN} from '../../prop-type';
 import {ActionCreator} from "../../store/action";
 import {AppRoute} from "../../const";
 import {fetchFavorite, addReview} from "../../store/api-actions";
-
+import {adaptToClientMovie} from '../../utils/adapt';
 
 const AddReview = (props) => {
-  const {movie, authorizationStatus, isLoading, onMoviePageClick, onMyListButtonClick, onSubmit} = props;
+  const {movie, authorizationStatus, isLoading, onMoviePageClick, onMyListButtonClick, onSubmit, onMainPageClick} = props;
   const {backgroundImage, poster, title, id} = movie;
 
   return (
@@ -24,7 +24,12 @@ const AddReview = (props) => {
 
         <header className='page-header'>
           <div className='logo'>
-            <a href='/' className='logo__link'>
+            <a href='#'
+              className='logo__link'
+              onClick={(evt) => {
+                evt.preventDefault();
+                onMainPageClick();
+              }}>
               <span className='logo__letter logo__letter--1'>W</span>
               <span className='logo__letter logo__letter--2'>T</span>
               <span className='logo__letter logo__letter--3'>W</span>
@@ -70,11 +75,12 @@ AddReview.propTypes = {
   onMyListButtonClick: FUNCTION,
   authorizationStatus: AUTHORIZATION_STATUS,
   onSubmit: FUNCTION,
+  onMainPageClick: FUNCTION,
   isLoading: BOOLEAN,
 };
 
 const mapStateToProps = (state) => ({
-  movie: state.DATA.openedMovie,
+  movie: adaptToClientMovie(state.DATA.openedMovie),
   authorizationStatus: state.USER.authorizationStatus,
   isLoading: state.APP_STATE.isLoading,
 });
@@ -90,6 +96,9 @@ const mapDispatchToProps = (dispatch) => ({
   onSubmit(id, comment) {
     dispatch(ActionCreator.postingComment(true));
     dispatch(addReview(id, comment));
+  },
+  onMainPageClick() {
+    dispatch(ActionCreator.redirectToRoute(`/`));
   }
 });
 

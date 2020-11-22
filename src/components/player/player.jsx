@@ -1,11 +1,15 @@
 import React, {PureComponent, createRef} from "react";
 import {connect} from "react-redux";
 import moment from 'moment';
+import PropTypes from 'prop-types';
+import {matchPath} from "react-router";
 
 import {ActionCreator} from "../../store/action";
-import {MOVIE, FUNCTION, BOOLEAN, NUMBER} from '../../prop-type';
+import {fetchMovieById} from "../../store/api-actions";
+import {FUNCTION, BOOLEAN, NUMBER} from '../../prop-type';
 import withPlayer from "../../hocs/with-player/with-player";
-
+import {adaptToClientMovie} from '../../utils/adapt';
+import {AppRoute} from "../../const";
 
 class Player extends PureComponent {
   constructor(props) {
@@ -15,25 +19,39 @@ class Player extends PureComponent {
   }
 
   componentDidMount() {
-    const {onCanPlayThrough} = this.props;
+    const {onCanPlayThrough, movie, loadMovie, togglePlayState, location} = this.props;
+
+    if (!movie.id) {
+      const locationInfo = matchPath(location.pathname, {
+        path: AppRoute.PLAYER_ID,
+        exact: true,
+        strict: true
+      });
+
+      loadMovie(locationInfo.params.id);
+      togglePlayState();
+    }
+
     const videoElement = this._videoRef.current;
 
     videoElement.oncanplaythrough = (evt) => onCanPlayThrough(evt.currentTarget.duration);
   }
 
-  componentDidUpdate() {
+  _handlePlayPauseClick() {
     const videoElement = this._videoRef.current;
-    const {isPlaying} = this.props;
+    const {isPlaying, togglePlayState} = this.props;
 
-    if (isPlaying) {
+    if (!isPlaying) {
       videoElement.play();
     } else {
       videoElement.pause();
     }
+
+    togglePlayState();
   }
 
   render() {
-    const {movie, onExitClick, isPlaying, runtimeVideo, progressVideo, toggleMovement, onPlayPauseClick, onProgressVideoSet} = this.props;
+    const {movie, onExitClick, isPlaying, runtimeVideo, progressVideo, toggleMovement, onProgressVideoSet} = this.props;
     const {video, title, id} = movie;
     const videoElement = this._videoRef.current;
 
@@ -63,7 +81,7 @@ class Player extends PureComponent {
           </div>
 
           <div className='player__controls-row'>
-            <button type='button' className='player__play' onClick={onPlayPauseClick}>
+            <button type='button' className='player__play' onClick={() => this._handlePlayPauseClick()}>
               {isPlaying ?
                 <svg viewBox='0 0 14 21' width='19' height='19'>
                   <use xlinkHref='#pause'></use>
@@ -89,25 +107,29 @@ class Player extends PureComponent {
 }
 
 Player.propTypes = {
-  movie: MOVIE,
+  movie: PropTypes.object.isRequired,
   onExitClick: FUNCTION,
   onCanPlayThrough: FUNCTION,
   onProgressVideoSet: FUNCTION,
-  onPlayPauseClick: FUNCTION,
+  togglePlayState: FUNCTION,
+  loadMovie: FUNCTION,
   isPlaying: BOOLEAN,
   runtimeVideo: NUMBER,
   progressVideo: NUMBER,
-  toggleMovement: NUMBER
-
+  toggleMovement: NUMBER,
+  location: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => ({
-  movie: state.DATA.openedMovie
+  movie: adaptToClientMovie(state.DATA.openedMovie),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onExitClick(id) {
     dispatch(ActionCreator.redirectToRoute(`/films/${id}`));
+  },
+  loadMovie(id) {
+    dispatch(fetchMovieById(id));
   }
 });
 

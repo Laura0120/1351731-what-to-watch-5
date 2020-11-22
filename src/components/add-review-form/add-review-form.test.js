@@ -1,8 +1,8 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import AddReviewForm from './add-review-form';
 
-const noop = () => {};
+import AddReviewForm from './add-review-form';
+import {noop} from '../../data-test';
 
 it(`AddReviewForm is rendered correctly`, () => {
   const tree = renderer.create(

@@ -1,7 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import PreviwPlayer from './preview-player';
 
+import PreviwPlayer from './preview-player';
 
 it(`PreviwPlayer is rendered correctly`, () => {
   const tree = renderer.create(

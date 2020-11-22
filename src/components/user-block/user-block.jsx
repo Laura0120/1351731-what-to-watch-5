@@ -1,9 +1,5 @@
 import React from 'react';
-// import {connect} from "react-redux";
 
-// import {AuthorizationStatus, AppRoute} from "../../const";
-// import {fetchFavorite} from "../../store/api-actions";
-// import {ActionCreator} from "../../store/action";
 import {AuthorizationStatus} from "../../const";
 import {FUNCTION, AUTHORIZATION_STATUS} from '../../prop-type';
 

@@ -1,6 +1,7 @@
 import React from "react";
 import {configure, mount, shallow} from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
+
 import AddReviewForm from "./add-review-form";
 
 configure({adapter: new Adapter()});
@@ -24,7 +25,7 @@ it(`form is not submit without rating selection and text`, () => {
 it(`form is not submit without text`, () => {
   const handleSubmitForm = jest.fn();
 
-  const wrapper = shallow(
+  const wrapper = mount(
       <AddReviewForm
         onSubmit={handleSubmitForm}
         id={1}

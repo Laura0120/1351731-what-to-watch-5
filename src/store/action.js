@@ -1,5 +1,3 @@
-import {adaptToClientMovie, adaptToClient} from '../utils/adapt';
-
 const ActionType = {
   CHANGE_GENRE: `CHANGE_GENRE`,
   UPDATE_MOVIES: `UPDATE_MOVIES`,
@@ -24,15 +22,15 @@ const ActionCreator = {
   }),
   loadFavorite: (movies) => ({
     type: ActionType.LOAD_FAVORITE,
-    payload: adaptToClient(movies),
+    payload: movies,
   }),
   loadMovieById: (movie) => ({
     type: ActionType.LOAD_MOVIE_BY_ID,
-    payload: adaptToClientMovie(movie),
+    payload: movie,
   }),
   loadPromoMovie: (movie) => ({
     type: ActionType.LOAD_PROMO_MOVIE,
-    payload: adaptToClientMovie(movie),
+    payload: movie,
   }),
   loadCommentsByMovieId: (comments) => ({
     type: ActionType.LOAD_COMMENTS_BY_MOVIE_ID,

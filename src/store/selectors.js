@@ -1,11 +1,11 @@
 import {createSelector} from "reselect";
 import {DEFAULT_GENRE, COUNT_SILIMAR_MOVIE} from '../const';
-import {adaptToClient} from '../utils/adapt';
+import {adaptToClient, adaptToClientMovie} from '../utils/adapt';
 import {getRandomInteger} from '../utils/common';
 
 const getAllMovies = (state) => state.DATA.allMovies;
 const getGenre = (state) => state.APP_STATE.genre;
-const getOpenedMovie = (state) => state.DATA.openedMovie;
+const getOpenedMovie = (state) => adaptToClientMovie(state.DATA.openedMovie);
 
 const getMoviesByGenre = createSelector(getAllMovies, getGenre, (allMovies, genre) => {
   if (genre === DEFAULT_GENRE) {

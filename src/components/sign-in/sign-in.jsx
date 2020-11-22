@@ -2,6 +2,7 @@ import React, {PureComponent, createRef} from "react";
 import {connect} from "react-redux";
 import {login} from "../../store/api-actions";
 import {FUNCTION} from '../../prop-type';
+import {ActionCreator} from '../../store/action';
 
 class SignIn extends PureComponent {
   constructor(props) {
@@ -23,11 +24,17 @@ class SignIn extends PureComponent {
   }
 
   render() {
+    const {onMainPageClick} = this.props;
     return (
       <div className='user-page'>
         <header className='page-header user-page__head'>
           <div className='logo'>
-            <a href='/' className='logo__link'>
+            <a href='#'
+              className='logo__link'
+              onClick={(evt) => {
+                evt.preventDefault();
+                onMainPageClick();
+              }}>
               <span className='logo__letter logo__letter--1'>W</span>
               <span className='logo__letter logo__letter--2'>T</span>
               <span className='logo__letter logo__letter--3'>W</span>
@@ -77,7 +84,12 @@ class SignIn extends PureComponent {
         </div>
         <footer className='page-footer'>
           <div className='logo'>
-            <a href='main.html' className='logo__link logo__link--light'>
+            <a href='#'
+              className='logo__link logo__link--light'
+              onClick={(evt) => {
+                evt.preventDefault();
+                onMainPageClick();
+              }}>
               <span className='logo__letter logo__letter--1'>W</span>
               <span className='logo__letter logo__letter--2'>T</span>
               <span className='logo__letter logo__letter--3'>W</span>
@@ -94,12 +106,16 @@ class SignIn extends PureComponent {
 }
 
 SignIn.propTypes = {
-  onSubmit: FUNCTION
+  onSubmit: FUNCTION,
+  onMainPageClick: FUNCTION
 };
 
 const mapDispatchToProps = (dispatch) => ({
   onSubmit(authData) {
     dispatch(login(authData));
+  },
+  onMainPageClick() {
+    dispatch(ActionCreator.redirectToRoute(`/`));
   }
 });
 

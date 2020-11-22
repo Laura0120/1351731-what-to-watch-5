@@ -1,9 +1,10 @@
 import React from 'react';
 import Moment from 'react-moment';
 import moment from 'moment';
+import PropTypes from 'prop-types';
 
 import {TABS_NAME} from '../../const';
-import {CURRENT_TAB, MOVIE, FUNCTION, COMMENTS} from '../../prop-type';
+import {CURRENT_TAB, FUNCTION, COMMENTS} from '../../prop-type';
 import {getRatingLevel} from '../../utils/movie';
 
 const Tabs = (props) => {
@@ -125,7 +126,7 @@ const Tabs = (props) => {
 };
 
 Tabs.propTypes = {
-  movie: MOVIE,
+  movie: PropTypes.object.isRequired,
   currentTab: CURRENT_TAB,
   onChangeTab: FUNCTION,
   comments: COMMENTS,

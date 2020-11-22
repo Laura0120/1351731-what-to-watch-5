@@ -1,8 +1,8 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import MovieButtons from './movie-buttons';
 
-const noop = () => {};
+import MovieButtons from './movie-buttons';
+import {noop} from '../../data-test';
 
 it(`MovieButtons is rendered correctly`, () => {
   const tree = renderer.create(

@@ -1,5 +1,6 @@
 import React from 'react';
 import {Switch, Route, Router as BrowserRouter} from 'react-router-dom';
+import {withRouter} from 'react-router';
 
 import browserHistory from "../../browser-history";
 import {AppRoute} from '../../const';
@@ -24,9 +25,8 @@ const App = () => {
         <Route exact path={AppRoute.LOGIN}><SignIn/></Route>
         <PrivateRoute exact path={AppRoute.MY_LIST} component={<MyList/>}/>
         <PrivateRoute exact path={AppRoute.FILM_ID_REVIEW} component={<AddReview/>}/>
-        <Route exact path={AppRoute.FILM_ID}><MovieWrapped /></Route>
-        <Route exact path={AppRoute.PLAYER_ID}><PlayerWrapped/></Route>
-        {/* <Route exact path={AppRoute.PLAYER_ID}><Player/></Route> */}
+        <Route exact path={AppRoute.FILM_ID}>{withRouter(MovieWrapped)}</Route>
+        <Route exact path={AppRoute.PLAYER_ID}>{withRouter(PlayerWrapped)}</Route>
       </Switch>
     </BrowserRouter>
   );

@@ -1,4 +1,5 @@
 import React, {PureComponent} from 'react';
+
 import Tabs from '../../components/tabs/tabs';
 import {TABS_NAME} from '../../const';
 

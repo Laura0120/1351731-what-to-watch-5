@@ -31,7 +31,7 @@ const withPlayer = (Component) => {
             progressVideo: evt.currentTarget.currentTime,
           });
         }}
-        onPlayPauseClick = {() => {
+        togglePlayState = {() => {
           return this.setState({
             isPlaying: !isPlaying,
           });

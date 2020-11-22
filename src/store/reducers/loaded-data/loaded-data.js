@@ -4,6 +4,7 @@ import {extend} from '../../../utils/common';
 const initialState = {
   allMovies: [],
   favoriteMovies: [],
+  promoMovie: {},
   openedMovie: {},
   openMovieComments: [],
 };
@@ -20,7 +21,7 @@ const loadedData = (state = initialState, action) => {
       });
     case ActionType.LOAD_PROMO_MOVIE:
       return extend(state, {
-        openedMovie: action.payload,
+        promoMovie: action.payload,
       });
     case ActionType.LOAD_MOVIE_BY_ID:
       return extend(state, {

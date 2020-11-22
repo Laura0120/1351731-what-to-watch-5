@@ -1,11 +1,11 @@
 import React from "react";
-import {configure, mount, shallow} from "enzyme";
+import {configure, shallow} from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
+
 import MovieButtons from "./movie-buttons";
+import {noop} from '../../data-test';
 
 configure({adapter: new Adapter()});
-
-const noop = () => {};
 
 it(`Should play button be pressed`, () => {
   const handlePlayButtonClick = jest.fn();

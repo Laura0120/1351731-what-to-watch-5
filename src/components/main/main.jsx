@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from "react-redux";
 
-import {fetchMovieById, fetchCommentsByMovieId, changeFavorite, fetchFavorite} from "../../store/api-actions";
+import {fetchMovieById, changeFavorite, fetchFavorite} from "../../store/api-actions";
 import {getAllMovies, getMoviesByGenre, getGenre} from '../../store/selectors';
 import {ActionCreator} from "../../store/action";
 import {FUNCTION, MOVIES, GENRE, AUTHORIZATION_STATUS} from '../../prop-type';
@@ -11,6 +11,7 @@ import MovieListWrapped from '../movie-list/movie-list';
 import UserBlock from '../user-block/user-block';
 import MovieButtons from '../movie-buttons/movie-buttons';
 import {AppRoute} from "../../const";
+import {adaptToClientMovie} from '../../utils/adapt';
 
 const Main = (props) => {
   const {allMovies, currentMovies, promoMovie, activeGenre, onChangeGenre, onMovieClick, onFavoriteClick, onPlayClick, authorizationStatus, onMyListButtonClick} = props;
@@ -103,22 +104,22 @@ const mapStateToProps = (state) => ({
   allMovies: getAllMovies(state),
   currentMovies: getMoviesByGenre(state),
   activeGenre: getGenre(state),
-  promoMovie: state.DATA.openedMovie,
+  promoMovie: adaptToClientMovie(state.DATA.promoMovie),
   authorizationStatus: state.USER.authorizationStatus,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onMovieClick(id) {
-    dispatch(fetchMovieById(id));
-    dispatch(fetchCommentsByMovieId(id));
+    dispatch(ActionCreator.redirectToRoute(`/films/${id}`));
   },
   onChangeGenre(activeGenre) {
-    dispatch(ActionCreator.changeGenre(activeGenre));
+    dispatch(ActionCreator.changeGenre(activeGenre.target.textContent));
   },
   onFavoriteClick(id, isFavorite) {
     dispatch(changeFavorite(id, isFavorite));
   },
   onPlayClick(id) {
+    dispatch(fetchMovieById(id));
     dispatch(ActionCreator.redirectToRoute(`/player/${id}`));
   },
   onMyListButtonClick() {

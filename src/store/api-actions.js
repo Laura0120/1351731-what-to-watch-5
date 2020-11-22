@@ -14,7 +14,6 @@ export const fetchMovieById = (id) => (dispatch, _getState, api) => (
   api.get(`/films/${id}`)
     .then(({data}) => {
       dispatch(ActionCreator.loadMovieById(data));
-      dispatch(ActionCreator.redirectToRoute(`/films/${id}`));
     }));
 
 export const fetchPromoMovie = () => (dispatch, _getState, api) => (
@@ -48,7 +47,7 @@ export const login = ({login: email, password}) => (dispatch, _getState, api) =>
   api.post(APIRoute.LOGIN, {email, password})
     .then(() => {
       dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH));
-      dispatch(ActionCreator.redirectToRoute(``));
+      dispatch(ActionCreator.redirectToRoute(`/`));
     }));
 
 export const addReview = (id, {rating, comment}) => (dispatch, _getState, api) => (
