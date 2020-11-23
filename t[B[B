@@ -1,0 +1,493 @@
+[1mdiff --git a/package-lock.json b/package-lock.json[m
+[1mindex fa4e76c..1813292 100644[m
+[1m--- a/package-lock.json[m
+[1m+++ b/package-lock.json[m
+[36m@@ -7650,6 +7650,12 @@[m
+       "integrity": "sha512-PlhdFcillOINfeV7Ni6oF1TAEayyZBoZ8bcshTHqOYJYlrqzRK5hagpagky5o4HfCzzd1TRkXPMFq6cKk9rGmA==",[m
+       "dev": true[m
+     },[m
+[32m+[m[32m    "lodash.isplainobject": {[m
+[32m+[m[32m      "version": "4.0.6",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/lodash.isplainobject/-/lodash.isplainobject-4.0.6.tgz",[m
+[32m+[m[32m      "integrity": "sha1-fFJqUtibRcRcxpC4gWO+BJf1UMs=",[m
+[32m+[m[32m      "dev": true[m
+[32m+[m[32m    },[m
+     "lodash.sortby": {[m
+       "version": "4.7.0",[m
+       "resolved": "https://registry.npmjs.org/lodash.sortby/-/lodash.sortby-4.7.0.tgz",[m
+[36m@@ -9174,6 +9180,15 @@[m
+       "resolved": "https://registry.npmjs.org/redux-devtools-extension/-/redux-devtools-extension-2.13.8.tgz",[m
+       "integrity": "sha512-8qlpooP2QqPtZHQZRhx3x3OP5skEV1py/zUdMY28WNAocbafxdG2tRD1MWE7sp8obGMNYuLWanhhQ7EQvT1FBg=="[m
+     },[m
+[32m+[m[32m    "redux-mock-store": {[m
+[32m+[m[32m      "version": "1.5.4",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/redux-mock-store/-/redux-mock-store-1.5.4.tgz",[m
+[32m+[m[32m      "integrity": "sha512-xmcA0O/tjCLXhh9Fuiq6pMrJCwFRaouA8436zcikdIpYWWCjU76CRk+i2bHx8EeiSiMGnB85/lZdU3wIJVXHTA==",[m
+[32m+[m[32m      "dev": true,[m
+[32m+[m[32m      "requires": {[m
+[32m+[m[32m        "lodash.isplainobject": "^4.0.6"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+     "redux-thunk": {[m
+       "version": "2.3.0",[m
+       "resolved": "https://registry.npmjs.org/redux-thunk/-/redux-thunk-2.3.0.tgz",[m
+[1mdiff --git a/package.json b/package.json[m
+[1mindex ed931da..2eb05cf 100644[m
+[1m--- a/package.json[m
+[1m+++ b/package.json[m
+[36m@@ -20,6 +20,7 @@[m
+     "eslint-plugin-react": "7.18",[m
+     "jest": "25.1.0",[m
+     "react-test-renderer": "16.12.0",[m
+[32m+[m[32m    "redux-mock-store": "1.5.4",[m
+     "webpack": "4.41.6",[m
+     "webpack-cli": "3.3.12",[m
+     "webpack-dev-server": "3.10.3"[m
+[1mdiff --git a/src/components/add-review-form/add-review-form.jsx b/src/components/add-review-form/add-review-form.jsx[m
+[1mindex cd74bd1..ed311b3 100644[m
+[1m--- a/src/components/add-review-form/add-review-form.jsx[m
+[1m+++ b/src/components/add-review-form/add-review-form.jsx[m
+[36m@@ -1,10 +1,10 @@[m
+ import React, {PureComponent, createRef} from "react";[m
+[31m-import {connect} from "react-redux";[m
+[32m+[m[32m// import {connect} from "react-redux";[m
+ [m
+[31m-import {addReview} from "../../store/api-actions";[m
+[32m+[m[32m// import {addReview} from "../../store/api-actions";[m
+ import {FUNCTION, NUMBER, BOOLEAN} from '../../prop-type';[m
+ import {RATING_STARS} from '../../const';[m
+[31m-import {ActionCreator} from '../../store/action';[m
+[32m+[m[32m// import {ActionCreator} from '../../store/action';[m
+ [m
+ class AddReviewForm extends PureComponent {[m
+   constructor(props) {[m
+[1mdiff --git a/src/components/add-review/add-review.jsx b/src/components/add-review/add-review.jsx[m
+[1mindex 72791da..210d1f0 100644[m
+[1m--- a/src/components/add-review/add-review.jsx[m
+[1m+++ b/src/components/add-review/add-review.jsx[m
+[36m@@ -3,15 +3,15 @@[m [mimport {connect} from "react-redux";[m
+ [m
+ import AddReviewForm from '../add-review-form/add-review-form';[m
+ import UserBlock from '../user-block/user-block';[m
+[31m-import {FUNCTION, MOVIE, AUTHORIZATION_STATUS, NUMBER, BOOLEAN} from '../../prop-type';[m
+[32m+[m[32mimport {FUNCTION, MOVIE, AUTHORIZATION_STATUS, BOOLEAN} from '../../prop-type';[m
+ import {ActionCreator} from "../../store/action";[m
+ import {AppRoute} from "../../const";[m
+ import {fetchFavorite, addReview} from "../../store/api-actions";[m
+ [m
+ [m
+ const AddReview = (props) => {[m
+[31m-  const {openedMovie, authorizationStatus, isLoading, onMoviePageClick, onMyListButtonClick, onSubmit} = props;[m
+[31m-  const {backgroundImage, poster, title, id} = openedMovie;[m
+[32m+[m[32m  const {movie, authorizationStatus, isLoading, onMoviePageClick, onMyListButtonClick, onSubmit} = props;[m
+[32m+[m[32m  const {backgroundImage, poster, title, id} = movie;[m
+ [m
+   return ([m
+     <section className='movie-card movie-card--full'>[m
+[36m@@ -65,7 +65,7 @@[m [mconst AddReview = (props) => {[m
+ };[m
+ [m
+ AddReview.propTypes = {[m
+[31m-  openedMovie: MOVIE,[m
+[32m+[m[32m  movie: MOVIE,[m
+   onMoviePageClick: FUNCTION,[m
+   onMyListButtonClick: FUNCTION,[m
+   authorizationStatus: AUTHORIZATION_STATUS,[m
+[36m@@ -74,7 +74,7 @@[m [mAddReview.propTypes = {[m
+ };[m
+ [m
+ const mapStateToProps = (state) => ({[m
+[31m-  openedMovie: state.DATA.openedMovie,[m
+[32m+[m[32m  movie: state.DATA.openedMovie,[m
+   authorizationStatus: state.USER.authorizationStatus,[m
+   isLoading: state.APP_STATE.isLoading,[m
+ });[m
+[1mdiff --git a/src/components/add-review/add-review.test.js b/src/components/add-review/add-review.test.js[m
+[1mindex d26cc5c..994e668 100644[m
+[1m--- a/src/components/add-review/add-review.test.js[m
+[1m+++ b/src/components/add-review/add-review.test.js[m
+[36m@@ -29,7 +29,7 @@[m [mconst noop = () => {};[m
+ it(`AddReview is rendered correctly`, () => {[m
+   const tree = renderer.create([m
+       <AddReview[m
+[31m-        openedMovie = {movie}[m
+[32m+[m[32m        movie = {movie}[m
+         onMoviePageClick = {noop}[m
+         authorizationStatus = {`AUTH`}[m
+         isLoading = {false}[m
+[1mdiff --git a/src/components/app/app.jsx b/src/components/app/app.jsx[m
+[1mindex 797b07c..a9b9862 100644[m
+[1m--- a/src/components/app/app.jsx[m
+[1m+++ b/src/components/app/app.jsx[m
+[36m@@ -8,7 +8,6 @@[m [mimport Movie from '../movie/movie';[m
+ import AddReview from '../add-review/add-review';[m
+ import MyList from '../my-list/my-list';[m
+ import PlayerWrapped from '../player/player';[m
+[31m-// import Player from '../player/player-copy';[m
+ import SignIn from '../sign-in/sign-in';[m
+ import withTabs from '../../hocs/with-tabs/with-tabs';[m
+ import PrivateRoute from "../private-route/private-route";[m
+[1mdiff --git a/src/components/main/main.jsx b/src/components/main/main.jsx[m
+[1mindex e0428f0..e65b7ae 100644[m
+[1m--- a/src/components/main/main.jsx[m
+[1m+++ b/src/components/main/main.jsx[m
+[36m@@ -2,17 +2,17 @@[m [mimport React from 'react';[m
+ import PropTypes from 'prop-types';[m
+ import {connect} from "react-redux";[m
+ [m
+[31m-import {fetchMovieById, fetchCommentsByMovieId, changeFavorite} from "../../store/api-actions";[m
+[32m+[m[32mimport {fetchMovieById, fetchCommentsByMovieId, changeFavorite, fetchFavorite} from "../../store/api-actions";[m
+ import {getAllMovies, getMoviesByGenre, getGenre} from '../../store/selectors';[m
+ import {ActionCreator} from "../../store/action";[m
+[31m-import {FUNCTION, MOVIES, GENRE} from '../../prop-type';[m
+[32m+[m[32mimport {FUNCTION, MOVIES, GENRE, AUTHORIZATION_STATUS} from '../../prop-type';[m
+ import GenreList from '../genre-list/genre-list';[m
+ import MovieListWrapped from '../movie-list/movie-list';[m
+ import UserBlock from '../user-block/user-block';[m
+[31m-[m
+[32m+[m[32mimport {AppRoute} from "../../const";[m
+ [m
+ const Main = (props) => {[m
+[31m-  const {allMovies, currentMovies, promoMovie, activeGenre, onChangeGenre, onMovieClick, onFavoriteClick, onPlayClick} = props;[m
+[32m+[m[32m  const {allMovies, currentMovies, promoMovie, activeGenre, onChangeGenre, onMovieClick, onFavoriteClick, onPlayClick, authorizationStatus, onMyListButtonClick} = props;[m
+   const {poster, backgroundImage, title, genre, year, id, isFavorite} = promoMovie || {};[m
+ [m
+   return ([m
+[36m@@ -33,7 +33,8 @@[m [mconst Main = (props) => {[m
+             </a>[m
+           </div>[m
+ [m
+[31m-          <UserBlock/>[m
+[32m+[m[32m          <UserBlock authorizationStatus={authorizationStatus} onMyListButtonClick={onMyListButtonClick}/>[m
+[32m+[m
+         </header>[m
+ [m
+         <div className='movie-card__wrap'>[m
+[36m@@ -100,18 +101,21 @@[m [mMain.propTypes = {[m
+   currentMovies: MOVIES,[m
+   allMovies: PropTypes.array.isRequired,[m
+   promoMovie: PropTypes.object.isRequired,[m
+[32m+[m[32m  authorizationStatus: AUTHORIZATION_STATUS,[m
+   activeGenre: GENRE,[m
+   onChangeGenre: FUNCTION,[m
+   onMovieClick: FUNCTION,[m
+   onFavoriteClick: FUNCTION,[m
+   onPlayClick: FUNCTION,[m
+[32m+[m[32m  onMyListButtonClick: FUNCTION,[m
+ };[m
+ [m
+ const mapStateToProps = (state) => ({[m
+   allMovies: getAllMovies(state),[m
+   currentMovies: getMoviesByGenre(state),[m
+   activeGenre: getGenre(state),[m
+[31m-  promoMovie: state.DATA.promoMovie[m
+[32m+[m[32m  promoMovie: state.DATA.promoMovie,[m
+[32m+[m[32m  authorizationStatus: state.USER.authorizationStatus,[m
+ });[m
+ [m
+ const mapDispatchToProps = (dispatch) => ({[m
+[36m@@ -128,6 +132,10 @@[m [mconst mapDispatchToProps = (dispatch) => ({[m
+   onPlayClick(id) {[m
+     dispatch(ActionCreator.redirectToRoute(`/player/${id}`));[m
+   },[m
+[32m+[m[32m  onMyListButtonClick() {[m
+[32m+[m[32m    dispatch(fetchFavorite());[m
+[32m+[m[32m    dispatch(ActionCreator.redirectToRoute(AppRoute.MY_LIST));[m
+[32m+[m[32m  },[m
+ });[m
+ [m
+ export {Main};[m
+[1mdiff --git a/src/components/more-like-this/more-like-this.jsx b/src/components/more-like-this/more-like-this.jsx[m
+[1mindex 8339a89..5b88fee 100644[m
+[1m--- a/src/components/more-like-this/more-like-this.jsx[m
+[1m+++ b/src/components/more-like-this/more-like-this.jsx[m
+[36m@@ -1,10 +1,7 @@[m
+ import React from 'react';[m
+[31m-import {connect} from "react-redux";[m
+ [m
+ import {FUNCTION, MOVIES} from '../../prop-type';[m
+[31m-import {getMoviesSimilar} from '../../store/selectors';[m
+ import MovieListWrapped from '../movie-list/movie-list';[m
+[31m-import {fetchMovieById, fetchCommentsByMovieId} from "../../store/api-actions";[m
+ [m
+ const MoreLikeThis = (props) => {[m
+   const {movies, onMovieClick} = props;[m
+[36m@@ -25,15 +22,5 @@[m [mMoreLikeThis.propTypes = {[m
+   onMovieClick: FUNCTION[m
+ };[m
+ [m
+[31m-const mapStateToProps = (state) => ({[m
+[31m-  movies: getMoviesSimilar(state),[m
+[31m-});[m
+[32m+[m[32mexport default MoreLikeThis;[m
+ [m
+[31m-const mapDispatchToProps = (dispatch) => ({[m
+[31m-  onMovieClick(id) {[m
+[31m-    dispatch(fetchMovieById(id));[m
+[31m-    dispatch(fetchCommentsByMovieId(id));[m
+[31m-  }[m
+[31m-});[m
+[31m-export {MoreLikeThis};[m
+[31m-export default connect(mapStateToProps, mapDispatchToProps)(MoreLikeThis);[m
+[1mdiff --git a/src/components/movie/movie.jsx b/src/components/movie/movie.jsx[m
+[1mindex e95f00e..c5fe720 100644[m
+[1m--- a/src/components/movie/movie.jsx[m
+[1m+++ b/src/components/movie/movie.jsx[m
+[36m@@ -2,17 +2,17 @@[m [mimport React from 'react';[m
+ import {connect} from "react-redux";[m
+ import PropTypes from 'prop-types';[m
+ [m
+[31m-import {MOVIE, FUNCTION, AUTHORIZATION_STATUS} from '../../prop-type';[m
+[31m-import {AuthorizationStatus} from "../../const";[m
+[32m+[m[32mimport {MOVIE, FUNCTION, AUTHORIZATION_STATUS, MOVIES} from '../../prop-type';[m
+[32m+[m[32mimport {AuthorizationStatus, AppRoute} from "../../const";[m
+ import {ActionCreator} from "../../store/action";[m
+[31m-import {changeFavorite} from "../../store/api-actions";[m
+[32m+[m[32mimport {changeFavorite, fetchFavorite, fetchMovieById, fetchCommentsByMovieId} from "../../store/api-actions";[m
+ import MoreLikeThis from '../more-like-this/more-like-this';[m
+ import UserBlock from '../user-block/user-block';[m
+[31m-[m
+[32m+[m[32mimport {getMoviesSimilar} from '../../store/selectors';[m
+ [m
+ const Movie = (props)=> {[m
+[31m-  const {openedMovie, renderTabs, comments, authorizationStatus, onAddReviewClick, onPlayClick, onFavoriteClick} = props;[m
+[31m-  const {poster, backgroundImage, title, year, genre, id, isFavorite} = openedMovie;[m
+[32m+[m[32m  const {movie, renderTabs, comments, moviesLikeThis, authorizationStatus, onAddReviewClick, onPlayClick, onFavoriteClick, onMyListButtonClick, onMovieClick} = props;[m
+[32m+[m[32m  const {poster, backgroundImage, title, year, genre, id, isFavorite} = movie;[m
+ [m
+   return ([m
+     <React.Fragment>[m
+[36m@@ -33,7 +33,7 @@[m [mconst Movie = (props)=> {[m
+               </a>[m
+             </div>[m
+ [m
+[31m-            <UserBlock/>[m
+[32m+[m[32m            <UserBlock authorizationStatus={authorizationStatus} onMyListButtonClick={onMyListButtonClick}/>[m
+           </header>[m
+ [m
+           <div className='movie-card__wrap'>[m
+[36m@@ -72,14 +72,14 @@[m [mconst Movie = (props)=> {[m
+               <img src={poster} alt={title} width='218' height='327' />[m
+             </div>[m
+ [m
+[31m-            {renderTabs(openedMovie, comments)}[m
+[32m+[m[32m            {renderTabs(movie, comments)}[m
+ [m
+           </div>[m
+         </div>[m
+       </section>[m
+ [m
+       <div className='page-content'>[m
+[31m-        <MoreLikeThis />[m
+[32m+[m[32m        <MoreLikeThis movies={moviesLikeThis} onMovieClick={onMovieClick}/>[m
+         <footer className='page-footer'>[m
+           <div className='logo'>[m
+             <a href='main.html' className='logo__link logo__link--light'>[m
+[36m@@ -99,17 +99,21 @@[m [mconst Movie = (props)=> {[m
+ };[m
+ [m
+ Movie.propTypes = {[m
+[31m-  openedMovie: MOVIE,[m
+[32m+[m[32m  movie: MOVIE,[m
+[32m+[m[32m  moviesLikeThis: MOVIES,[m
+   renderTabs: FUNCTION,[m
+   comments: PropTypes.array.isRequired,[m
+   authorizationStatus: AUTHORIZATION_STATUS,[m
+   onAddReviewClick: FUNCTION,[m
+   onPlayClick: FUNCTION,[m
+   onFavoriteClick: FUNCTION,[m
+[32m+[m[32m  onMyListButtonClick: FUNCTION,[m
+[32m+[m[32m  onMovieClick: FUNCTION,[m
+ };[m
+ [m
+ const mapStateToProps = (state) => ({[m
+[31m-  openedMovie: state.DATA.openedMovie,[m
+[32m+[m[32m  moviesLikeThis: getMoviesSimilar(state),[m
+[32m+[m[32m  movie: state.DATA.openedMovie,[m
+   comments: state.DATA.openMovieComments,[m
+   authorizationStatus: state.USER.authorizationStatus,[m
+ });[m
+[36m@@ -124,6 +128,14 @@[m [mconst mapDispatchToProps = (dispatch) => ({[m
+   },[m
+   onFavoriteClick(id, isFavorite) {[m
+     dispatch(changeFavorite(id, isFavorite));[m
+[32m+[m[32m  },[m
+[32m+[m[32m  onMyListButtonClick() {[m
+[32m+[m[32m    dispatch(fetchFavorite());[m
+[32m+[m[32m    dispatch(ActionCreator.redirectToRoute(AppRoute.MY_LIST));[m
+[32m+[m[32m  },[m
+[32m+[m[32m  onMovieClick(id) {[m
+[32m+[m[32m    dispatch(fetchMovieById(id));[m
+[32m+[m[32m    dispatch(fetchCommentsByMovieId(id));[m
+   }[m
+ });[m
+ export {Movie};[m
+[1mdiff --git a/src/components/my-list/my-list.jsx b/src/components/my-list/my-list.jsx[m
+[1mindex a54cb8d..6602081 100644[m
+[1m--- a/src/components/my-list/my-list.jsx[m
+[1m+++ b/src/components/my-list/my-list.jsx[m
+[36m@@ -1,13 +1,14 @@[m
+ import React from 'react';[m
+ import {connect} from "react-redux";[m
+ [m
+[31m-import {FUNCTION, MOVIES} from '../../prop-type';[m
+[32m+[m[32mimport {FUNCTION, MOVIES, AUTHORIZATION_STATUS} from '../../prop-type';[m
+ import MovieListWrapped from '../movie-list/movie-list';[m
+ import UserBlock from '../user-block/user-block';[m
+[31m-import {fetchMovieById, fetchCommentsByMovieId} from "../../store/api-actions";[m
+[32m+[m[32mimport {fetchMovieById, fetchCommentsByMovieId, fetchFavorite} from "../../store/api-actions";[m
+[32m+[m[32mimport {AppRoute} from "../../const";[m
+ [m
+ const MyList = (props) => {[m
+[31m-  const {movies, onMovieClick} = props;[m
+[32m+[m[32m  const {movies, onMovieClick, authorizationStatus, onMyListButtonClick} = props;[m
+ [m
+   return ([m
+     <div className='user-page'>[m
+[36m@@ -22,7 +23,8 @@[m [mconst MyList = (props) => {[m
+ [m
+         <h1 className='page-title user-page__title'>My list</h1>[m
+ [m
+[31m-        <UserBlock/>[m
+[32m+[m[32m        <UserBlock authorizationStatus={authorizationStatus} onMyListButtonClick={onMyListButtonClick}/>[m
+[32m+[m
+       </header>[m
+ [m
+       <section className='catalog'>[m
+[36m@@ -50,18 +52,25 @@[m [mconst MyList = (props) => {[m
+ [m
+ MyList.propTypes = {[m
+   movies: MOVIES,[m
+[31m-  onMovieClick: FUNCTION[m
+[32m+[m[32m  onMovieClick: FUNCTION,[m
+[32m+[m[32m  onMyListButtonClick: FUNCTION,[m
+[32m+[m[32m  authorizationStatus: AUTHORIZATION_STATUS[m
+ };[m
+ [m
+ const mapStateToProps = (state) => ({[m
+   movies: state.DATA.favoriteMovies,[m
+[32m+[m[32m  authorizationStatus: state.USER.authorizationStatus,[m
+ });[m
+ [m
+ const mapDispatchToProps = (dispatch) => ({[m
+   onMovieClick(id) {[m
+     dispatch(fetchMovieById(id));[m
+     dispatch(fetchCommentsByMovieId(id));[m
+[31m-  }[m
+[32m+[m[32m  },[m
+[32m+[m[32m  onMyListButtonClick() {[m
+[32m+[m[32m    dispatch(fetchFavorite());[m
+[32m+[m[32m    dispatch(ActionCreator.redirectToRoute(AppRoute.MY_LIST));[m
+[32m+[m[32m  },[m
+ });[m
+ export {MyList};[m
+ export default connect(mapStateToProps, mapDispatchToProps)(MyList);[m
+[1mdiff --git a/src/components/player/player.jsx b/src/components/player/player.jsx[m
+[1mindex 0f3efa0..bb46b17 100644[m
+[1m--- a/src/components/player/player.jsx[m
+[1m+++ b/src/components/player/player.jsx[m
+[36m@@ -9,7 +9,7 @@[m [mimport withPlayer from '../../hocs/with-player/with-player';[m
+ [m
+ [m
+ const Player = (props) => {[m
+[31m-  const {movie, onExitClick, isPlaying, runtimeVideo, progressVideo, toggleMovement, onPlayPauseClick, onFullScreenRequest, renderVideo} = props;[m
+[32m+[m[32m  const {movie, isPlaying, runtimeVideo, progressVideo, toggleMovement, onExitClick, onPlayPauseClick, onFullScreenRequest, renderVideo} = props;[m
+   const {video, title, id} = movie;[m
+   return ([m
+     <div className='player'>[m
+[36m@@ -83,6 +83,8 @@[m [mconst mapDispatchToProps = (dispatch) => ({[m
+   }[m
+ });[m
+ [m
+[32m+[m[32mexport {Player};[m
+[32m+[m
+ const ConnectedPlayer = connect(mapStateToProps, mapDispatchToProps)(Player);[m
+ [m
+ const PlayerWrapped = withPlayer(ConnectedPlayer);[m
+[1mdiff --git a/src/components/preview-player/preview-player.jsx b/src/components/preview-player/preview-player.jsx[m
+[1mindex 1630bff..44dd140 100644[m
+[1m--- a/src/components/preview-player/preview-player.jsx[m
+[1m+++ b/src/components/preview-player/preview-player.jsx[m
+[36m@@ -1,25 +1,15 @@[m
+ import React, {PureComponent, createRef} from "react";[m
+ import {VIDEO, POSTER, BOOLEAN} from '../../prop-type';[m
+[31m-class VideoPlayer extends PureComponent {[m
+[32m+[m[32mclass PreviwPlayer extends PureComponent {[m
+   constructor(props) {[m
+     super(props);[m
+ [m
+     this._videoRef = createRef();[m
+   }[m
+ [m
+[31m-  componentDidMount() {[m
+[31m-    const {src, preview} = this.props;[m
+[31m-    const video = this._videoRef.current;[m
+[31m-[m
+[31m-    video.src = src;[m
+[31m-    video.poster = preview;[m
+[31m-    video.width = `280`;[m
+[31m-    video.height = `175`;[m
+[31m-  }[m
+[31m-[m
+[31m-[m
+   render() {[m
+[31m-    return <video muted ref={this._videoRef} > </video>;[m
+[32m+[m[32m    const {video, preview} = this.props;[m
+[32m+[m[32m    return <video src={video} poster={preview} width='280' height='175' muted ref={this._videoRef} > </video>;[m
+   }[m
+ [m
+   componentDidUpdate() {[m
+[36m@@ -34,10 +24,10 @@[m [mclass VideoPlayer extends PureComponent {[m
+   }[m
+ }[m
+ [m
+[31m-VideoPlayer.propTypes = {[m
+[31m-  src: VIDEO,[m
+[32m+[m[32mPreviwPlayer.propTypes = {[m
+[32m+[m[32m  video: VIDEO,[m
+   preview: POSTER,[m
+   isPlaying: BOOLEAN,[m
+ };[m
+ [m
+[31m-export default VideoPlayer;[m
+[32m+[m[32mexport default PreviwPlayer;[m
+[1mdiff --git a/src/hocs/with-preview-player/with-preview-player.jsx b/src/hocs/with-preview-player/with-preview-player.jsx[m
+[1mindex b324546..dda1d7a 100644[m
+[1m--- a/src/hocs/with-preview-player/with-preview-player.jsx[m
+[1m+++ b/src/hocs/with-preview-player/with-preview-player.jsx[m
+[36m@@ -1,6 +1,6 @@[m
+ import React, {PureComponent} from "react";[m
+ [m
+[31m-import VideoPlayer from "../../components/preview-player/preview-player";[m
+[32m+[m[32mimport PreviwPlayer from "../../components/preview-player/preview-player";[m
+ import ShowMore from "../../components/show-more/show-more";[m
+ import {COUNT_MOVIE_PER_STEP} from "../../const";[m
+ [m
+[36m@@ -20,10 +20,10 @@[m [mconst withPreviewPlayer = (Component) => {[m
+ [m
+       return <Component[m
+         {...this.props}[m
+[31m-        renderPlayer = {(src, preview, id) => {[m
+[32m+[m[32m        renderPlayer = {(video, preview, id) => {[m
+           return ([m
+[31m-            <VideoPlayer[m
+[31m-              src={src}[m
+[32m+[m[32m            <PreviwPlayer[m
+[32m+[m[32m              video={video}[m
+               preview={preview}[m
+               isPlaying={id === currentMovie}[m
+             />[m
+[1mdiff --git a/src/store/selectors.js b/src/store/selectors.js[m
+[1mindex 6bd817b..241ebef 100644[m
+[1m--- a/src/store/selectors.js[m
+[1m+++ b/src/store/selectors.js[m
+[36m@@ -17,7 +17,8 @@[m [mconst getMoviesByGenre = createSelector(getAllMovies, getGenre, (allMovies, genr[m
+ [m
+ const getMoviesSimilar = createSelector(getMoviesByGenre, getOpenedMovie, (movies, openedMovie) => {[m
+   const start = getRandomInteger(0, movies.length - COUNT_SILIMAR_MOVIE);[m
+[31m-  return movies.filter((movie) => movie.id !== openedMovie.id).slice(start, start + COUNT_SILIMAR_MOVIE);[m
+[32m+[m[32m  const moviesLikeThis = movies.filter((movie) => movie.id !== openedMovie.id);[m
+[32m+[m[32m  return moviesLikeThis.slice(start, Math.min(moviesLikeThis.length, start + COUNT_SILIMAR_MOVIE));[m
+ });[m
+ [m
+ export {getAllMovies, getGenre, getMoviesByGenre, getMoviesSimilar};[m

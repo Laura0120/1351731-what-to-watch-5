@@ -5,7 +5,7 @@ const initialState = {
   allMovies: [],
   favoriteMovies: [],
   promoMovie: {},
-  openedMovie: null,
+  openedMovie: {},
   openMovieComments: [],
 };
 

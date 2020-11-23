@@ -1,10 +1,7 @@
 import React from 'react';
-import {connect} from "react-redux";
 
 import {FUNCTION, MOVIES} from '../../prop-type';
-import {getMoviesSimilar} from '../../store/selectors';
 import MovieListWrapped from '../movie-list/movie-list';
-import {fetchMovieById, fetchCommentsByMovieId} from "../../store/api-actions";
 
 const MoreLikeThis = (props) => {
   const {movies, onMovieClick} = props;
@@ -25,15 +22,5 @@ MoreLikeThis.propTypes = {
   onMovieClick: FUNCTION
 };
 
-const mapStateToProps = (state) => ({
-  movies: getMoviesSimilar(state),
-});
+export default MoreLikeThis;
 
-const mapDispatchToProps = (dispatch) => ({
-  onMovieClick(id) {
-    dispatch(fetchMovieById(id));
-    dispatch(fetchCommentsByMovieId(id));
-  }
-});
-export {MoreLikeThis};
-export default connect(mapStateToProps, mapDispatchToProps)(MoreLikeThis);
