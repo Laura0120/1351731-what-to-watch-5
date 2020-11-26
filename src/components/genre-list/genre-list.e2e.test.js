@@ -12,7 +12,7 @@ it(`Should change genre`, () => {
 
   const genreList = shallow(
       <GenreList
-        allMovies={[movie]}
+        genreList={[`All genres`, movie.genre]}
         activeGenre={`All genres`}
         onChangeGenre={handleChangeGenre}
       />

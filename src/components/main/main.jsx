@@ -1,20 +1,19 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {connect} from "react-redux";
 
-import {fetchMovieById, changeFavorite, fetchFavorite} from "../../store/api-actions";
-import {getAllMovies, getMoviesByGenre, getGenre} from '../../store/selectors';
-import {ActionCreator} from "../../store/action";
-import {FUNCTION, MOVIES, GENRE, AUTHORIZATION_STATUS} from '../../prop-type';
+import {changeFavorite, fetchFavorite} from '../../store/api-actions';
+import {getMoviesByGenre, getActivGenre, getGenreList} from '../../store/selectors';
+import {ActionCreator} from '../../store/action';
+import {FUNCTION, MOVIE, MOVIES, GENRE_LIST, STRING} from '../../prop-type';
 import GenreList from '../genre-list/genre-list';
 import MovieListWrapped from '../movie-list/movie-list';
 import UserBlock from '../user-block/user-block';
 import MovieButtons from '../movie-buttons/movie-buttons';
-import {AppRoute} from "../../const";
+import {AppRoute} from '../../const';
 import {adaptToClientMovie} from '../../utils/adapt';
 
 const Main = (props) => {
-  const {allMovies, currentMovies, promoMovie, activeGenre, onChangeGenre, onMovieClick, onFavoriteClick, onPlayClick, authorizationStatus, onMyListButtonClick} = props;
+  const {genreList, currentMovies, promoMovie, activeGenre, onChangeGenre, onMovieClick, onFavoriteClick, onPlayClick, authorizationStatus, onMyListButtonClick} = props;
   const {poster, backgroundImage, title, genre, year, id, isFavorite} = promoMovie || {};
 
   return (
@@ -63,7 +62,7 @@ const Main = (props) => {
         <section className='catalog'>
           <h2 className='catalog__title visually-hidden'>Catalog</h2>
 
-          <GenreList allMovies={allMovies} activeGenre={activeGenre} onChangeGenre={onChangeGenre} />
+          <GenreList genreList={genreList} activeGenre={activeGenre} onChangeGenre={onChangeGenre} />
 
           <MovieListWrapped movies={currentMovies} onMovieClick={onMovieClick}/>
 
@@ -88,11 +87,11 @@ const Main = (props) => {
 };
 
 Main.propTypes = {
-  currentMovies: MOVIES,
-  allMovies: PropTypes.array.isRequired,
-  promoMovie: PropTypes.object.isRequired,
-  authorizationStatus: AUTHORIZATION_STATUS,
-  activeGenre: GENRE,
+  currentMovies: MOVIES.isRequired,
+  genreList: GENRE_LIST,
+  promoMovie: MOVIE.isRequired,
+  authorizationStatus: STRING,
+  activeGenre: STRING,
   onChangeGenre: FUNCTION,
   onMovieClick: FUNCTION,
   onFavoriteClick: FUNCTION,
@@ -101,9 +100,9 @@ Main.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  allMovies: getAllMovies(state),
+  genreList: getGenreList(state),
   currentMovies: getMoviesByGenre(state),
-  activeGenre: getGenre(state),
+  activeGenre: getActivGenre(state),
   promoMovie: adaptToClientMovie(state.DATA.promoMovie),
   authorizationStatus: state.USER.authorizationStatus,
 });
@@ -119,7 +118,6 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(changeFavorite(id, isFavorite));
   },
   onPlayClick(id) {
-    dispatch(fetchMovieById(id));
     dispatch(ActionCreator.redirectToRoute(`/player/${id}`));
   },
   onMyListButtonClick() {

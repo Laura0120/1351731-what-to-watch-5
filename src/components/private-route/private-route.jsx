@@ -3,7 +3,7 @@ import {Route, Redirect} from "react-router-dom";
 import {connect} from "react-redux";
 import {AuthorizationStatus} from "../../const";
 
-import {AUTHORIZATION_STATUS, COMPONENT, PATH, BOOLEAN} from '../../prop-type';
+import {COMPONENT, STRING, BOOLEAN} from '../../prop-type';
 
 const PrivateRoute = (props) => {
   const {component, path, exact, authorizationStatus} = props;
@@ -24,9 +24,9 @@ const PrivateRoute = (props) => {
 };
 
 PrivateRoute.propTypes = {
-  authorizationStatus: AUTHORIZATION_STATUS,
+  authorizationStatus: STRING,
   component: COMPONENT,
-  path: PATH,
+  path: STRING,
   exact: BOOLEAN
 };
 

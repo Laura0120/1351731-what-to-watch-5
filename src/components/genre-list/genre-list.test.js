@@ -2,12 +2,12 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 
 import GenreList from './genre-list';
-import {movie, noop} from '../../data-test';
+import {noop} from '../../data-test';
 
 it(`GenreList is rendered correctly`, () => {
   const tree = renderer.create(
       <GenreList
-        allMovies={[movie]}
+        genreList={[`All genres`]}
         activeGenre={`All genres`}
         onChangeGenre={noop}
       />

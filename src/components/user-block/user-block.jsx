@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {AuthorizationStatus} from "../../const";
-import {FUNCTION, AUTHORIZATION_STATUS} from '../../prop-type';
+import {FUNCTION, STRING} from '../../prop-type';
 
 const UserBlock = (props) => {
   const {authorizationStatus, onMyListButtonClick} = props;
@@ -20,7 +20,7 @@ const UserBlock = (props) => {
 };
 
 UserBlock.propTypes = {
-  authorizationStatus: AUTHORIZATION_STATUS,
+  authorizationStatus: STRING,
   onMyListButtonClick: FUNCTION,
 };
 

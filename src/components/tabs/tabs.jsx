@@ -1,10 +1,9 @@
 import React from 'react';
 import Moment from 'react-moment';
 import moment from 'moment';
-import PropTypes from 'prop-types';
 
 import {TABS_NAME} from '../../const';
-import {CURRENT_TAB, FUNCTION, COMMENTS} from '../../prop-type';
+import {STRING, FUNCTION, COMMENTS, MOVIE} from '../../prop-type';
 import {getRatingLevel} from '../../utils/movie';
 
 const Tabs = (props) => {
@@ -25,7 +24,10 @@ const Tabs = (props) => {
               </p>
             </div>
             <div className="movie-card__text">
-              {description}
+              <p>{description}</p>
+              <p className="movie-card__director"><strong>Director: {director}</strong></p>
+              <p className="movie-card__starring"><strong>Starring: {starring ? starring.join(`, `) : ``}
+              </strong></p>
             </div>
           </React.Fragment>
         );
@@ -126,8 +128,8 @@ const Tabs = (props) => {
 };
 
 Tabs.propTypes = {
-  movie: PropTypes.object.isRequired,
-  currentTab: CURRENT_TAB,
+  movie: MOVIE.isRequired,
+  currentTab: STRING,
   onChangeTab: FUNCTION,
   comments: COMMENTS,
 };

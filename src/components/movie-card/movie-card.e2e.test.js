@@ -21,7 +21,7 @@ it(`Should click on the movie page`, () => {
   );
 
   const movieElement = movieCard.find(`article`);
-  movieElement.simulate(`click`);
+  movieElement.simulate(`click`, {preventDefault() {}});
   expect(handleMoviePageClick).toHaveBeenCalledTimes(1);
 });
 

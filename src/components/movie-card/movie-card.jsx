@@ -4,7 +4,7 @@ import {MOVIE, FUNCTION} from '../../prop-type';
 
 const MovieCard = (props) => {
   const {movie, onMovieClick, onMouseOver, onMouseOut, renderPlayer} = props;
-  const {preview, title, video, id} = movie;
+  const {preview, title, previewVideo, id} = movie;
 
   return (
     <article
@@ -12,13 +12,16 @@ const MovieCard = (props) => {
       id={id}
       onMouseOver={onMouseOver}
       onMouseOut={onMouseOut}
-      onClick={() => onMovieClick(id)}
+      onClick={(evt) => {
+        evt.preventDefault();
+        onMovieClick(id);
+      }}
     >
       <div className='small-movie-card__image'>
-        {renderPlayer(video, preview, id)}
+        {renderPlayer(previewVideo, preview, id)}
       </div>
       <h3 className='small-movie-card__title'>
-        <a className='small-movie-card__link' href='movie-page.html'>
+        <a className='small-movie-card__link' href='#'>
           {title}
         </a>
       </h3>
@@ -27,7 +30,7 @@ const MovieCard = (props) => {
 };
 
 MovieCard.propTypes = {
-  movie: MOVIE,
+  movie: MOVIE.isRequired,
   onMovieClick: FUNCTION,
   onMouseOver: FUNCTION,
   onMouseOut: FUNCTION,

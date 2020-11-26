@@ -9,16 +9,14 @@ const MoreLikeThis = (props) => {
   return (
     <section className='catalog catalog--like-this'>
       <h2 className='catalog__title'>More like this</h2>
-      <div className='catalog__movies-list'>
-        <MovieListWrapped movies={movies} onMovieClick={onMovieClick}/>
-      </div>
+      <MovieListWrapped movies={movies} onMovieClick={onMovieClick}/>
     </section>
   );
 };
 
 
 MoreLikeThis.propTypes = {
-  movies: MOVIES,
+  movies: MOVIES.isRequired,
   onMovieClick: FUNCTION
 };
 

@@ -20,7 +20,8 @@ export const fetchPromoMovie = () => (dispatch, _getState, api) => (
   api.get(APIRoute.PROMO)
     .then(({data}) => {
       dispatch(ActionCreator.loadPromoMovie(data));
-    }));
+    })
+);
 
 export const fetchFavorite = () => (dispatch, _getState, api) => (
   api.get(APIRoute.FAVORITE)

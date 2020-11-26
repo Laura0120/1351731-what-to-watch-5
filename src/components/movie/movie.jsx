@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import PropTypes from 'prop-types';
 import {matchPath} from "react-router";
 
-import {FUNCTION, AUTHORIZATION_STATUS, MOVIES} from '../../prop-type';
+import {FUNCTION, STRING, MOVIES, MOVIE, COMMENTS} from '../../prop-type';
 import {AuthorizationStatus, AppRoute} from "../../const";
 import {ActionCreator} from "../../store/action";
 import {changeFavorite, fetchFavorite, fetchMovieById, fetchCommentsByMovieId} from "../../store/api-actions";
@@ -13,7 +13,7 @@ import UserBlock from '../user-block/user-block';
 import {getMoviesSimilar} from '../../store/selectors';
 import {adaptToClientMovie} from '../../utils/adapt';
 
-const getAddReviwLink = (status, callback, id) => {
+const getAddReviewLink = (status, callback, id) => {
   return (
     status === AuthorizationStatus.AUTH ?
       <a href='' className='btn movie-card__button' onClick={(evt)=>callback(evt, id)} >
@@ -27,14 +27,16 @@ class Movie extends PureComponent {
   }
 
   componentDidMount() {
-    const {loadMovie, location} = this.props;
+    const {loadMovie, location, movie} = this.props;
     const locationInfo = matchPath(location.pathname, {
       path: AppRoute.FILM_ID,
       exact: true,
       strict: true
     });
 
-    loadMovie(locationInfo.params.id);
+    if (movie.id !== Number(locationInfo.params.id)) {
+      loadMovie(locationInfo.params.id);
+    }
   }
 
   render() {
@@ -78,7 +80,7 @@ class Movie extends PureComponent {
                 </p>
 
                 <MovieButtons id={id} isFavorite={isFavorite} onPlayClick={onPlayClick} onFavoriteClick={onFavoriteClick}
-                  authorizationStatus={authorizationStatus} onAddReviewClick={onAddReviewClick} getAddReviwLink={getAddReviwLink}/>
+                  authorizationStatus={authorizationStatus} onAddReviewClick={onAddReviewClick} getAddReviewLink={getAddReviewLink}/>
 
               </div>
             </div>
@@ -123,12 +125,12 @@ class Movie extends PureComponent {
 }
 
 Movie.propTypes = {
-  movie: PropTypes.object.isRequired,
+  movie: MOVIE.isRequired,
   location: PropTypes.object.isRequired,
-  moviesLikeThis: MOVIES,
+  moviesLikeThis: MOVIES.isRequired,
   renderTabs: FUNCTION,
-  comments: PropTypes.array.isRequired,
-  authorizationStatus: AUTHORIZATION_STATUS,
+  comments: COMMENTS.isRequired,
+  authorizationStatus: STRING,
   onAddReviewClick: FUNCTION,
   onPlayClick: FUNCTION,
   onFavoriteClick: FUNCTION,
@@ -166,6 +168,8 @@ const mapDispatchToProps = (dispatch) => ({
   },
   onMovieClick(id) {
     dispatch(ActionCreator.redirectToRoute(`/films/${id}`));
+    dispatch(fetchMovieById(id));
+    dispatch(fetchCommentsByMovieId(id));
   },
   onMainPageClick() {
     dispatch(ActionCreator.redirectToRoute(`/`));
