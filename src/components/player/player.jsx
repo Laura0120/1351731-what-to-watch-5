@@ -19,7 +19,7 @@ class Player extends PureComponent {
   }
 
   componentDidMount() {
-    const {onCanPlayThrough, movie, loadMovie, location} = this.props;
+    const {onCanPlayThrough, movie, loadMovie, location, togglePlayState} = this.props;
 
     if (!movie.id) {
       const locationInfo = matchPath(location.pathname, {
@@ -29,6 +29,7 @@ class Player extends PureComponent {
       });
 
       loadMovie(locationInfo.params.id);
+      togglePlayState();
     }
 
     const videoElement = this._videoRef.current;

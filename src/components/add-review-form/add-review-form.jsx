@@ -79,7 +79,7 @@ class AddReviewForm extends PureComponent {
                   Rating {star}
                 </label>
               </React.Fragment>
-            ))};
+            ))}
           </div>
         </div>
 

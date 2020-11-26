@@ -8,13 +8,13 @@ import {movie} from '../../data-test';
 configure({adapter: new Adapter()});
 
 it(`Should change tab`, () => {
-  const handleTabChahge = jest.fn();
+  const handleTabChange = jest.fn();
 
   const tabs = shallow(
       <Tabs
         currentTab={`overview`}
         movie={movie}
-        onChangeTab={handleTabChahge}
+        onChangeTab={handleTabChange}
         comments={[]}
       />
   );
@@ -24,6 +24,6 @@ it(`Should change tab`, () => {
 
   tabTwo.simulate(`click`);
 
-  expect(handleTabChahge).toHaveBeenCalledTimes(1);
+  expect(handleTabChange).toHaveBeenCalledTimes(1);
 });
 
