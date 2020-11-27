@@ -7,7 +7,7 @@ import {movie, noop} from '../../data-test';
 it(`Main is rendered correctly`, () => {
   const tree = renderer.create(
       <Main
-        allMovies={[movie]}
+        genreList={[movie.genre]}
         currentMovies={[movie]}
         promoMovie={movie}
         activeGenre={`All genres`}

@@ -1,17 +1,17 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 
-import PreviwPlayer from './preview-player';
+import PreviewPlayer from './preview-player';
 
-it(`PreviwPlayer is rendered correctly`, () => {
+it(`PreviewPlayer is rendered correctly`, () => {
   const tree = renderer.create(
-      <PreviwPlayer
+      <PreviewPlayer
         video={`http://peach.themazzone.com/durian/movies/sintel-1024-surround.mp4`}
         preview={`https://assets.htmlacademy.ru/intensives/javascript-3/film/preview/macbeth.jpg`}
         isPlaying={false}
       >
         <video />
-      </PreviwPlayer>, {
+      </PreviewPlayer>, {
         createNodeMock: () => {
           return {};
         }

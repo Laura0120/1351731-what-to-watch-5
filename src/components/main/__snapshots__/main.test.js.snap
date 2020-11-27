@@ -158,17 +158,6 @@ Array [
         className="catalog__genres-list"
       >
         <li
-          className="catalog__genres-item catalog__genres-item--active"
-        >
-          <a
-            className="catalog__genres-link"
-            href="#"
-            onClick={[Function]}
-          >
-            All genres
-          </a>
-        </li>
-        <li
           className="catalog__genres-item "
         >
           <a
@@ -197,7 +186,7 @@ Array [
               height="175"
               muted={true}
               poster="https://assets.htmlacademy.ru/intensives/javascript-3/film/preview/macbeth.jpg"
-              src="http://peach.themazzone.com/durian/movies/sintel-1024-surround.mp4"
+              src="https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4"
               width="280"
             >
                
@@ -208,7 +197,7 @@ Array [
           >
             <a
               className="small-movie-card__link"
-              href="movie-page.html"
+              href="#"
             >
               Macbeth
             </a>

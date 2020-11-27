@@ -1,6 +1,6 @@
 import React, {PureComponent, createRef} from "react";
-import {VIDEO, POSTER, BOOLEAN} from '../../prop-type';
-class PreviwPlayer extends PureComponent {
+import {STRING, BOOLEAN} from '../../prop-type';
+class PreviewPlayer extends PureComponent {
   constructor(props) {
     super(props);
 
@@ -17,17 +17,17 @@ class PreviwPlayer extends PureComponent {
     const {isPlaying} = this.props;
 
     if (isPlaying) {
-      video.play();
+      video.play().catch(() => {});
     } else {
       video.load();
     }
   }
 }
 
-PreviwPlayer.propTypes = {
-  video: VIDEO,
-  preview: POSTER,
+PreviewPlayer.propTypes = {
+  video: STRING,
+  preview: STRING,
   isPlaying: BOOLEAN,
 };
 
-export default PreviwPlayer;
+export default PreviewPlayer;

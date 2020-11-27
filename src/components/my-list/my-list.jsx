@@ -64,7 +64,7 @@ const MyList = (props) => {
 
 
 MyList.propTypes = {
-  movies: MOVIES,
+  movies: MOVIES.isRequired,
   onMovieClick: FUNCTION,
   onMainPageClick: FUNCTION,
 };

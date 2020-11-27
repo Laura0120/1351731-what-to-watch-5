@@ -1,6 +1,6 @@
 import React, {PureComponent} from "react";
 
-import PreviwPlayer from "../../components/preview-player/preview-player";
+import PreviewPlayer from "../../components/preview-player/preview-player";
 import ShowMore from "../../components/show-more/show-more";
 import {COUNT_MOVIE_PER_STEP} from "../../const";
 
@@ -22,7 +22,7 @@ const withPreviewPlayer = (Component) => {
         {...this.props}
         renderPlayer = {(video, preview, id) => {
           return (
-            <PreviwPlayer
+            <PreviewPlayer
               video={video}
               preview={preview}
               isPlaying={id === currentMovie}

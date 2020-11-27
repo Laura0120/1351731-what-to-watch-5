@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {FUNCTION} from '../../prop-type';
 
 const MovieButtons = (props)=> {
-  const {id, isFavorite, onPlayClick, onFavoriteClick, authorizationStatus, onAddReviewClick, getAddReviwLink} = props;
+  const {id, isFavorite, onPlayClick, onFavoriteClick, authorizationStatus, onAddReviewClick, getAddReviewLink} = props;
 
   return (
     <div className='movie-card__buttons'>
@@ -20,7 +20,7 @@ const MovieButtons = (props)=> {
         </svg>
         <span>My list</span>
       </button>
-      {getAddReviwLink ? getAddReviwLink(authorizationStatus, onAddReviewClick, id) : ``}
+      {getAddReviewLink ? getAddReviewLink(authorizationStatus, onAddReviewClick, id) : ``}
     </div>
   );
 };
@@ -32,7 +32,7 @@ MovieButtons.propTypes = {
   onFavoriteClick: FUNCTION,
   authorizationStatus: PropTypes.string,
   onAddReviewClick: PropTypes.func,
-  getAddReviwLink: PropTypes.func,
+  getAddReviewLink: PropTypes.func,
 };
 
 export default MovieButtons;

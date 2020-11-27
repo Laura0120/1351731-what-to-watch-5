@@ -207,7 +207,6 @@ exports[`AddReview is rendered correctly 1`] = `
             Rating 
             5
           </label>
-          ;
         </div>
       </div>
       <div

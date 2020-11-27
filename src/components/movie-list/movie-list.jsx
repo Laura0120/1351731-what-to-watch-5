@@ -29,7 +29,7 @@ const MovieList = (props) => {
 };
 
 MovieList.propTypes = {
-  movies: MOVIES,
+  movies: MOVIES.isRequired,
   onMovieClick: FUNCTION,
   renderPlayer: FUNCTION,
   onMouseOver: FUNCTION,

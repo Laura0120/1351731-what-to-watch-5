@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 import {matchPath} from "react-router";
 
 import {ActionCreator} from "../../store/action";
-import {fetchMovieById} from "../../store/api-actions";
-import {FUNCTION, BOOLEAN, NUMBER} from '../../prop-type';
+import {fetchMovieById, fetchCommentsByMovieId} from "../../store/api-actions";
+import {FUNCTION, BOOLEAN, NUMBER, MOVIE} from '../../prop-type';
 import withPlayer from "../../hocs/with-player/with-player";
 import {adaptToClientMovie} from '../../utils/adapt';
 import {AppRoute} from "../../const";
@@ -19,7 +19,7 @@ class Player extends PureComponent {
   }
 
   componentDidMount() {
-    const {onCanPlayThrough, movie, loadMovie, togglePlayState, location} = this.props;
+    const {onCanPlayThrough, movie, loadMovie, location, togglePlayState} = this.props;
 
     if (!movie.id) {
       const locationInfo = matchPath(location.pathname, {
@@ -107,7 +107,7 @@ class Player extends PureComponent {
 }
 
 Player.propTypes = {
-  movie: PropTypes.object.isRequired,
+  movie: MOVIE.isRequired,
   onExitClick: FUNCTION,
   onCanPlayThrough: FUNCTION,
   onProgressVideoSet: FUNCTION,
@@ -130,6 +130,7 @@ const mapDispatchToProps = (dispatch) => ({
   },
   loadMovie(id) {
     dispatch(fetchMovieById(id));
+    dispatch(fetchCommentsByMovieId(id));
   }
 });
 

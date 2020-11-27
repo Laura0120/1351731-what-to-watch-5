@@ -52,7 +52,7 @@ const AddReviewForm = (props) => {
                   Rating {star}
                 </label>
               </React.Fragment>
-            ))};
+            ))}
           </div>
         </div>
 

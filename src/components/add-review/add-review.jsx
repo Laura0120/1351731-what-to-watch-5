@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 
 import AddReviewForm from '../add-review-form/add-review-form';
 import UserBlock from '../user-block/user-block';
-import {FUNCTION, MOVIE, AUTHORIZATION_STATUS, BOOLEAN} from '../../prop-type';
+import {FUNCTION, MOVIE, BOOLEAN, STRING} from '../../prop-type';
 import {ActionCreator} from "../../store/action";
 import {AppRoute} from "../../const";
 import {fetchFavorite, addReview} from "../../store/api-actions";
@@ -70,10 +70,10 @@ const AddReview = (props) => {
 };
 
 AddReview.propTypes = {
-  movie: MOVIE,
+  movie: MOVIE.isRequired,
   onMoviePageClick: FUNCTION,
   onMyListButtonClick: FUNCTION,
-  authorizationStatus: AUTHORIZATION_STATUS,
+  authorizationStatus: STRING,
   onSubmit: FUNCTION,
   onMainPageClick: FUNCTION,
   isLoading: BOOLEAN,
