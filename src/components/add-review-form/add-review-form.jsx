@@ -1,61 +1,37 @@
-import React, {PureComponent, createRef} from "react";
+import React, {useState, useRef, useEffect} from "react";
 
 import {FUNCTION, NUMBER, BOOLEAN} from '../../prop-type';
 import {RATING_STARS} from '../../const';
 
-class AddReviewForm extends PureComponent {
-  constructor(props) {
-    super(props);
+const AddReviewForm = (props) => {
+  const {onSubmit, id} = props;
 
-    this.ratingRef = createRef();
-    this.commentRef = createRef();
-    this.submitRef = createRef();
+    const ratingRef = useRef();
+    const commentRef = useRef();
+    const submitRef = useRef();
 
-    this.state = {
-      validity: false,
-      rating: 3,
-      comment: ``
-    };
+    const [validity, setValidity] = useState(false);
+    const [rating, setRating] = useState(3);
+    const [comment, setComment] = useState(``);
 
-    this._handleSubmit = this._handleSubmit.bind(this);
-    this._handleCheckedValidity = this._handleCheckedValidity.bind(this);
-    this._handleRatingChange = this._handleRatingChange.bind(this);
-  }
+    useEffect(() => {
+      setValidity(commentRef.current.validity.valid && ratingRef.current.validity.valid);
+    }, [rating, comment]);
 
-  _handleSubmit(evt) {
+  const _handleSubmit = (evt) => {
     evt.preventDefault();
-    if (!this.state.validity) {
+    if (!validity) {
       return;
     }
-    this.setState(() => ({
-      isLoading: true,
-    }));
-    const {onSubmit, id} = this.props;
-    onSubmit(id, {
-      rating: this.state.rating,
-      comment: this.commentRef.current.value,
-    });
-  }
 
-  _handleCheckedValidity() {
-    this.setState(() => ({
-      validity: this.commentRef.current.validity.valid && this.ratingRef.current.validity.valid
-    }));
-  }
+    onSubmit(id, {rating, comment});
+  };
 
-  _handleRatingChange(ratingValue) {
-    this.setState(() => ({
-      rating: ratingValue,
-    }));
-  }
-
-  render() {
-    const {validity, rating} = this.state;
-    const {isLoading} = this.props;
+    const {isLoading} = props;
     return (
       <form action=''
         className='add-review__form'
-        onSubmit={this._handleSubmit}
+        onSubmit={_handleSubmit}
       >
         <div className='rating'>
           <div className='rating__stars'>
@@ -66,12 +42,9 @@ class AddReviewForm extends PureComponent {
                   type='radio'
                   name='rating'
                   value={star}
-                  ref={this.ratingRef}
+                  ref={ratingRef}
                   checked={rating === star ? true : false}
-                  onChange={() =>{
-                    this._handleCheckedValidity();
-                    this._handleRatingChange(star);
-                  }}
+                  onChange={() => setRating(star)}
                   disabled={isLoading}
                   required
                 />
@@ -88,23 +61,22 @@ class AddReviewForm extends PureComponent {
             className='add-review__textarea'
             name='review-text' id='review-text'
             placeholder='Review text'
-            ref={this.commentRef}
+            ref={commentRef}
             minLength='50'
             maxLength='400'
             required
-            onChange={this._handleCheckedValidity}
+            onChange={(evt) => setComment(evt.target.value)}
             disabled={isLoading}
           >
           </textarea>
           <div className='add-review__submit'>
-            <button ref={this.submitRef} className='add-review__btn' type='submit' disabled={!validity || isLoading}>
+            <button ref={submitRef} className='add-review__btn' type='submit' disabled={!validity || isLoading}>
               Post
             </button>
           </div>
         </div>
       </form>
     );
-  }
 }
 
 AddReviewForm.propTypes = {
