@@ -79,9 +79,7 @@ exports[`MyList is rendered correctly 1`] = `
             poster="https://assets.htmlacademy.ru/intensives/javascript-3/film/preview/macbeth.jpg"
             src="https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4"
             width="280"
-          >
-             
-          </video>
+          />
         </div>
         <h3
           className="small-movie-card__title"

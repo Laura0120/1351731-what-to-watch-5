@@ -1,28 +1,25 @@
-import React, {PureComponent, createRef} from "react";
+import React, {useRef, useEffect} from "react";
+
 import {STRING, BOOLEAN} from '../../prop-type';
-class PreviewPlayer extends PureComponent {
-  constructor(props) {
-    super(props);
 
-    this._videoRef = createRef();
-  }
+const PreviewPlayer = (props) => {
+  const {video, preview, isPlaying} = props;
+  const videoRef = useRef();
 
-  render() {
-    const {video, preview} = this.props;
-    return <video src={video} poster={preview} width='280' height='175' muted ref={this._videoRef} > </video>;
-  }
 
-  componentDidUpdate() {
-    const video = this._videoRef.current;
-    const {isPlaying} = this.props;
-
+  useEffect(() => {
+    const videoElement = videoRef.current;
     if (isPlaying) {
-      video.play().catch(() => {});
+      videoElement.play().catch(() => {});
     } else {
-      video.load();
+      videoElement.load();
     }
-  }
-}
+  }, [isPlaying]);
+
+  return (
+    <video ref={videoRef} src={video} poster={preview} width='280' height='175' muted></video>
+  );
+};
 
 PreviewPlayer.propTypes = {
   video: STRING,

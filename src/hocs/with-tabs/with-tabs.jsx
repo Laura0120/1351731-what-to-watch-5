@@ -1,42 +1,32 @@
-import React, {PureComponent} from 'react';
+import React, {useState} from 'react';
 
 import Tabs from '../../components/tabs/tabs';
 import {TABS_NAME} from '../../const';
 
 const withTabs = (Component) => {
-  class WithTabs extends PureComponent {
-    constructor(props) {
-      super(props);
-      this.state = {
-        currentTab: TABS_NAME.OVERVIEW,
-      };
+  const WithTabs = (props) =>{
+    const [currentTab, setCurrentTab] = useState(TABS_NAME.OVERVIEW);
 
-      this.handleTabChange = this.handleTabChange.bind(this);
-    }
-
-    handleTabChange(evt) {
+    const onTabChange = (evt) => {
       evt.preventDefault();
       const tab = evt.target;
-      this.setState({currentTab: tab.textContent});
-    }
+      setCurrentTab(tab.textContent);
+    };
 
-    render() {
-      return <Component
-        {...this.props}
-        renderTabs = {(movie, comments) => {
-          return (
-            <Tabs
-              currentTab = {this.state.currentTab}
-              onChangeTab = {this.handleTabChange}
-              movie = {movie}
-              comments={comments}
-            />
-          );
-        }}
-      />;
-
-    }
-  }
+    return <Component
+      {...props}
+      renderTabs = {(movie, comments) => {
+        return (
+          <Tabs
+            currentTab = {currentTab}
+            onChangeTab = {onTabChange}
+            movie = {movie}
+            comments={comments}
+          />
+        );
+      }}
+    />;
+  };
 
   return WithTabs;
 };

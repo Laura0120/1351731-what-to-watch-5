@@ -1,4 +1,4 @@
-import React, {PureComponent, createRef} from "react";
+import React, {useRef, useEffect} from "react";
 import {connect} from "react-redux";
 import moment from 'moment';
 import PropTypes from 'prop-types';
@@ -11,16 +11,13 @@ import withPlayer from "../../hocs/with-player/with-player";
 import {adaptToClientMovie} from '../../utils/adapt';
 import {AppRoute} from "../../const";
 
-class Player extends PureComponent {
-  constructor(props) {
-    super(props);
+const Player = (props) => {
+  const {onCanPlayThrough, movie, loadMovie, location, togglePlayState, toggleMovement,
+    isPlaying, onExitClick, runtimeVideo, progressVideo, onProgressVideoSet} = props;
+  const {video, title, id} = movie;
+  const videoRef = useRef();
 
-    this._videoRef = createRef();
-  }
-
-  componentDidMount() {
-    const {onCanPlayThrough, movie, loadMovie, location, togglePlayState} = this.props;
-
+  useEffect(() => {
     if (!movie.id) {
       const locationInfo = matchPath(location.pathname, {
         path: AppRoute.PLAYER_ID,
@@ -31,80 +28,74 @@ class Player extends PureComponent {
       loadMovie(locationInfo.params.id);
       togglePlayState();
     }
+  }, []);
 
-    const videoElement = this._videoRef.current;
-
-    videoElement.oncanplaythrough = (evt) => onCanPlayThrough(evt.currentTarget.duration);
-  }
-
-  _handlePlayPauseClick() {
-    const videoElement = this._videoRef.current;
-    const {isPlaying, togglePlayState} = this.props;
+  const onPlayPauseClick = () => {
 
     if (!isPlaying) {
-      videoElement.play();
+      videoRef.current.play();
     } else {
-      videoElement.pause();
+      videoRef.current.pause();
     }
 
     togglePlayState();
-  }
+  };
 
-  render() {
-    const {movie, onExitClick, isPlaying, runtimeVideo, progressVideo, toggleMovement, onProgressVideoSet} = this.props;
-    const {video, title, id} = movie;
-    const videoElement = this._videoRef.current;
+  return (
+    <div className='player'>
+      <video className='player__video'
+        src={video}
+        ref={videoRef}
+        autoPlay={isPlaying}
+        onCanPlayThrough={(evt) => onCanPlayThrough(evt.currentTarget.duration)}
+        onTimeUpdate={onProgressVideoSet}>
+      </video>
 
-    return (
-      <div className='player'>
-        <video src={video} ref={this._videoRef} className='player__video' autoPlay={isPlaying} onTimeUpdate={onProgressVideoSet}></video>
+      <button type='button' className='player__exit' onClick={() => onExitClick(id)}>
+         Exit
+      </button>
 
-        <button type='button' className='player__exit' onClick={() => onExitClick(id)}>
-          Exit
-        </button>
-
-        <div className='player__controls'>
-          <div className='player__controls-row'>
-            <div className='player__time'>
-              <progress className='player__progress' value={progressVideo} max={runtimeVideo}></progress>
-              <div className='player__toggler' style={{left: toggleMovement + `%`}}>
+      <div className='player__controls'>
+        <div className='player__controls-row'>
+          <div className='player__time'>
+            <progress className='player__progress' value={progressVideo} max={runtimeVideo}></progress>
+            <div className='player__toggler' style={{left: toggleMovement + `%`}}>
                 Toggler
-              </div>
-            </div>
-            <div className='player__time-value'>
-              {moment
-                .utc()
-                .startOf(`day`)
-                .add({seconds: runtimeVideo - progressVideo})
-                .format(`H[:]mm[:]ss`)}
             </div>
           </div>
-
-          <div className='player__controls-row'>
-            <button type='button' className='player__play' onClick={() => this._handlePlayPauseClick()}>
-              {isPlaying ?
-                <svg viewBox='0 0 14 21' width='19' height='19'>
-                  <use xlinkHref='#pause'></use>
-                </svg> :
-                <svg viewBox='0 0 19 19' width='19' height='19'>
-                  <use xlinkHref='#play-s'></use>
-                </svg>}
-              <span>Play</span>
-            </button>
-            <div className='player__name'>{title}</div>
-
-            <button type='button' className='player__full-screen' onClick={() => videoElement.requestFullscreen()}>
-              <svg viewBox='0 0 27 27' width='27' height='27'>
-                <use xlinkHref='#full-screen'></use>
-              </svg>
-              <span>Full screen</span>
-            </button>
+          <div className='player__time-value'>
+            {moment
+              .utc()
+              .startOf(`day`)
+              .add({seconds: runtimeVideo - progressVideo})
+              .format(`H[:]mm[:]ss`)}
           </div>
         </div>
+
+        <div className='player__controls-row'>
+          <button type='button' className='player__play' onClick={onPlayPauseClick}>
+            {isPlaying ?
+              <svg viewBox='0 0 14 21' width='19' height='19'>
+                <use xlinkHref='#pause'></use>
+              </svg> :
+              <svg viewBox='0 0 19 19' width='19' height='19'>
+                <use xlinkHref='#play-s'></use>
+              </svg>}
+            <span>Play</span>
+          </button>
+          <div className='player__name'>{title}</div>
+
+          <button type='button' className='player__full-screen' onClick={() => videoRef.current.requestFullscreen()}>
+            <svg viewBox='0 0 27 27' width='27' height='27'>
+              <use xlinkHref='#full-screen'></use>
+            </svg>
+            <span>Full screen</span>
+          </button>
+        </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 Player.propTypes = {
   movie: MOVIE.isRequired,
